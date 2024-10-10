@@ -1,0 +1,1 @@
+require ("__miniloader_modernized__/prototypes/miniloader")
