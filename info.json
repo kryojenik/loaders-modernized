@@ -6,6 +6,7 @@
     "homepage": "",
     "factorio_version": "1.2",
     "dependencies": [
+        "? space-age"
     ],
     "description": "Compact 1x1 loader requireing power."
 }
