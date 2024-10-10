@@ -1,0 +1,11 @@
+{
+    "name": "miniloader_modernized",
+    "version": "1.0",
+    "title": "Miniloader Modernized",
+    "author": "kryojenik",
+    "homepage": "",
+    "factorio_version": "1.2",
+    "dependencies": [
+    ],
+    "description": "Compact 1x1 loader requireing power."
+}
