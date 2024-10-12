@@ -31,9 +31,13 @@ local function create_entity(prefix, base_underground_name, next, tint)
     energy_per_item = "4kJ",
     belt_animation_set = ug_entity.belt_animation_set,
     -- TODO: Allow fast replace on all belt entities
+    --       Perhaps setting choice
     fast_replaceable_group = "loader",
     container_distance = 1;
     speed = ug_entity.speed,
+    -- TODO: Make setting to allow / disabllow stacking
+    --       Maybe have both / stack and non-stack
+    max_belt_stack_size = 1,
     structure = {
       direction_in = {
         sheets = {
@@ -99,21 +103,65 @@ local function create_entity(prefix, base_underground_name, next, tint)
       universal_connector_template,
       {
         -- Output
-        { variation = 0, main_offset = util.by_pixel(11, -1), shadow_offset = util.by_pixel(10, -0.5), show_shadow = false }, -- N
-        { variation = 6, main_offset = util.by_pixel(-5, 3), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- E
-        { variation = 4, main_offset = util.by_pixel(-11, -8), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- S
-        { variation = 2, main_offset = util.by_pixel(5, -17), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- W
+        { -- North
+          variation = 0,
+          main_offset = util.by_pixel(11, -1),
+          shadow_offset = util.by_pixel(10, -0.5),
+          show_shadow = false
+        },
+        { -- East
+          variation = 6,
+          main_offset = util.by_pixel(-5, 3),
+          shadow_offset = util.by_pixel(7.5, 7.5),
+          show_shadow = false
+        },
+        { -- South
+          variation = 4,
+          main_offset = util.by_pixel(-11, -8),
+          shadow_offset = util.by_pixel(7.5, 7.5),
+          show_shadow = false
+        },
+        { -- West
+          variation = 2,
+          main_offset = util.by_pixel(5, -17),
+          shadow_offset = util.by_pixel(7.5, 7.5),
+          show_shadow = false
+        },
 
         -- Input
-        { variation = 4, main_offset = util.by_pixel(-11, -8), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- N
-        { variation = 2, main_offset = util.by_pixel(5, -17), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- E
-        { variation = 0, main_offset = util.by_pixel(11, -1), shadow_offset = util.by_pixel(10, -0.5), show_shadow = false }, -- S
-        { variation = 6, main_offset = util.by_pixel(-5, 3), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- W
+        { -- North
+          variation = 4,
+          main_offset = util.by_pixel(-11, -8),
+          shadow_offset = util.by_pixel(7.5, 7.5),
+          show_shadow = false
+        },
+        { -- East
+          variation = 2,
+          main_offset = util.by_pixel(5, -17),
+          shadow_offset = util.by_pixel(7.5, 7.5),
+          show_shadow = false
+        },
+        { -- South
+          variation = 0,
+          main_offset = util.by_pixel(11, -1),
+          shadow_offset = util.by_pixel(10, -0.5),
+          show_shadow = false
+        },
+        { -- West
+          variation = 6,
+          main_offset = util.by_pixel(-5, 3),
+          shadow_offset = util.by_pixel(7.5, 7.5),
+          show_shadow = false
+        },
       }
     ),
-    -- space-age
-    heating_energy = ug_entity.heating_energy,
   }
+
+    -- space-age
+  if mods["space-age"] then
+    entity.heating_energy = ug_entity.heating_energy
+  end
+    
   data:extend{
     entity
   }
