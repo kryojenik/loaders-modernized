@@ -10,8 +10,8 @@ local function create_entity(prefix, base_underground_name, next, tint)
     type = "loader-1x1",
     name = name,
     icons = {
-      { icon = "__loader_modernized__/graphics/item/mdrn-loader-icon-base.png" },
-      { icon = "__loader_modernized__/graphics/item/mdrn-loader-icon-mask.png", tint = tint }
+      { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-base.png" },
+      { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-mask.png", tint = tint }
     },
     flags = {"placeable-neutral", "player-creation"},
     minable = { mining_time = 0.1, result = prefix .. "mdrn-loader" },
@@ -42,14 +42,14 @@ local function create_entity(prefix, base_underground_name, next, tint)
       direction_in = {
         sheets = {
           {
-            filename = "__loader_modernized__/graphics/entity/mdrn-loader-structure-base.png",
+            filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
             priority = "extra-high",
             width = 192,
             height = 192,
             scale = 0.5,
           },
           {
-            filename = "__loader_modernized__/graphics/entity/mdrn-loader-structure-mask.png",
+            filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-mask.png",
             priority = "extra-high",
             width = 192,
             height = 192,
@@ -57,7 +57,7 @@ local function create_entity(prefix, base_underground_name, next, tint)
             tint = tint
           },
           {
-            filename = "__loader_modernized__/graphics/entity/mdrn-loader-structure-shadow.png",
+            filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-shadow.png",
             draw_as_shadow = true,
             priority = "extra-high",
             width = 192,
@@ -69,7 +69,7 @@ local function create_entity(prefix, base_underground_name, next, tint)
       direction_out = {
         sheets = {
           {
-            filename = "__loader_modernized__/graphics/entity/mdrn-loader-structure-base.png",
+            filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
             priority = "extra-high",
             width = 192,
             height = 192,
@@ -77,7 +77,7 @@ local function create_entity(prefix, base_underground_name, next, tint)
             y = 192
           },
           {
-            filename = "__loader_modernized__/graphics/entity/mdrn-loader-structure-mask.png",
+            filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-mask.png",
             priority = "extra-high",
             width = 192,
             height = 192,
@@ -86,7 +86,7 @@ local function create_entity(prefix, base_underground_name, next, tint)
             tint = tint
           },
           {
-            filename = "__loader_modernized__/graphics/entity/mdrn-loader-structure-shadow.png",
+            filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-shadow.png",
             draw_as_shadow = true,
             priority = "extra-high",
             width = 192,

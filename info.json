@@ -1,12 +1,23 @@
 {
-    "name": "loader_modernized",
+    "name": "loaders-modernized",
     "version": "0.1.0",
-    "title": "Loader Modernized",
+    "title": "Loaders Modernized",
+    "description": "Compact 1x1 loader requireing power.",
     "author": "kryojenik",
-    "homepage": "",
+    "contact": "https://github.com/kryojenik/loaders-modernized",
+    "homepage": "https://github.com/kryojenik/loaders-modernized",
     "factorio_version": "2.0",
     "dependencies": [
-        "? space-age"
+        "flib >= 0.15.0",
+        "? space-age >= 2.0.0"
     ],
-    "description": "Compact 1x1 loader requireing power."
+    "package": {
+        "git_publish_branch": "main",
+        "ignore": [
+            "TODO.md",
+            "types.lua",
+            "screenshots/*"
+        ],
+        "sync_portal_details": true
+    }
 }
