@@ -25,10 +25,9 @@ local loader_templates = {
 if data.raw["transport-belt"]["tungsten-transport-belt"] then
     loader_templates["tungsten-"] = {
       previous_prefix = "express-",
-      tint = util.color("16f263d1"),
+      tint = util.color("b1cf57d1"),
       unlock_tech = "tungsten-transport-belt"
   }
   loader_templates["express-"].next_prefix = "tungsten-"
 end
-
 return loader_templates
