@@ -1,7 +1,7 @@
 local hit_effects = require("__base__/prototypes/entity/hit-effects")
 
 
-local function create_entity(prefix, base_underground_name, tint)
+local function create_entity(prefix, base_underground_name, next, tint)
   local name = prefix .. "mdrn-loader"
   local underground_name = prefix .. base_underground_name
   local ug_entity = data.raw["underground-belt"][underground_name]
@@ -17,6 +17,7 @@ local function create_entity(prefix, base_underground_name, tint)
     minable = { mining_time = 0.1, result = prefix .. "mdrn-loader" },
     max_health = 170,
     filter_count = 5,
+    next_upgrade = next and next .. "mdrn-loader" or nil,
     corpse = underground_name .. "-remnants",
     dying_explosion = underground_name .. "-explosion",
     open_sound = { filename = "__base__/sound/open-close/inserter-open.ogg" },
@@ -98,16 +99,16 @@ local function create_entity(prefix, base_underground_name, tint)
       universal_connector_template,
       {
         -- Output
-        { variation = 24, main_offset = util.by_pixel(-17, 0), shadow_offset = util.by_pixel(10, -0.5), show_shadow = false }, -- N
-        { variation = 2, main_offset = util.by_pixel(0, -3), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- E
-        { variation = 0, main_offset = util.by_pixel(3, 0), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- S
-        { variation = 6, main_offset = util.by_pixel(0, 2), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- W
+        { variation = 0, main_offset = util.by_pixel(11, -1), shadow_offset = util.by_pixel(10, -0.5), show_shadow = false }, -- N
+        { variation = 6, main_offset = util.by_pixel(-5, 3), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- E
+        { variation = 4, main_offset = util.by_pixel(-11, -8), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- S
+        { variation = 2, main_offset = util.by_pixel(5, -17), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- W
 
         -- Input
-        { variation = 0, main_offset = util.by_pixel(3, 0), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- N
-        { variation = 6, main_offset = util.by_pixel(0, 2), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- E
-        { variation = 24, main_offset = util.by_pixel(-17, 0), shadow_offset = util.by_pixel(10, -0.5), show_shadow = false }, -- S
-        { variation = 2, main_offset = util.by_pixel(0, -3), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- W
+        { variation = 4, main_offset = util.by_pixel(-11, -8), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- N
+        { variation = 2, main_offset = util.by_pixel(5, -17), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- E
+        { variation = 0, main_offset = util.by_pixel(11, -1), shadow_offset = util.by_pixel(10, -0.5), show_shadow = false }, -- S
+        { variation = 6, main_offset = util.by_pixel(-5, 3), shadow_offset = util.by_pixel(7.5, 7.5), show_shadow = false }, -- W
       }
     ),
     -- space-age
