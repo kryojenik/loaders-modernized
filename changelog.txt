@@ -1,0 +1,18 @@
+---------------------------------------------------------------------------------------------------
+Version: 0.5.2
+Date: ????
+  Bugfixes:
+    - Added source link to github
+---------------------------------------------------------------------------------------------------
+Version: 0.5.1
+Date: 1024-10.14
+  Bugfixes:
+    - Corrected some spelling
+---------------------------------------------------------------------------------------------------
+Version: 0.5.0
+Date: 2024-10-14
+  Features:
+    - Initial release
+    - Snapping to belts
+    - Power Consumption
+    - Base and Space Age belts

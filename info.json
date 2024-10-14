@@ -6,6 +6,7 @@
     "author": "kryojenik",
     "contact": "https://github.com/kryojenik/loaders-modernized",
     "homepage": "https://github.com/kryojenik/loaders-modernized",
+    "source": "https://github.com/kryojenik/loaders-modernized",
     "factorio_version": "2.0",
     "dependencies": [
         "flib >= 0.15.0",
