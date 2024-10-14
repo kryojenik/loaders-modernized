@@ -1,4 +1,4 @@
-local hit_effects = require("__base__/prototypes/entity/hit-effects")
+local hit_effects = require("__base__.prototypes.entity.hit-effects")
 
 
 local function create_entity(prefix, base_underground_name, next, tint)

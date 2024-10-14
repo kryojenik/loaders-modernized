@@ -1,5 +1,5 @@
---local templates = require("__loaders-modernized__/prototypes/loader_templates")
-
+--- @param prefix string
+---@param template table
 local function create_recipe(prefix, template)
   local item_name = prefix .. "mdrn-loader"
   local recipe= {

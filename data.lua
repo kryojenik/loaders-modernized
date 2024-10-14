@@ -1,7 +1,7 @@
-local templates = require("__loaders-modernized__/prototypes/loader_templates")
-local entities = require("__loaders-modernized__/prototypes/entities")
-local items = require("__loaders-modernized__/prototypes/items")
-local recipes = require("__loaders-modernized__/prototypes/recipes")
+local templates = require("__loaders-modernized__.prototypes.loader_templates")
+local entities = require("__loaders-modernized__.prototypes.entities")
+local items = require("__loaders-modernized__.prototypes.items")
+local recipes = require("__loaders-modernized__.prototypes.recipes")
 
 
 for prefix, loader_t in pairs(templates) do
