@@ -49,12 +49,12 @@ local loader_templates = {
 }
 
 -- space-age
-if data.raw["transport-belt"]["tungsten-transport-belt"] then
-  loader_templates["tungsten-"] = {
+if data.raw["transport-belt"]["turbo-transport-belt"] then
+  loader_templates["turbo-"] = {
     previous_prefix = "express-",
     tint = util.color("b1cf57d1"),
-    unlock_tech = "tungsten-transport-belt",
-    --prerequisite_techs = {"tungsten-transport-belt"},
+    unlock_tech = "turbo-transport-belt",
+    --prerequisite_techs = {"turbo-transport-belt"},
     recipe_data = {
       category = "metallurgy",
       surface_conditions =
@@ -67,13 +67,13 @@ if data.raw["transport-belt"]["tungsten-transport-belt"] then
       },
       ingredients =
       {
-        {type = "item", name = "tungsten-underground-belt", amount = 1},
+        {type = "item", name = "turbo-underground-belt", amount = 1},
         {type = "item", name = "stack-inserter", amount = 4},
         {type = "item", name = "express-mdrn-loader", amount = 1},
       },
     }
   }
-  loader_templates["express-"].next_prefix = "tungsten-"
+  loader_templates["express-"].next_prefix = "turbo-"
   loader_templates["express-"].recipe_data.category = "crafting-with-fluid-or-metallurgy"
 end
 

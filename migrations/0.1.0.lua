@@ -2,7 +2,7 @@ local unlocks = {
   ["logistics"] = "mdrn-loader",
   ["logistics-2"] = "fast-mdrn-loader",
   ["logistics-3"] = "express-mdrn-loader",
-  ["tungsten-transport-belt"] = "tungsten-mdrn-loader"
+  ["turbo-transport-belt"] = "turbo-mdrn-loader"
 }
 
 for tech, recipe in pairs(unlocks) do

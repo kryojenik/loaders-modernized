@@ -13,11 +13,3 @@ for prefix, loader_t in pairs(templates) do
     recipe = prefix .. "mdrn-loader"
   })
 end
-
-table.insert(data.raw.technology["logistics"].effects, {type = "unlock-recipe", recipe = "mdrn-loader"})
-table.insert(data.raw.technology["logistics-2"].effects, {type = "unlock-recipe", recipe = "fast-mdrn-loader"})
-table.insert(data.raw.technology["logistics-3"].effects, {type = "unlock-recipe", recipe = "express-mdrn-loader"})
--- space-age
-if data.raw.technology["tungsten-transport-belt"] then
-  table.insert(data.raw.technology["tungsten-transport-belt"].effects, {type = "unlock-recipe", recipe = "tungsten-mdrn-loader"})
-end

@@ -1,11 +1,14 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.5.2
-Date: ????
-  Bugfixes:
+Version: 0.5.3
+Date: 2024-10-15
+  Changes:
     - Added source link to github
+    - Change name of SA logistics to "Turbo"
+  Bugfixes:
+    - Fixed [#1] Loaders Modernized showing up twice in tech unlock
 ---------------------------------------------------------------------------------------------------
 Version: 0.5.1
-Date: 1024-10.14
+Date: 1024-10-14
   Bugfixes:
     - Corrected some spelling
 ---------------------------------------------------------------------------------------------------

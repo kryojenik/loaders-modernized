@@ -1,6 +1,6 @@
 {
     "name": "loaders-modernized",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "title": "Loaders Modernized",
     "description": "Compact 1x1 loader requiring power.",
     "author": "kryojenik",
@@ -9,8 +9,9 @@
     "source": "https://github.com/kryojenik/loaders-modernized",
     "factorio_version": "2.0",
     "dependencies": [
+        "base >= 2.0.0",
         "flib >= 0.15.0",
-        "? space-age >= 2.0.0"
+        "? space-age >= 2.0.3"
     ],
     "package": {
         "git_publish_branch": "main",
@@ -19,6 +20,6 @@
             "types.lua",
             "screenshots/*"
         ],
-        "sync_portal_details": true
+        "sync_portal_details": false
     }
 }
