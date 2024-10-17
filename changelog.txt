@@ -5,6 +5,7 @@ Date: ????
     - Added settings:
       - Allow loaders to work without electricity
       - Double recipe and create loaders 2 at a time
+      - Adjusted turbo-loader recipe to use bulk-insters vs. stack-inserters
 ---------------------------------------------------------------------------------------------------
 Version: 0.5.3
 Date: 2024-10-15

@@ -1,7 +1,7 @@
 local handler = require("__core__.lualib.event_handler")
 
 handler.add_libraries({
-  require("script.migrations"),
+  require("loaders-modernized.scripts.migrations"),
 
-  require("script.loaders-modernized")
+  require("loaders-modernized.scripts.loaders-modernized")
 })
