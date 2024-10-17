@@ -17,7 +17,6 @@ do use power.  So keep those power poles handy!
 
 - Support belts from overhaul mods
 - Provide interface for overhaul mods to generate their own loaders
-- Support migration from miniloaders mod
 - Support belt stacking
 
 ### Acknowledgements

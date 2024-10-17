@@ -10,8 +10,8 @@ local function create_entity(prefix, base_underground_name, next, tint)
     type = "loader-1x1",
     name = name,
     icons = {
-      { icon = "__loaders-modernized__.graphics.item.mdrn-loader-icon-base.png" },
-      { icon = "__loaders-modernized__.graphics.item.mdrn-loader-icon-mask.png", tint = tint }
+      { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-base.png" },
+      { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-mask.png", tint = tint }
     },
     flags = {"placeable-neutral", "player-creation"},
     minable = { mining_time = 0.1, result = prefix .. "mdrn-loader" },
@@ -20,8 +20,8 @@ local function create_entity(prefix, base_underground_name, next, tint)
     next_upgrade = next and next .. "mdrn-loader" or nil,
     corpse = underground_name .. "-remnants",
     dying_explosion = underground_name .. "-explosion",
-    open_sound = { filename = "__base__.sound.open-close.inserter-open.ogg" },
-    close_sound = { filename = "__base__.sound.open-close.inserter-close.ogg" },
+    open_sound = { filename = "__base__/sound/open-close/inserter-open.ogg" },
+    close_sound = { filename = "__base__/sound/open-close/inserter-close.ogg" },
     resistances = ug_entity.resistances,
     collision_box = ug_entity.collision_box,
     selection_box = ug_entity.selection_box,
@@ -40,14 +40,14 @@ local function create_entity(prefix, base_underground_name, next, tint)
       direction_in = {
         sheets = {
           {
-            filename = "__loaders-modernized__.graphics.entity.mdrn-loader-structure-base.png",
+            filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
             priority = "extra-high",
             width = 192,
             height = 192,
             scale = 0.5,
           },
           {
-            filename = "__loaders-modernized__.graphics.entity.mdrn-loader-structure-mask.png",
+            filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-mask.png",
             priority = "extra-high",
             width = 192,
             height = 192,
@@ -55,7 +55,7 @@ local function create_entity(prefix, base_underground_name, next, tint)
             tint = tint
           },
           {
-            filename = "__loaders-modernized__.graphics.entity.mdrn-loader-structure-shadow.png",
+            filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-shadow.png",
             draw_as_shadow = true,
             priority = "extra-high",
             width = 192,
@@ -67,7 +67,7 @@ local function create_entity(prefix, base_underground_name, next, tint)
       direction_out = {
         sheets = {
           {
-            filename = "__loaders-modernized__.graphics.entity.mdrn-loader-structure-base.png",
+            filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
             priority = "extra-high",
             width = 192,
             height = 192,
@@ -75,7 +75,7 @@ local function create_entity(prefix, base_underground_name, next, tint)
             y = 192
           },
           {
-            filename = "__loaders-modernized__.graphics.entity.mdrn-loader-structure-mask.png",
+            filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-mask.png",
             priority = "extra-high",
             width = 192,
             height = 192,
@@ -84,7 +84,7 @@ local function create_entity(prefix, base_underground_name, next, tint)
             tint = tint
           },
           {
-            filename = "__loaders-modernized__.graphics.entity.mdrn-loader-structure-shadow.png",
+            filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-shadow.png",
             draw_as_shadow = true,
             priority = "extra-high",
             width = 192,

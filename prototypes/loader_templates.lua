@@ -1,10 +1,8 @@
--- base
 local loader_templates = {
   [""] = {
     next_prefix = "fast-",
-    tint = util.color("ffc340d1"),
-    unlock_tech = "logistics",
-    --prerequisite_techs = {"logistics"},
+    tint = util.color("ffd955d1"),
+    prerequisite_techs = { "logistics", "logistic-science-pack" },
     recipe_data = {
       ingredients =
       {
@@ -17,9 +15,8 @@ local loader_templates = {
   ["fast-"] = {
     previous_prefix = "",
     next_prefix = "express-",
-    tint = util.color("e31717d1"),
-    unlock_tech = "logistics-2",
-    --prerequisite_techs = {"logistics-2"},
+    tint = util.color("ff1838d1"),
+    prerequisite_techs = { "logistics-2", "mdrn-loader" },
     recipe_data = {
     ingredients =
       {
@@ -33,9 +30,8 @@ local loader_templates = {
   --       Lube is already required for the underground belt
   ["express-"] = {
     previous_prefix = "fast-",
-    tint = util.color("43c0fad1"),
-    unlock_tech = "logistics-3",
-    --prerequisite_techs = {"logistics-2"},
+    tint = util.color("5abeffd1"),
+    prerequisite_techs = { "logistics-3", "fast-mdrn-loader" },
     recipe_data = {
       category = "crafting-with-fluid",
       ingredients =
@@ -52,9 +48,8 @@ local loader_templates = {
 if data.raw["transport-belt"]["turbo-transport-belt"] then
   loader_templates["turbo-"] = {
     previous_prefix = "express-",
-    tint = util.color("b1cf57d1"),
-    unlock_tech = "turbo-transport-belt",
-    --prerequisite_techs = {"turbo-transport-belt"},
+    tint = util.color("9bb600d1"),
+    prerequisite_techs = { "turbo-transport-belt", "express-mdrn-loader" },
     recipe_data = {
       category = "metallurgy",
       surface_conditions = data.raw["transport-belt"]["turbo-transport-belt"].surface_conditions,

@@ -6,10 +6,10 @@ local function create_item(prefix, base_underground_name, tint)
     name = prefix .. "mdrn-loader",
     icons = {
       {
-        icon = "__loaders-modernized__.graphics.item.mdrn-loader-icon-base.png",
+        icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-base.png",
       },
       {
-        icon = "__loaders-modernized__.graphics.item.mdrn-loader-icon-mask.png",
+        icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-mask.png",
         tint = tint
       }
     },
