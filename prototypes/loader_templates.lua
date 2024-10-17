@@ -57,18 +57,11 @@ if data.raw["transport-belt"]["turbo-transport-belt"] then
     --prerequisite_techs = {"turbo-transport-belt"},
     recipe_data = {
       category = "metallurgy",
-      surface_conditions =
-      {
-        {
-          property = "pressure",
-          min = 4000,
-          max = 4000
-        }
-      },
+      surface_conditions = data.raw["transport-belt"]["turbo-transport-belt"].surface_conditions,
       ingredients =
       {
         {type = "item", name = "turbo-underground-belt", amount = 1},
-        {type = "item", name = "stack-inserter", amount = 4},
+        {type = "item", name = "bulk-inserter", amount = 6},
         {type = "item", name = "express-mdrn-loader", amount = 1},
       },
     }

@@ -16,6 +16,16 @@ local function create_recipe(prefix, template)
     recipe.surface_conditions = template.surface_conditions
   end
 
+  if settings.startup["mdrn-double-recipe"].value then
+    for _, i in pairs(recipe.ingredients) do
+      i.amount = i.amount * 2
+    end
+
+    for _, r in pairs(recipe.results) do
+      r.amount = r.amount * 2
+    end
+  end
+
   data:extend{
     recipe
   }

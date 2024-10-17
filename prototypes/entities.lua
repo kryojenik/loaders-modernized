@@ -27,8 +27,6 @@ local function create_entity(prefix, base_underground_name, next, tint)
     selection_box = ug_entity.selection_box,
     damaged_trigger_effect = hit_effects.entity(),
     animation_speed_coefficient = 32,
-    energy_source = {type = "electric", usage_priority = "secondary-input", drain = "2kW"},
-    energy_per_item = "4kJ",
     belt_animation_set = ug_entity.belt_animation_set,
     -- TODO: Allow fast replace on all belt entities
     --       Perhaps setting choice
@@ -156,6 +154,11 @@ local function create_entity(prefix, base_underground_name, next, tint)
       }
     ),
   }
+
+  if settings.startup["mdrn-use-electricity"].value then
+    entity.energy_source = {type = "electric", usage_priority = "secondary-input", drain = "2kW"}
+    entity.energy_per_item = "4kJ"
+  end
 
     -- space-age
   if mods["space-age"] then

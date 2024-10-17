@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.5.4
+Date: ????
+  Changes:
+    - Added settings:
+      - Allow loaders to work without electricity
+      - Double recipe and create loaders 2 at a time
+---------------------------------------------------------------------------------------------------
 Version: 0.5.3
 Date: 2024-10-15
   Changes:

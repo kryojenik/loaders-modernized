@@ -125,6 +125,10 @@ end -- on_entity_built()
 
 local loader_modernized = {}
 
+loader_modernized.on_init = function()
+  storage.loader_modernized = {}
+end
+
 loader_modernized.events = {
   [defines.events.on_built_entity] = on_entity_built,
   [defines.events.on_entity_cloned] = on_entity_built,
