@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.5.4
-Date: ????
+Date: 2024-10-17
   Changes:
     - Added settings:
       - Allow loaders to work without electricity
