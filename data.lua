@@ -10,3 +10,5 @@ for prefix, loader_t in pairs(templates) do
   recipes.create_recipe(prefix, loader_t.recipe_data)
   technologies.create_technology(prefix, loader_t.prerequisite_techs, loader_t.tint)
 end
+
+require("__loaders-modernized__.prototypes.miniloader-migrations")
