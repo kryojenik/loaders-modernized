@@ -28,25 +28,6 @@ local miniloader_migrations = {
   ]]
 }
 
---[[
-In runtime We need to find all miniloaders, stopthem, provide a way to migrate them
-
-local miniloader_parts = {}
-for k,v in pairs(prototypes.entity) do
-  if string.find(v.name, ".*miniloader.*") then
-    miniloader_parts[#miniloader_parts+1] = v.name
-  end
-end
-
-for _, surface in pairs(game.surfaces) do
-  local miniloaders = surface.find_entities_filtered{type = {"loader-1x1", "inserter"}, name = miniloader_parts}
-  for _, m in pairs(miniloaders) do
-    m.active = false
-  end
-end
-
-]]
-
 local function is_sprite_def(array)
   return array.icon or array.width and array.height and (array.filename or array.stripes or array.filenames)
 end
@@ -113,7 +94,7 @@ local function create_dummy_entities(prefix)
     draw_held_item = false,
     placeable_by = "NIL",
     flags = { "not-upgradable", "player-creation" },
-    next_upgrade = "NIL"
+    next_upgrade = "NIL",
   }, { r = 0.8, g = 0.8, b = 0.8 })
   local filter_inserter = table.deepcopy(inserter)
   filter_inserter.name = prefix .. "filter-miniloader-inserter"
@@ -142,7 +123,7 @@ local function create_dummy_entities(prefix)
       }
     },
     flags = { "not-upgradable", "player-creation" },
-    next_upgrade = "NIL"
+    next_upgrade = "NIL",
   }, { r = 0.8, g = 0.8, b = 0.8 })
   local filter_loader = table.deepcopy(loader)
   filter_loader.name = prefix .. "filter-miniloader-loader"
