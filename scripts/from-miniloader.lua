@@ -33,16 +33,25 @@ Please report any belt packs that result in miniloaders not migrating and I may 
 
 -Kryojenik]]
 
-local function replace_miniloader(ml)
-  local name = string.gsub(ml.name, "miniloader", "mdrn")
+local filter_notice =
+[[The following loaders either had a filter set as an "input" (filling container) loader or they had a filter set as a blacklist filterd.  Both of these are not allowed due to game engine limitations.  These filters have been removed.
+
+You can return to this list wiht the command /mdrn-migrations.]]
+
+-- Forward declaration
+local create_filter_list
+
+local function replace_miniloader(old_ldr)
+  local name = string.gsub(old_ldr.name, "miniloader", "mdrn")
   name = string.gsub(name, "filter%-", "")
   if not prototypes.entity[name] then
     return false
   end
 
-  local old_ldr = ml.surface.find_entities_filtered{type = "loader-1x1", position = ml.position}[1]
-  local inserters = ml.surface.find_entities_filtered{type = "inserter", position = ml.position}
+  local inserters = old_ldr.surface.find_entities_filtered{type = "inserter", position = old_ldr.position}
+  local blacklist = (inserters[1].inserter_filter_mode == "blacklist")
   local filters = {}
+
   for i=1,inserters[1].prototype.filter_count do
     filters[i] = inserters[1].get_filter(i) or nil
     if filters[i] then
@@ -50,20 +59,22 @@ local function replace_miniloader(ml)
     end
   end
 
-  local new_ldr = {
+  local new_ldr_proto = {
     name = name,
-    position= ml.position,
+    position= old_ldr.position,
     direction = old_ldr.direction,
     force = old_ldr.force,
     player = inserters[1].last_user,
     type = old_ldr.loader_type,
     create_build_effect_smoke = false,
-    filters = filters
   }
+  if not blacklist and old_ldr.loader_type == "output" then
+    new_ldr_proto.filters = filters
+  end
 
   -- Save the control behavior details
   local old_cb = inserters[1].get_control_behavior()
-  local circuit_set_filters = old_cb.circuit_set_filters
+  local circuit_set_filters = old_cb.circuit_set_filters and (old_ldr.type == "output")
   local circuit_read_transfers = old_cb.circuit_read_hand_contents and (old_cb.circuit_hand_read_mode == defines.control_behavior.inserter.hand_read_mode.pulse)
   local circuit_enable_disable = old_cb.circuit_enable_disable
   local circuit_condition = old_cb.circuit_condition
@@ -83,12 +94,21 @@ local function replace_miniloader(ml)
   end
 
   -- Destroy / remve old combo-entities
+  local surface = old_ldr.surface
   old_ldr.destroy()
   for _,i in pairs(inserters) do
     i.destroy()
   end
 
-  new_ldr = ml.surface.create_entity(new_ldr)
+  new_ldr = surface.create_entity(new_ldr_proto)
+  if blacklist and new_ldr.loader_type == "output" then
+    storage.no_blacklist[new_ldr.unit_number] = new_ldr
+  end
+
+  if new_ldr.loader_type == "input" and next(filters) then
+    storage.no_input_filter[new_ldr.unit_number] = new_ldr
+  end
+
   local new_cb = new_ldr.get_or_create_control_behavior()
   new_cb.circuit_set_filters = circuit_set_filters
   new_cb.circuit_read_transfers = circuit_read_transfers
@@ -107,13 +127,28 @@ local function replace_miniloader(ml)
   return true
 end
 
-local function on_close_window_clicked(e)
+local function on_next_clicked(e)
   local player = game.get_player(e.player_index)
   if not player then
     return
   end
 
   local window = player.gui.screen.mdrn_loader_list_window
+  if not window then
+    return
+  end
+
+  window.destroy()
+  create_filter_list(e)
+end
+
+local function on_closed_clicked(e)
+  local player = game.get_player(e.player_index)
+  if not player then
+    return
+  end
+
+  local window = player.gui.screen.mdrn_loader_filter_window
   if not window then
     return
   end
@@ -144,6 +179,50 @@ local function remove_miniloader(i_ml)
   storage.miniloaders_to_migrate[i_ml] = nil
 end
 
+local function clear_blacklist(i_ml)
+  storage.no_blacklist[i_ml] = nil
+end
+
+local function on_clear_blacklist_clicked(e)
+  local i_ml = tonumber(e.element.name)
+  if not i_ml then
+    return
+  end
+  
+  clear_blacklist(i_ml)
+  e.element.enabled = false
+end
+
+local function clear_input(i_ml)
+  storage.no_input_filter[i_ml] = nil
+end
+
+local function on_clear_input_clicked(e)
+  local i_ml = tonumber(e.element.name)
+  if not i_ml then
+    return
+  end
+
+  clear_input(i_ml)
+  e.element.enabled = false
+end
+
+local function on_clear_all_clicked(e)
+  if storage.no_input_filter and next(storage.no_input_filter) then
+    for k,_ in pairs(storage.no_input_filter) do
+      clear_input(k)
+    end
+  end
+
+  if storage.no_blacklist and next(storage.no_blacklist) then
+    for k,_ in pairs(storage.no_blacklist) do
+      clear_blacklist(k)
+    end
+  end
+
+  on_closed_clicked(e)
+end
+
 local function on_remove_clicked(e)
   local i_ml = tonumber(e.element.name)
   if not i_ml then
@@ -155,42 +234,45 @@ local function on_remove_clicked(e)
 end
 
 local function on_remove_all_clicked(e)
-  for k,_ in pairs(storage.miniloaders_to_migrate) do
-    remove_miniloader(k)
-  end
+  if storage.miniloaders_to_migrate and next(storage.miniloaders_to_migrate) then
+    for k,_ in pairs(storage.miniloaders_to_migrate) do
+      remove_miniloader(k)
+    end
 
-  local player = game.get_player(e.player_index)
-  if not player then
-    return
-  end
+    local player = game.get_player(e.player_index)
+    if not player then
+      return
+    end
 
-  storage.miniloaders_to_migrate = nil
-  on_close_window_clicked(e)
+    storage.miniloaders_to_migrate = nil
+  end
+  on_next_clicked(e)
 end
 
-local function unmigrated_loaders()
-  if not next(storage.miniloaders_to_migrate) then
-    return
+local function input_loaders()
+  if not storage.no_input_filter or not next(storage.no_input_filter) then
+    return {{type = "label", caption = "No input loader filter issues found. "}}
   end
 
   local elems = {}
-  for k, v in pairs(storage.miniloaders_to_migrate) do
-    local x,y = string.match(v.gps_tag, "^%[gps=(%-?[%.%d]+),(%-?[%.%d]+)")
+  for k, v in pairs(storage.no_input_filter) do
     elems = table.array_merge{elems, {
       { type = "label", caption = v.name },
-      { type = "label", caption = "Locaton: " .. x .. ", " .. y .. ", " .. v.surface.name },
+      { type = "label", caption = "Locaton: " .. v.position.x .. ", " .. v.position.y .. ", " .. v.surface.name },
       {
         type = "button",
         name = k,
-        caption = "remove",
+        caption = "Clear",
+        tooltip = "Clear from tracking list.",
         style = "red_button",
         style_mods = { height = 24 },
-        handler = { [defines.events.on_gui_click] = on_remove_clicked },
+        handler = { [defines.events.on_gui_click] = on_clear_input_clicked },
       },
       {
         type = "button",
         name = v.gps_tag,
-        caption = "ping",
+        caption = "Ping",
+        tooltip = "Print a gps link in chat.",
         style_mods = { height = 24 },
         handler = { [defines.events.on_gui_click] = on_ping_miniloader_clicked },
       },
@@ -199,14 +281,143 @@ local function unmigrated_loaders()
   return elems
 end
 
-local function create_list(e)
+local function blacklist_loaders()
+  if not storage.no_blacklist or not next(storage.no_blacklist) then
+    return {{type = "label", caption = "No blacklist filter issues found. "}}
+  end
+
+  local elems = {}
+  for k, v in pairs(storage.no_blacklist) do
+    elems = table.array_merge{elems, {
+      { type = "label", caption = v.name },
+      { type = "label", caption = "Locaton: " .. v.position.x .. ", " .. v.position.y .. ", " .. v.surface.name },
+      {
+        type = "button",
+        name = k,
+        caption = "Clear",
+        tooltip = "Clear from tracking list.",
+        style = "red_button",
+        style_mods = { height = 24 },
+        handler = { [defines.events.on_gui_click] = on_clear_blacklist_clicked },
+      },
+      {
+        type = "button",
+        name = v.gps_tag,
+        caption = "Ping",
+        tooltip = "Print a gps link in chat.",
+        style_mods = { height = 24 },
+        handler = { [defines.events.on_gui_click] = on_ping_miniloader_clicked },
+      },
+    }}
+  end
+  return elems
+end
+
+local function unmigrated_loaders()
+  if not storage.miniloaders_to_migrate or not next(storage.miniloaders_to_migrate) then
+    return {{ type = "label", caption = "No more Miniloaders left to migrate!" }}
+  end
+
+  local elems = {}
+  for k, v in pairs(storage.miniloaders_to_migrate) do
+    elems = table.array_merge{elems, {
+      { type = "label", caption = v.name },
+      { type = "label", caption = "Locaton: " .. v.position.x .. ", " .. v.position.y .. ", " .. v.surface.name },
+      {
+        type = "button",
+        name = k,
+        caption = "Remove",
+        tooltip = "Remove entity from surface.",
+        style = "red_button",
+        style_mods = { height = 24 },
+        handler = { [defines.events.on_gui_click] = on_remove_clicked },
+      },
+      {
+        type = "button",
+        name = v.gps_tag,
+        caption = "Ping",
+        tooltip = "Print a gps link in chat.",
+        style_mods = { height = 24 },
+        handler = { [defines.events.on_gui_click] = on_ping_miniloader_clicked },
+      },
+    }}
+  end
+  return elems
+end
+
+create_filter_list = function(e)
   local player = game.get_player(e.player_index)
   if not player then
     return
   end
 
-  if not storage.miniloaders_to_migrate then
-    player.print("No more miniloaders left to migrate!")
+  if player.gui.screen.mdrn_loader_filter_window then
+    return
+  end
+
+  flib_gui.add(player.gui.screen, {
+    type = "frame",
+    name = "mdrn_loader_filter_window",
+    direction = "vertical",
+    caption = "Loaders Modernized - Filters altered",
+    elem_mods = { auto_center = true },
+    {
+      type = "frame",
+      style = "inside_shallow_frame_with_padding",
+      { type = "label", style_mods = { single_line = false }, caption = filter_notice },
+    },
+    {
+      type = "scroll-pane",
+      {
+        type = "frame",
+        style = "inside_shallow_frame_with_padding",
+        {
+          type = "table",
+          name = "mdrn_loader_table",
+          column_count = 4,
+          children = input_loaders()
+        },
+      },
+      {
+        type = "frame",
+        style = "inside_shallow_frame_with_padding",
+        {
+          type = "table",
+          name = "mdrn_loader_table",
+          column_count = 4,
+          children = blacklist_loaders()
+        },
+      },
+      {
+        type = "flow",
+        style = "dialog_buttons_horizontal_flow",
+        drag_target = "mdrn_loader_filter_window",
+        {
+          type = "button",
+          style = "red_button",
+          caption = "Clear all!",
+          tooltip = "Cleare all loaders from tracking lists.",
+          handler = {
+            [defines.events.on_gui_click] = on_clear_all_clicked
+          },
+        },
+        { type = "empty-widget", style = "flib_dialog_footer_drag_handle", ignored_by_interaction = true },
+        {
+          type = "button",
+          style = "confirm_button",
+          caption = "Close",
+          handler = {
+            [defines.events.on_gui_click] = on_closed_clicked
+          },
+        }
+      }
+    }
+  })
+end
+
+local function create_not_migrated_list(e)
+  local player = game.get_player(e.player_index)
+  if not player then
     return
   end
 
@@ -253,9 +464,9 @@ local function create_list(e)
         {
           type = "button",
           style = "confirm_button",
-          caption = "Close",
+          caption = "Next",
           handler = {
-            [defines.events.on_gui_click] = on_close_window_clicked
+            [defines.events.on_gui_click] = on_next_clicked
           },
         }
       }
@@ -264,8 +475,9 @@ local function create_list(e)
 end
 
 local function replace_miniloaders(e)
-  local miniloaders = storage.miniloaders_to_migrate
-  for i_ml, ml in pairs(miniloaders) do
+  storage.no_blacklist = storage.no_blacklist or {}
+  storage.no_input_filter = storage.no_input_filter or {}
+  for i_ml, ml in pairs(storage.miniloaders_to_migrate) do
     if replace_miniloader(ml) then
       storage.miniloaders_to_migrate[i_ml] = nil
     end
@@ -286,7 +498,7 @@ local function replace_miniloaders(e)
   end
 
   window.destroy()
-  create_list(e)
+  create_not_migrated_list(e)
 end
 
 local function create_notification(player)
@@ -315,6 +527,7 @@ local function create_notification(player)
         type = "button",
         style = "confirm_button",
         caption = "Migrate!",
+        tooltip = "Migrate Miniloaders that we can migrate, GO! GO! GO!",
         handler = {
           [defines.events.on_gui_click] = replace_miniloaders
         },
@@ -327,8 +540,12 @@ flib_gui.add_handlers{
   replace_miniloaders,
   on_ping_miniloader_clicked,
   on_remove_clicked,
-  on_close_window_clicked,
+  on_next_clicked,
   on_remove_all_clicked,
+  on_clear_all_clicked,
+  on_clear_input_clicked,
+  on_clear_blacklist_clicked,
+  on_closed_clicked,
 }
 
 local function find_and_disable_all_miniloaders()
@@ -350,12 +567,7 @@ local function find_and_disable_all_miniloaders()
       m.active = false
       m.operable = false
       if m.type == "loader-1x1" then
-        to_migrate[m.unit_number] = {
-          name = m.name,
-          surface = m.surface,
-          position = m.position,
-          gps_tag = m.gps_tag
-        }
+        to_migrate[m.unit_number] = m
       end
     end
   end
@@ -376,7 +588,7 @@ from_miniloader.on_configuration_changed = function(e)
 end
 
 commands.add_command("mdrn-migrations", nil, function(e)
-  create_list(e)
+  create_not_migrated_list(e)
 end)
 
 return from_miniloader
