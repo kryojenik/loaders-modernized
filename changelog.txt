@@ -1,11 +1,11 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.5.5
-Date: ????
+Date: 2024-10-27
   Changes:
     - Updated README
   Features:
     - Setting to allow migration from Miniloaders.  Note: kind of expirimental ** MAKE A BACKUP **
-    - Addess chutes
+    - Adds chutes
 ---------------------------------------------------------------------------------------------------
 Version: 0.5.4
 Date: 2024-10-17

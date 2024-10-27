@@ -16,10 +16,10 @@ do use power.  So keep those power poles handy!
 
 **CAUTION: Backup your save file before migrating Miniloaders**
 
-As a startup setting you can enable migrating existing Miniloaders.  This will attempt to find all
-miniloaders and replace them with equivilent Loaders Modernized.  This may not be perfect and I'll fix
-what I can when reported, but please backup you save file before attempting.  Not every belt overhaul
-mod is supported.  Please drop a message if one is needed.
+As a startup setting, you can enable migration of existing Miniloaders.  This will attempt to find all
+miniloaders and replace them with equivilent Loaders Modernized.  This may not be perfect, and I'll fix
+what I can when reported.  Please backup your save file before attempting migration.  Specific Belt
+overhaul mods are not implemented yet.  Please drop a message if one is needed.
 
 ### TODO
 
