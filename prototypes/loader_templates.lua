@@ -44,6 +44,20 @@ local loader_templates = {
   }
 }
 
+-- chute
+if settings.startup["mdrn-enable-chute"].value then
+  loader_templates["chute-"] = {
+    next_prefix = "",
+    tint = util.color("808080d1"),
+    recipe_data = {
+      ingredients =
+      {
+        {type = "item", name = "iron-plate", amount = 4},
+      },
+    }
+  }
+end
+
 -- space-age
 if data.raw["transport-belt"]["turbo-transport-belt"] then
   loader_templates["turbo-"] = {

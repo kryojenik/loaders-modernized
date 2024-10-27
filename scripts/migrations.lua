@@ -1,8 +1,5 @@
 local flib_migration = require("__flib__.migration")
 
---local from_miniloader = require("script.from-miniloader")
---local loaders_modernized = require("script.loaders-modernized")
-
 local version_migrations = {}
 
 local migrations = {}

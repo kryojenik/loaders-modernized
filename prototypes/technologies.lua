@@ -1,4 +1,8 @@
 local function create_technology(prefix, prereq_techs, tint)
+  if prefix == "chute-" then
+    return
+  end
+  
   local technology = {
     type = "technology",
     name = prefix .. "mdrn-loader",

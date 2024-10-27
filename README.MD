@@ -12,6 +12,14 @@ do use power.  So keep those power poles handy!
 - Control circuit supported.
 - Works with cargo wagons.
 - Loaders snap to belts and away from non-belts
+- Able to migrate Miniloaders.
+
+**CAUTION: Backup your save file before migrating Miniloaders**
+
+As a startup setting you can enable migrating existing Miniloaders.  This will attempt to find all
+miniloaders and replace them with equivilent Loaders Modernized.  This may not be perfect and I'll fix
+what I can when reported, but please backup you save file before attempting.  Not every belt overhaul
+mod is supported.  Please drop a message if one is needed.
 
 ### TODO
 
@@ -21,7 +29,12 @@ do use power.  So keep those power poles handy!
 
 ### Acknowledgements
 
-- Inspired by Miniloader by therax (https://mods.factorio.com/mod/miniloader)
+- Inspired by [Miniloader](https://mods.factorio.com/mod/miniloader) by therax.
 - The artwork (at this time) is borrowed from Miniloader.  I am not an artist.  Anyone interested
 - in contributing new art please let me know.
 - Arch666Angel is acknowledged for initial creation of the artwork.  The artwork is under GPLv3 license.
+
+### Known issues
+
+- Unable to set filters as a blacklist filter.  This is currently a limitation of the game engine.
+- Input loaders (filling a container) ignore filters.  This is currently a limitation of the game engine.

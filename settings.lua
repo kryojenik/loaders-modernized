@@ -12,6 +12,20 @@ data:extend({
     name = "mdrn-double-recipe",
     order = "sb",
     setting_type = "startup",
-    default_value = true,
+    default_value = false,
   },
+  {
+    type = "bool-setting",
+    name = "mdrn-migrate-from-miniloaders",
+    order = "sc",
+    setting_type = "startup",
+    default_value = false,
+  },
+  {
+    type = "bool-setting",
+    name = "mdrn-enable-chute",
+    order = "sd",
+    setting_type = "startup",
+    default_value = true,
+  }
 })

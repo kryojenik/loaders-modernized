@@ -1,5 +1,6 @@
-local function create_item(prefix, base_underground_name, tint)
-  local underground_name = prefix .. base_underground_name
+local function create_item(prefix, tint)
+  local base_underground_name = "underground-belt"
+  local underground_name = prefix ~= "chute-" and (prefix .. base_underground_name) or base_underground_name
   local ug_item = data.raw["item"][underground_name]
   local item = {
     type = "item",

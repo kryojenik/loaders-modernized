@@ -1,9 +1,10 @@
 local hit_effects = require("__base__.prototypes.entity.hit-effects")
 
 
-local function create_entity(prefix, base_underground_name, next, tint)
+local function create_entity(prefix, next, tint)
+  local base_underground_name = "underground-belt"
   local name = prefix .. "mdrn-loader"
-  local underground_name = prefix .. base_underground_name
+  local underground_name = prefix ~= "chute-" and (prefix .. base_underground_name) or base_underground_name
   local ug_entity = data.raw["underground-belt"][underground_name]
 
   local entity = {
@@ -13,7 +14,7 @@ local function create_entity(prefix, base_underground_name, next, tint)
       { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-base.png" },
       { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-mask.png", tint = tint }
     },
-    flags = {"placeable-neutral", "player-creation"},
+    flags = {"placeable-player", "placeable-neutral", "player-creation"},
     minable = { mining_time = 0.1, result = prefix .. "mdrn-loader" },
     max_health = 170,
     filter_count = 5,
@@ -160,11 +161,20 @@ local function create_entity(prefix, base_underground_name, next, tint)
     entity.energy_per_item = "4kJ"
   end
 
-    -- space-age
+  -- chute
+  if entity.name == "chute-mdrn-loader" then
+    entity.filter_count = 0
+    entity.speed = entity.speed / 4
+    entity.circuit_wire_max_distance = 0
+    entity.energy_source = { type = "void" }
+    entity.energy_per_item = ".0000001J"
+  end
+
+  -- space-age
   if mods["space-age"] then
     entity.heating_energy = ug_entity.heating_energy
   end
-    
+
   data:extend{
     entity
   }

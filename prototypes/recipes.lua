@@ -12,6 +12,10 @@ local function create_recipe(prefix, template)
     category = template.category
   }
 
+  if prefix == "chute-" then
+    recipe.enabled = true
+  end
+  
   if mods["space-age"] then
     recipe.surface_conditions = template.surface_conditions
   end
