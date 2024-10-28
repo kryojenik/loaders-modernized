@@ -1,6 +1,10 @@
 local flib_gui = require("__flib__.gui")
 local table = require("__flib__.table")
 
+if not settings.startup["mdrn-migrate-from-miniloaders"].value then
+  return {}
+end
+
 local warning_notice =
 [[*** BACKUP ***  BACKUP *** BACKUP ***
 
@@ -74,10 +78,16 @@ local function replace_miniloader(old_ldr)
 
   -- Save the control behavior details
   local old_cb = inserters[1].get_control_behavior()
-  local circuit_set_filters = old_cb.circuit_set_filters and (old_ldr.type == "output")
-  local circuit_read_transfers = old_cb.circuit_read_hand_contents and (old_cb.circuit_hand_read_mode == defines.control_behavior.inserter.hand_read_mode.pulse)
-  local circuit_enable_disable = old_cb.circuit_enable_disable
-  local circuit_condition = old_cb.circuit_condition
+  local circuit_set_filters = nil
+  local circuit_read_transfers = nil
+  local circuit_enable_disable = nil
+  local circuit_condition = nil
+  if old_cb then
+    circuit_set_filters = old_cb.circuit_set_filters and (old_ldr.type == "output")
+    circuit_read_transfers = old_cb.circuit_read_hand_contents and (old_cb.circuit_hand_read_mode == defines.control_behavior.inserter.hand_read_mode.pulse)
+    circuit_enable_disable = old_cb.circuit_enable_disable
+    circuit_condition = old_cb.circuit_condition
+  end
 
   -- Save details about connected wires
   local wires = {}
@@ -109,17 +119,19 @@ local function replace_miniloader(old_ldr)
     storage.no_input_filter[new_ldr.unit_number] = new_ldr
   end
 
-  local new_cb = new_ldr.get_or_create_control_behavior()
-  new_cb.circuit_set_filters = circuit_set_filters
-  new_cb.circuit_read_transfers = circuit_read_transfers
-  new_cb.circuit_enable_disable = circuit_enable_disable
-  new_cb.circuit_condition = circuit_condition
-  if wires then
-    for wire_id, targets in pairs(wires) do
-      local wire = new_ldr.get_wire_connector(wire_id, true)
-      for _,t in pairs(targets) do
-        if t.valid then
-          wire.connect_to(t.get_wire_connector(wire_id))
+  if old_cb then
+    local new_cb = new_ldr.get_or_create_control_behavior()
+    new_cb.circuit_set_filters = circuit_set_filters
+    new_cb.circuit_read_transfers = circuit_read_transfers
+    new_cb.circuit_enable_disable = circuit_enable_disable
+    new_cb.circuit_condition = circuit_condition
+    if wires then
+      for wire_id, targets in pairs(wires) do
+        local wire = new_ldr.get_wire_connector(wire_id, true)
+        for _,t in pairs(targets) do
+          if t.valid then
+            wire.connect_to(t.get_wire_connector(wire_id))
+          end
         end
       end
     end

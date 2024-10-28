@@ -43,6 +43,4 @@ for prefix, loader_t in pairs(templates) do
   technologies.create_technology(prefix, loader_t.prerequisite_techs, loader_t.tint)
 end
 
-if settings.startup["mdrn-migrate-from-miniloaders"].value then
-  require("__loaders-modernized__.prototypes.miniloader-migrations")
-end
+require("__loaders-modernized__.prototypes.miniloader-migrations")

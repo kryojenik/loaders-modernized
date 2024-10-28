@@ -1,3 +1,7 @@
+if not settings.startup["mdrn-migrate-from-miniloaders"].value then
+  return {}
+end
+
 local miniloader_migrations = {
   "chute-",
   "",

@@ -7,6 +7,4 @@ handler.add_libraries({
   require("__loaders-modernized__.scripts.loaders-modernized")
 })
 
-if settings.startup["mdrn-migrate-from-miniloaders"].value then
-  handler.add_lib(require("__loaders-modernized__.scripts.from-miniloader"))
-end
+handler.add_lib(require("__loaders-modernized__.scripts.from-miniloader"))
