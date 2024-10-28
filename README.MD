@@ -12,8 +12,8 @@ do use power.  So keep those power poles handy!
 - Control circuit supported.
 - Works with cargo wagons.
 - Loaders snap to belts and away from non-belts
+- Stack items on to the belts based on belt stacking technology level
 - Able to migrate Miniloaders.
-- Able to stack items on to the belts based on belt stacking technology level
 
 **CAUTION: Backup your save file before migrating Miniloaders**
 

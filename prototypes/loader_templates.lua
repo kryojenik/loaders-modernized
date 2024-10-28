@@ -2,17 +2,17 @@ local loader_templates = {
   [""] = {
     next_prefix = "fast-",
     tint = util.color("ffd955d1"),
-    prerequisite_techs = { "logistics", "logistic-science-pack" },
+    prerequisite_techs = { "logistics" },
     recipe_data = {
       ingredients = {
         standard = {
           {type = "item", name = "underground-belt", amount = 1},
-          {type = "item", name = "fast-inserter", amount = 6},
+          {type = "item", name = "inserter", amount = 8},
           {type = "item", name = "steel-plate", amount = 6},
         },
         stack = {
           {type = "item", name = "underground-belt", amount = 1},
-          {type = "item", name = "fast-inserter", amount = 8},
+          {type = "item", name = "inserter", amount = 12},
           {type = "item", name = "steel-plate", amount = 6},
         }
       }
