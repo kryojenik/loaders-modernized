@@ -4,12 +4,18 @@ local loader_templates = {
     tint = util.color("ffd955d1"),
     prerequisite_techs = { "logistics", "logistic-science-pack" },
     recipe_data = {
-      ingredients =
-      {
-        {type = "item", name = "underground-belt", amount = 1},
-        {type = "item", name = "fast-inserter", amount = 6},
-        {type = "item", name = "steel-plate", amount = 6},
-      },
+      ingredients = {
+        standard = {
+          {type = "item", name = "underground-belt", amount = 1},
+          {type = "item", name = "fast-inserter", amount = 6},
+          {type = "item", name = "steel-plate", amount = 6},
+        },
+        stack = {
+          {type = "item", name = "underground-belt", amount = 1},
+          {type = "item", name = "fast-inserter", amount = 8},
+          {type = "item", name = "steel-plate", amount = 6},
+        }
+      }
     }
   },
   ["fast-"] = {
@@ -18,28 +24,38 @@ local loader_templates = {
     tint = util.color("ff1838d1"),
     prerequisite_techs = { "logistics-2", "mdrn-loader" },
     recipe_data = {
-    ingredients =
-      {
-        {type = "item", name = "fast-underground-belt", amount = 1},
-        {type = "item", name = "fast-inserter", amount = 4},
-        {type = "item", name = "mdrn-loader", amount = 1},
-      },
+      ingredients = {
+        standard = {
+          {type = "item", name = "fast-underground-belt", amount = 1},
+          {type = "item", name = "fast-inserter", amount = 4},
+          {type = "item", name = "mdrn-loader", amount = 1},
+        },
+        stack = {
+          {type = "item", name = "fast-underground-belt", amount = 1},
+          {type = "item", name = "fast-inserter", amount = 6},
+          {type = "item", name = "mdrn-loader", amount = 1},
+        }
+      }
     }
   },
-  -- TODO: Consider requiring lube for express
-  --       Lube is already required for the underground belt
   ["express-"] = {
     previous_prefix = "fast-",
     tint = util.color("5abeffd1"),
     prerequisite_techs = { "logistics-3", "fast-mdrn-loader" },
     recipe_data = {
       category = "crafting-with-fluid",
-      ingredients =
-      {
-        {type = "item", name = "express-underground-belt", amount = 1},
-        {type = "item", name = "bulk-inserter", amount = 2},
-        {type = "item", name = "fast-mdrn-loader", amount = 1},
-      },
+      ingredients = {
+        standard = {
+          {type = "item", name = "express-underground-belt", amount = 1},
+          {type = "item", name = "bulk-inserter", amount = 2},
+          {type = "item", name = "fast-mdrn-loader", amount = 1},
+        },
+        stack = {
+          {type = "item", name = "express-underground-belt", amount = 1},
+          {type = "item", name = "bulk-inserter", amount = 4},
+          {type = "item", name = "fast-mdrn-loader", amount = 1},
+        }
+      }
     }
   }
 }
@@ -50,10 +66,12 @@ if settings.startup["mdrn-enable-chute"].value then
     next_prefix = "",
     tint = util.color("808080d1"),
     recipe_data = {
-      ingredients =
-      {
-        {type = "item", name = "iron-plate", amount = 4},
-      },
+      ingredients = {
+        -- Chutes will never stack
+        standard = {
+          {type = "item", name = "iron-plate", amount = 4},
+        }
+      }
     }
   }
 end
@@ -67,12 +85,18 @@ if data.raw["transport-belt"]["turbo-transport-belt"] then
     recipe_data = {
       category = "metallurgy",
       surface_conditions = data.raw["transport-belt"]["turbo-transport-belt"].surface_conditions,
-      ingredients =
-      {
-        {type = "item", name = "turbo-underground-belt", amount = 1},
-        {type = "item", name = "bulk-inserter", amount = 6},
-        {type = "item", name = "express-mdrn-loader", amount = 1},
-      },
+      ingredients = {
+        standard = {
+          {type = "item", name = "turbo-underground-belt", amount = 1},
+          {type = "item", name = "bulk-inserter", amount = 6},
+          {type = "item", name = "express-mdrn-loader", amount = 1},
+        },
+        stack = {
+          {type = "item", name = "turbo-underground-belt", amount = 1},
+          {type = "item", name = "stack-inserter", amount = 4},
+          {type = "item", name = "express-mdrn-loader", amount = 1},
+        }
+      }
     }
   }
   loader_templates["express-"].next_prefix = "turbo-"

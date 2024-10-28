@@ -1,7 +1,7 @@
 local hit_effects = require("__base__.prototypes.entity.hit-effects")
+local max_belt_stack_size = data.raw["utility-constants"].default.max_belt_stack_size
 
-
-local function create_entity(prefix, next, tint)
+local function create_entity(prefix, stack, next, tint)
   local base_underground_name = "underground-belt"
   local name = prefix .. "mdrn-loader"
   local underground_name = prefix ~= "chute-" and (prefix .. base_underground_name) or base_underground_name
@@ -29,14 +29,10 @@ local function create_entity(prefix, next, tint)
     damaged_trigger_effect = hit_effects.entity(),
     animation_speed_coefficient = 32,
     belt_animation_set = ug_entity.belt_animation_set,
-    -- TODO: Allow fast replace on all belt entities
-    --       Perhaps setting choice
     fast_replaceable_group = "loader",
     container_distance = 1;
     speed = ug_entity.speed,
-    -- TODO: Make setting to allow / disabllow stacking
-    --       Maybe have both / stack and non-stack
-    max_belt_stack_size = 1,
+    max_belt_stack_size = stack and max_belt_stack_size or 1,
     structure = {
       direction_in = {
         sheets = {

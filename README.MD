@@ -13,6 +13,7 @@ do use power.  So keep those power poles handy!
 - Works with cargo wagons.
 - Loaders snap to belts and away from non-belts
 - Able to migrate Miniloaders.
+- Able to stack items on to the belts based on belt stacking technology level
 
 **CAUTION: Backup your save file before migrating Miniloaders**
 
@@ -25,7 +26,6 @@ overhaul mods are not implemented yet.  Please drop a message if one is needed.
 
 - Support belts from overhaul mods
 - Provide interface for overhaul mods to generate their own loaders
-- Support belt stacking
 
 ### Acknowledgements
 
