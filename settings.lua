@@ -22,14 +22,6 @@ data:extend({
     default_value = false,
   },
   {
-    type = "string-setting",
-    name = "mdrn-enable-stacking",
-    order = "sd",
-    setting_type = "startup",
-    default_value = "none",
-    allowed_values = { "none", "turbo-and-above", "all" }
-  },
-  {
     type = "bool-setting",
     name = "mdrn-migrate-from-miniloaders",
     order = "se",
@@ -37,3 +29,17 @@ data:extend({
     default_value = false,
   },
 })
+
+
+if mods["space-age"] then
+  data:extend({
+    {
+      type = "string-setting",
+      name = "mdrn-enable-stacking",
+      order = "sd",
+      setting_type = "startup",
+      default_value = "none",
+      allowed_values = { "none", "turbo-and-above", "all" }
+    },
+  })
+end

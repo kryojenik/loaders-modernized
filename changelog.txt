@@ -2,10 +2,12 @@
 Version: 0.6.0
 Date: ????
   Changes:
-    - Changed yellow loader recipe to require inserters, not fast-inserters so it can be unlocked with other yellow logistics
+    - *** Changed yellow loader recipe to require inserters, not fast-inserters so it can be unlocked with other yellow logistics
   Bugfixes:
     - Fix cardinal sin of conditional requires
-    - Speculative crash fix in miniloader migration code
+    - Fix crash in miniloader migration code
+    - Fixed issue loading when stacking is enabled and space age isn't
+        For now I've removed stacking when space age isn't loaded - will look into it further
 ---------------------------------------------------------------------------------------------------
 Version: 0.5.6
 Date: 2024-10-28
