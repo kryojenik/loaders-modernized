@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.6.1
 Date: ????
+  Changes:
+    - Added RU translation.  Thanks Shadow_Man
   Bugfixes:
     - Early loaders not showing up in Foundry in Space Age!
 ---------------------------------------------------------------------------------------------------
