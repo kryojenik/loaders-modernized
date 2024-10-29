@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.6.1
-Date: ????
+Date: 2024-10-29
   Changes:
     - Added RU translation.  Thanks Shadow_Man
   Bugfixes:
