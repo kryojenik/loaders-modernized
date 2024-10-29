@@ -5,6 +5,7 @@ Date: ????
     - Added RU translation.  Thanks Shadow_Man
   Bugfixes:
     - Early loaders not showing up in Foundry in Space Age!
+    - Fix loaders not stacking after breaking stacking while fixing staking issue
 ---------------------------------------------------------------------------------------------------
 Version: 0.6.0
 Date: 2024-10-29

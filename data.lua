@@ -17,7 +17,7 @@ local never = {
 }
 
 local function stack(prefix)
-  if not settings.startup["belt_stacking"] then
+  if not settings.startup["mdrn-enable-stacking"] then
     return false
   end
 
