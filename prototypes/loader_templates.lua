@@ -43,7 +43,7 @@ local loader_templates = {
     tint = util.color("5abeffd1"),
     prerequisite_techs = { "logistics-3", "fast-mdrn-loader" },
     recipe_data = {
-      category = "crafting-with-fluid",
+      --category = "crafting-with-fluid",
       ingredients = {
         standard = {
           {type = "item", name = "express-underground-belt", amount = 1},
@@ -83,7 +83,7 @@ if data.raw["transport-belt"]["turbo-transport-belt"] then
     tint = util.color("9bb600d1"),
     prerequisite_techs = { "turbo-transport-belt", "express-mdrn-loader" },
     recipe_data = {
-      category = "metallurgy",
+      --category = "metallurgy",
       surface_conditions = data.raw["transport-belt"]["turbo-transport-belt"].surface_conditions,
       ingredients = {
         standard = {
@@ -100,7 +100,7 @@ if data.raw["transport-belt"]["turbo-transport-belt"] then
     }
   }
   loader_templates["express-"].next_prefix = "turbo-"
-  loader_templates["express-"].recipe_data.category = "crafting-with-fluid-or-metallurgy"
+  --loader_templates["express-"].recipe_data.category = "crafting-with-fluid-or-metallurgy"
 end
 
 return loader_templates

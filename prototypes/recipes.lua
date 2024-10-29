@@ -2,6 +2,7 @@
 --- @param template table
 local function create_recipe(prefix, stack, template)
   local item_name = prefix .. "mdrn-loader"
+  local ug_name = prefix ~= "chute-" and (prefix .. "underground-belt") or "underground-belt"
   local recipe= {
     type = "recipe",
     name = prefix .. "mdrn-loader",
@@ -9,7 +10,7 @@ local function create_recipe(prefix, stack, template)
     energy_required = template.energy_required or 1,
     ingredients = stack and template.ingredients.stack or template.ingredients.standard,
     results = {{type = "item", name = item_name, amount = 1}},
-    category = template.category
+    category = template.category or data.raw["recipe"][ug_name].category
   }
 
   if prefix == "chute-" then
