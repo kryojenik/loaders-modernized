@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.6.0
-Date: ????
+Date: 2024-10-29
   Changes:
     - *** Changed yellow loader recipe to require inserters, not fast-inserters so it can be unlocked with other yellow logistics
   Bugfixes:
