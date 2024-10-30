@@ -15,6 +15,10 @@ do use power.  So keep those power poles handy!
 - Stack items on to the belts based on belt stacking technology level
 - Able to migrate Miniloaders.
 
+### Alternate belt set supported
+- [Ultimate Belts Space Age](https://mods.factorio.com/mod/UltimateBeltsSpaceAge)
+
+### Migrating from Miniloaders
 **CAUTION: Backup your save file before migrating Miniloaders**
 
 As a startup setting, you can enable migration of existing Miniloaders.  This will attempt to find all
@@ -30,11 +34,10 @@ overhaul mods are not implemented yet.  Please drop a message if one is needed.
 ### Acknowledgements
 
 - Inspired by [Miniloader](https://mods.factorio.com/mod/miniloader) by therax.
-- The artwork (at this time) is borrowed from Miniloader.  I am not an artist.  Anyone interested
-- in contributing new art please let me know.
-- Arch666Angel is acknowledged for initial creation of the artwork.  The artwork is under GPLv3 license.
+- Artwork is included and modified from Kirazy's [Vanilla Loaders](https://mods.factorio.com/mod/vanilla-loaders-hd).
 
 ### Known issues
 
 - Unable to set filters as a blacklist filter.  This is currently a limitation of the game engine.
 - Input loaders (filling a container) ignore filters.  This is currently a limitation of the game engine.
+- With faster belts speeds may not be as [expected](https://forums.factorio.com/viewtopic.php?f=7&t=118529).
