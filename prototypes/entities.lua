@@ -90,6 +90,28 @@ local function create_entity(prefix, stack, next, tint)
             y = 192
           },
         }
+      },
+      back_patch =
+      {
+        sheet =
+        {
+          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-back-patch.png",
+          priority = "extra-high",
+          width = 192,
+          height = 192,
+          scale = 0.5
+        }
+      },
+      front_patch =
+      {
+        sheet =
+        {
+          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-front-patch.png",
+          priority = "extra-high",
+          width = 192,
+          height = 192,
+          scale = 0.5
+        }
       }
     },
     circuit_wire_max_distance = transport_belt_circuit_wire_max_distance,
