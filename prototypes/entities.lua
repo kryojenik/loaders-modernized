@@ -196,6 +196,17 @@ local function create_entity(prefix, stack, next, tint)
   data:extend{
     entity
   }
+
+  if entity.name ~= "chute-mdrn-loader" then
+    local split_entity = table.deepcopy(entity)
+    split_entity.name = entity.name .. "-split"
+    split_entity.filter_count = 2
+    split_entity.per_lane_filters = true
+    data:extend{
+      split_entity
+    }
+  end
+
 end -- create_entity()
 
 return {

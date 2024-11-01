@@ -1,5 +1,6 @@
 local flib_direction = require("__flib__.direction")
 local position = require("__flib__.position")
+local loader_gui = require("__loaders-modernized__.scripts.loader-gui")
 
 local transport_belt_connectables = {
   "transport-belt",
@@ -123,6 +124,11 @@ local function on_entity_built(e)
   snap(entity)
 end -- on_entity_built()
 
+local function on_player_joined(e)
+  local players = storage.loader_modernized.players or {}
+  players[e.player_index] = players[e.player_index] or {}
+end
+
 local loader_modernized = {}
 
 loader_modernized.on_init = function()
@@ -135,6 +141,8 @@ loader_modernized.events = {
   [defines.events.on_robot_built_entity] = on_entity_built,
   [defines.events.script_raised_built] = on_entity_built,
   [defines.events.script_raised_revive] = on_entity_built,
+  [defines.events.on_gui_opened] = loader_gui.on_gui_opened,
+  [defines.events.on_player_joined_game] = on_player_joined,
 }
 
 return loader_modernized
