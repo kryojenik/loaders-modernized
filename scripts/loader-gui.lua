@@ -2,7 +2,7 @@ local flib_gui = require("__flib__.gui")
 
 local gui = {}
 
-local function on_split_state_changed(e)
+local function on_split_lane_state_changed(e)
   local pd = storage.loader_modernized.players[e.player_index]
 
   if not pd.open_loader.entity or not pd.open_loader.entity.valid then
@@ -139,14 +139,14 @@ gui.on_gui_opened = function(e)
       state = string.match(entity.name, "%-split$") and true or false,
       name = "cb_state",
       handler = {
-        [defines.events.on_gui_checked_state_changed] = on_split_state_changed
+        [defines.events.on_gui_checked_state_changed] = on_split_lane_state_changed
       }
     }
   })
 end
 
 flib_gui.add_handlers{
-  on_split_state_changed,
+  on_split_lane_state_changed = on_split_lane_state_changed,
 }
 
 return gui

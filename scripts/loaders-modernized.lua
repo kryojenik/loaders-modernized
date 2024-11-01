@@ -132,7 +132,12 @@ end
 local loader_modernized = {}
 
 loader_modernized.on_init = function()
-  storage.loader_modernized = {}
+  storage.loader_modernized = {
+    players = {}
+  }
+  for i, player in pairs(game.players) do
+    storage.loader_modernized.players[i] = {}
+  end
 end
 
 loader_modernized.events = {

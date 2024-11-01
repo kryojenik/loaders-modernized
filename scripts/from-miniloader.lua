@@ -40,6 +40,8 @@ Please report any belt packs that result in miniloaders not migrating and I may 
 local filter_notice =
 [[The following loaders either had a filter set as an "input" (filling container) loader or they had a filter set as a blacklist filterd.  Both of these are not allowed due to game engine limitations.  These filters have been removed.
 
+I am currently working on enhancing the migration to migrate blacklists and split lanes.  This will take a little more time.
+
 You can return to this list wiht the command /mdrn-migrations.]]
 
 -- Forward declaration
@@ -549,15 +551,15 @@ local function create_notification(player)
 end
 
 flib_gui.add_handlers{
-  replace_miniloaders,
-  on_ping_miniloader_clicked,
-  on_remove_clicked,
-  on_next_clicked,
-  on_remove_all_clicked,
-  on_clear_all_clicked,
-  on_clear_input_clicked,
-  on_clear_blacklist_clicked,
-  on_closed_clicked,
+  replace_miniloaders = replace_miniloaders,
+  on_ping_miniloaders_clicked = on_ping_miniloader_clicked,
+  on_remove_clicked = on_remove_clicked,
+  on_next_clicked = on_next_clicked,
+  on_remove_all_clicked = on_remove_all_clicked,
+  on_clear_all_clicked = on_clear_all_clicked,
+  on_clear_input_clicked = on_clear_input_clicked,
+  on_clear_blacklist_clicked = on_clear_blacklist_clicked,
+  on_closed_clicked = on_closed_clicked,
 }
 
 local function find_and_disable_all_miniloaders()
