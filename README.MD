@@ -13,6 +13,7 @@ do use power.  So keep those power poles handy!
 - Works with cargo wagons.
 - Loaders snap to belts and away from non-belts
 - Stack items on to the belts based on belt stacking technology level
+- Split Lanes!!!
 - Able to migrate Miniloaders.
 
 ### Alternate belt set supported
@@ -38,6 +39,4 @@ overhaul mods are not implemented yet.  Please drop a message if one is needed.
 
 ### Known issues
 
-- Unable to set filters as a blacklist filter.  This is currently a limitation of the game engine.
 - Input loaders (filling a container) ignore filters.  This is currently a limitation of the game engine.
-- With faster belts speeds may not be as [expected](https://forums.factorio.com/viewtopic.php?f=7&t=118529).
