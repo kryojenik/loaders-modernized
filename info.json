@@ -9,7 +9,7 @@
     "source": "https://github.com/kryojenik/loaders-modernized",
     "factorio_version": "2.0",
     "dependencies": [
-        "base >= 2.0.0",
+        "base >= 2.0.14",
         "flib >= 0.15.0",
         "? space-age >= 2.0.3"
     ],
