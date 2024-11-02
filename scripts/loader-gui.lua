@@ -52,7 +52,7 @@ local function on_split_lane_state_changed(e)
 
   local split = (string.match(old.prototype.name, "%-split"))
   local base_name = string.match(old.prototype.name, "^(.*%-?mdrn%-loader)")
-  
+
   local new = {
     create_build_effect_smoke = false,
     name = split and base_name or base_name .. "-split",
@@ -98,17 +98,6 @@ gui.on_gui_opened = function(e)
     return
   end
 
-  --[[
-  if not (string.match(entity.name, "mdrn%-loader"))
-  and not (entity.name == "entity-ghost" and string.match(entity.ghost_name, "mdrn%-loader")) then
-    return
-  end
-  ]]
-
-  if string.match(name, "^chute") then
-    return
-  end
-
   local player = game.get_player(e.player_index)
   if not player then
     return
@@ -116,6 +105,10 @@ gui.on_gui_opened = function(e)
 
   if player.gui.relative.split_lane then
     player.gui.relative.split_lane.destroy()
+  end
+
+  if string.match(name, "^chute") then
+    return
   end
 
   local pd = storage.loader_modernized.players[player.index]
