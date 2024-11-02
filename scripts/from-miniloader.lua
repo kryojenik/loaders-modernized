@@ -506,12 +506,13 @@ local function replace_miniloaders(e)
     return
   end
 
-  local window = player.gui.screen.mdrn_loader_warning_window
-  if not window then
-    return
+  for _, p in pairs(game.players) do
+    local window = p.gui.screen.mdrn_loader_warning_window
+    if window then
+      window.destroy()
+    end
   end
 
-  window.destroy()
   create_not_migrated_list(e)
 end
 

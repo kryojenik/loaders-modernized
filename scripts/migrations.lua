@@ -9,6 +9,14 @@ local version_migrations = {
     end
 
     storage.loader_modernized = store
+  end,
+  ["0.6.8"] = function()
+    for _, p in pairs(game.players) do
+      local window = p.gui.screen.mdrn_loader_warning_window
+      if window then
+        window.destroy()
+      end
+    end
   end
 }
 
