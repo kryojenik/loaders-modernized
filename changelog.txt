@@ -1,7 +1,12 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.6.8
 Date: ????
-  Changes:
+  Bugfixes:
+    - Remove sticky warning windows post miniloader migration for other players in multiplayer game
+    - Fixed blueprinting of split lane loaders
+    - Fixed loosing / shifting wires when swtiching between split and non-split configurations
+    - Deconstruction planner can now remove both split and non-split loaders
+    - Added missing strings for Ultimate Belts Space Age derived loaders
 ---------------------------------------------------------------------------------------------------
 Version: 0.6.7
 Date: 2024-11-02

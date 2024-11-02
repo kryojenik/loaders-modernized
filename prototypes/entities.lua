@@ -15,6 +15,7 @@ local function create_entity(prefix, stack, next, tint)
       { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-mask.png", tint = tint }
     },
     flags = {"placeable-player", "placeable-neutral", "player-creation"},
+    placeable_by = { item = name, count = 1 },
     minable = { mining_time = 0.1, result = prefix .. "mdrn-loader" },
     max_health = 170,
     filter_count = 5,
@@ -199,9 +200,11 @@ local function create_entity(prefix, stack, next, tint)
 
   if entity.name ~= "chute-mdrn-loader" then
     local split_entity = table.deepcopy(entity)
-    split_entity.name = entity.name .. "-split"
+    split_entity.name = name .. "-split"
     split_entity.filter_count = 2
     split_entity.per_lane_filters = true
+    split_entity.factoriopedia_alternative = name
+    split_entity.deconstruction_alternative = name
     data:extend{
       split_entity
     }

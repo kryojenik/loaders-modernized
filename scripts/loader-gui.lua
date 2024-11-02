@@ -11,6 +11,10 @@ local function on_split_lane_state_changed(e)
   end
 
   local old = pd.open_loader.entity
+  local proto = old.prototype
+  if old.name == "entity-ghost" then
+    proto = old.ghost_prototype
+  end
 
   -- Save the ControlBehavior
   local cb = {}
@@ -37,7 +41,7 @@ local function on_split_lane_state_changed(e)
   -- Save any filters
   local loader_filter_mode = old.loader_filter_mode
   local filters = {}
-  for i=1, old.prototype.filter_count do
+  for i=1, proto.filter_count do
     local filter = old.get_filter(i)
     if filter then
       filters[#filters+1] = filter
@@ -46,8 +50,9 @@ local function on_split_lane_state_changed(e)
   end
 
 
-  local split = (string.match(old.prototype.name, "%-split"))
-  local base_name = string.match(old.prototype.name, "^(.*%-?mdrn%-loader)")
+  local split = (string.match(proto.name, "%-split"))
+  local base_name = string.match(proto.name, "^(.*%-?mdrn%-loader)")
+  local new_name = split and base_name or base_name .. "-split"
 
   local new = {
     create_build_effect_smoke = false,
@@ -59,6 +64,10 @@ local function on_split_lane_state_changed(e)
     type = old.loader_type,
     filters = filters,
   }
+  if old.name == "entity-ghost" then
+    new.name = "entity-ghost"
+    new.inner_name = new_name
+  end
 
   local surface = old.surface
   old.destroy()
