@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.6.7
-Date: ????
+Date: 2024-11-02
   Bugfixes:
     - Let loaders operating with a split brain keep their name
     - Fixed split UI still showing up for chutes if opened another loader previously
