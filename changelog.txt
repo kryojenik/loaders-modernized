@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.0
-Date: ????
+Date: 2024-11-02
   Bugfixes:
     - Remove sticky warning windows post miniloader migration for other players in multiplayer game
     - Fixed blueprinting of split lane loaders
