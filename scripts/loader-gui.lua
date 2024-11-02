@@ -29,11 +29,7 @@ local function on_split_lane_state_changed(e)
   for _,w in pairs(old.get_wire_connectors()) do
     if w.connection_count > 0 then
       wires[w.wire_connector_id] = (function()
-        local targets = {}
-        for _,c in pairs(w.connections) do
-          targets[#targets+1] = c.target.owner
-        end
-        return targets
+        return w.connections
       end)()
     end
   end
@@ -75,11 +71,11 @@ local function on_split_lane_state_changed(e)
     new_cb.circuit_enable_disable = cb.circuit_enable_disable
     new_cb.circuit_condition = cb.circuit_condition
     if wires then
-      for wire_id, targets in pairs(wires) do
+      for wire_id, connections in pairs(wires) do
         local wire = new_entity.get_wire_connector(wire_id, true)
-        for _,t in pairs(targets) do
-          if t.valid then
-            wire.connect_to(t.get_wire_connector(wire_id))
+        for _, c in pairs(connections) do
+          if c.target.owner.valid then
+            wire.connect_to(c.target, true, c.origin)
           end
         end
       end
