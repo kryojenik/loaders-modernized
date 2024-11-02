@@ -205,6 +205,7 @@ local function create_entity(prefix, stack, next, tint)
     split_entity.per_lane_filters = true
     split_entity.factoriopedia_alternative = name
     split_entity.deconstruction_alternative = name
+    split_entity.next_upgrade = entity.next_upgrade and entity.next_upgrade .. "-split" or nil
     data:extend{
       split_entity
     }

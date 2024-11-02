@@ -1,6 +1,6 @@
 {
     "name": "loaders-modernized",
-    "version": "0.6.8",
+    "version": "0.7.0",
     "title": "Loaders Modernized",
     "description": "Compact 1x1 loader requiring power.",
     "author": "kryojenik",
@@ -11,7 +11,7 @@
     "dependencies": [
         "base >= 2.0.14",
         "flib >= 0.15.0",
-        "? space-age >= 2.0.3"
+        "? space-age >= 2.0.14"
     ],
     "package": {
         "git_publish_branch": "main",
