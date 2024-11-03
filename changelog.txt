@@ -2,6 +2,8 @@
 Version: 0.7.1
 Date: ????
   Changes:
+    - Added DE translation - Thanks GIGAAj1
+    - Updated RU tranlation  - Thanks Shadow Man
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.0
 Date: 2024-11-02
