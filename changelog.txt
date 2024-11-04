@@ -4,6 +4,10 @@ Date: ????
   Changes:
     - Added DE translation - Thanks GIGAAj1
     - Updated RU tranlation  - Thanks Shadow Man
+  Bugfixes:
+    - Keep UI open when switching to split-lane mode
+    - Upgrades missing to first tier of Ultimate Belts when available
+    - Ultra Express loader wasn't upgrading (or downgrading)
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.0
 Date: 2024-11-02

@@ -90,6 +90,7 @@ local function on_split_lane_state_changed(e)
       end
     end
   end
+  game.get_player(e.player_index).opened = new_entity
 end
 
 gui.on_gui_opened = function(e)
@@ -126,10 +127,6 @@ gui.on_gui_opened = function(e)
     anchor = {
       gui = defines.relative_gui_type.loader_gui,
       position = defines.relative_gui_position.bottom,
-    },
-    {
-      type = "frame",
-      style = "inside_shallow_frame",
     },
     { type = "label", caption = {"strings.mdrn-use-split-lanes"}},
     {

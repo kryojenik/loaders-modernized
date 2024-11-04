@@ -166,7 +166,7 @@ if mods["UltimateBeltsSpaceAge"] then
 
   loader_templates["ultra-express-"] = {
     previous_prefix = "extreme-fast-",
-    next_prefix = "ultra-express-",
+    next_prefix = "extreme-express-",
     tint = util.color("4a01d8d1"),
     prerequisite_techs = { "ultra-express-logistics", "extreme-fast-mdrn-loader" },
     recipe_data = {
@@ -251,9 +251,9 @@ if mods["UltimateBeltsSpaceAge"] then
   }
 
   if space then
-    loader_templates["turbo-"].next_upgrade = "ultra-fast-"
+    loader_templates["turbo-"].next_prefix = "ultra-fast-"
   else
-    loader_templates["express-"].next_upgrade = "ultra-fast-"
+    loader_templates["express-"].next_prefix = "ultra-fast-"
   end
 end
 
