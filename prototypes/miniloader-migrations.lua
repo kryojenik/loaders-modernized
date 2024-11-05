@@ -1,7 +1,12 @@
+-- Only load this file if the player is trying to migrate from a 1.1 save with Miniloaders.
+-- Some of the stuff in here is cursed, but we also don't want conditional requires.
+-- So, check the setting and get out if we don't need it!
 if not settings.startup["mdrn-migrate-from-miniloaders"].value then
   return {}
 end
 
+-- A list of belt tiers and alternative belt tiers that Miniloaders supported that may need to be
+-- migrated or removed.
 local miniloader_migrations = {
   "chute-",
   "",
@@ -31,9 +36,12 @@ local miniloader_migrations = {
   "deep-space-",
 }
 
+--- Lifted from Editor Extensions
 local function is_sprite_def(array)
   return array.icon or array.width and array.height and (array.filename or array.stripes or array.filenames)
 end
+
+--- Lifted from Editor Extensions
 --- Recursively tint all sprite definitions in the given table.
 --- @generic T
 --- @param array T
@@ -49,12 +57,15 @@ function recursive_tint(array, tint)
           v.tint = tint
         end
       end
+
       v = recursive_tint(v, tint)
     end
   end
+
   return array
 end
 
+--- Lifted from Editor Extensions
 --- Copy and optionally tint a prototype.
 --- @generic T
 --- @param base T
@@ -75,12 +86,17 @@ function copy_prototype(base, mods, tint)
       base[key] = value
     end
   end
+
   if tint ~= false then
     recursive_tint(base, tint)
   end
+
   return base
 end
 
+---Create dummy entities to be a place holder for old Miniloader entities so that we can pull
+---configuration from them before replacing them.
+---@param prefix string Loader tier prefix
 local function create_dummy_entities(prefix)
   local inserter = copy_prototype(data.raw["inserter"]["inserter"], {
     name = prefix .. "miniloader-inserter",
@@ -100,6 +116,7 @@ local function create_dummy_entities(prefix)
     flags = { "not-upgradable", "player-creation" },
     next_upgrade = "NIL",
   }, { r = 0.8, g = 0.8, b = 0.8 })
+
   local filter_inserter = table.deepcopy(inserter)
   filter_inserter.name = prefix .. "filter-miniloader-inserter"
   local loader = copy_prototype(data.raw["loader-1x1"]["loader-1x1"], {

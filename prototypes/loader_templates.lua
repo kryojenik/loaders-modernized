@@ -1,4 +1,19 @@
 local space = mods["space-age"]
+
+---@class LMRecipeData
+---@field surface_conditions? SurfaceCondition[]
+---@field ingredients table<string, Ingredient[]>
+---@field energy_required? double
+---@field category? string
+
+---@class LMLoaderTemplate
+---@field previous_prefix? string
+---@field next_prefix? string
+---@field tint Color
+---@field prerequisite_techs? string[]
+---@field recipe_data LMRecipeData
+
+---@type table<string, LMLoaderTemplate>
 local loader_templates = {
   [""] = {
     next_prefix = "fast-",
@@ -60,14 +75,14 @@ local loader_templates = {
   }
 }
 
--- chute
+-- Chute
 if settings.startup["mdrn-enable-chute"].value then
   loader_templates["chute-"] = {
     next_prefix = "",
     tint = util.color("808080d1"),
     recipe_data = {
       ingredients = {
-        -- Chutes will never stack
+        -- This mod will not enable belt_stacking for chutes
         standard = {
           {type = "item", name = "iron-plate", amount = 4},
         }
@@ -76,7 +91,7 @@ if settings.startup["mdrn-enable-chute"].value then
   }
 end
 
--- space-age
+-- Space Age!
 if data.raw["transport-belt"]["turbo-transport-belt"] then
   loader_templates["turbo-"] = {
     previous_prefix = "express-",
@@ -101,7 +116,7 @@ if data.raw["transport-belt"]["turbo-transport-belt"] then
   loader_templates["express-"].next_prefix = "turbo-"
 end
 
--- UltimateBeltsSpaceAge
+-- Ultimate Belts Space Age!
 if mods["UltimateBeltsSpaceAge"] then
   loader_templates["ultra-fast-"] = {
     previous_prefix = space and "turbo" or "express-",

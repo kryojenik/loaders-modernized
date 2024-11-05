@@ -1,6 +1,7 @@
 local flib_gui = require("__flib__.gui")
 local table = require("__flib__.table")
 
+-- Get out of here as quickly as possible if we're not trying to migrate from Miniloaders.
 if not settings.startup["mdrn-migrate-from-miniloaders"].value then
   return {}
 end
@@ -47,6 +48,9 @@ You can return to this list wiht the command /mdrn-migrations.]]
 -- Forward declaration
 local create_filter_list
 
+---Replace the Miniloader with a Loader modernized
+---@param old_ldr LuaEntity
+---@return boolean
 local function replace_miniloader(old_ldr)
   local name = string.gsub(old_ldr.name, "miniloader", "mdrn")
   name = string.gsub(name, "filter%-", "")
@@ -54,6 +58,7 @@ local function replace_miniloader(old_ldr)
     return false
   end
 
+  ---@type LuaEntity[]
   local inserters = old_ldr.surface.find_entities_filtered{type = "inserter", position = old_ldr.position}
   local blacklist = (inserters[1].inserter_filter_mode == "blacklist")
   local filters = {}
@@ -79,11 +84,11 @@ local function replace_miniloader(old_ldr)
   end
 
   -- Save the control behavior details
-  local old_cb = inserters[1].get_control_behavior()
-  local circuit_set_filters = nil
-  local circuit_read_transfers = nil
-  local circuit_enable_disable = nil
-  local circuit_condition = nil
+  local old_cb = inserters[1].get_control_behavior() --[[@as LuaInserterControlBehavior]]
+  local circuit_set_filters
+  local circuit_read_transfers
+  local circuit_enable_disable
+  local circuit_condition
   if old_cb then
     circuit_set_filters = old_cb.circuit_set_filters and (old_ldr.type == "output")
     circuit_read_transfers = old_cb.circuit_read_hand_contents and (old_cb.circuit_hand_read_mode == defines.control_behavior.inserter.hand_read_mode.pulse)
@@ -93,7 +98,7 @@ local function replace_miniloader(old_ldr)
 
   -- Save details about connected wires
   local wires = {}
-  for _,w in pairs(inserters[1].get_wire_connectors()) do
+  for _,w in pairs(inserters[1].get_wire_connectors(false)) do
     if w.connection_count > 0 then
       wires[w.wire_connector_id] = (function()
         local targets = {}
@@ -122,7 +127,7 @@ local function replace_miniloader(old_ldr)
   end
 
   if old_cb then
-    local new_cb = new_ldr.get_or_create_control_behavior()
+    local new_cb = new_ldr.get_or_create_control_behavior() --[[@as LuaLoaderControlBehavior]]
     new_cb.circuit_set_filters = circuit_set_filters
     new_cb.circuit_read_transfers = circuit_read_transfers
     new_cb.circuit_enable_disable = circuit_enable_disable
@@ -141,6 +146,8 @@ local function replace_miniloader(old_ldr)
   return true
 end
 
+---Handle on_next_clicked
+---@param e EventData.on_gui_click
 local function on_next_clicked(e)
   local player = game.get_player(e.player_index)
   if not player then
@@ -156,6 +163,8 @@ local function on_next_clicked(e)
   create_filter_list(e)
 end
 
+---Handle on_closed_clicked
+---@param e EventData.on_gui_click
 local function on_closed_clicked(e)
   local player = game.get_player(e.player_index)
   if not player then
@@ -170,6 +179,8 @@ local function on_closed_clicked(e)
   window.destroy()
 end
 
+---Print a ping to the loader in the players chat
+---@param e EventData.on_gui_click
 local function on_ping_miniloader_clicked(e)
   local player = game.get_player(e.player_index)
   if not player then
@@ -179,6 +190,8 @@ local function on_ping_miniloader_clicked(e)
   player.print(e.element.name)
 end
 
+---Remove an un-migrated miniloader from the game.
+---@param i_ml integer
 local function remove_miniloader(i_ml)
   local ml = storage.miniloaders_to_migrate[i_ml]
   if not ml then
@@ -193,10 +206,14 @@ local function remove_miniloader(i_ml)
   storage.miniloaders_to_migrate[i_ml] = nil
 end
 
+---Remove loader from the blacklist filter list
+---@param i_ml integer
 local function clear_blacklist(i_ml)
   storage.no_blacklist[i_ml] = nil
 end
 
+---Handle on_clear_blacklist_clicked
+---@param e EventData.on_gui_click
 local function on_clear_blacklist_clicked(e)
   local i_ml = tonumber(e.element.name)
   if not i_ml then
@@ -207,10 +224,14 @@ local function on_clear_blacklist_clicked(e)
   e.element.enabled = false
 end
 
+---Remove a loader from the input loader with filter list
+---@param i_ml integer
 local function clear_input(i_ml)
   storage.no_input_filter[i_ml] = nil
 end
 
+---Handle on_clear_input_clicked
+---@param e EventData.on_gui_click
 local function on_clear_input_clicked(e)
   local i_ml = tonumber(e.element.name)
   if not i_ml then
@@ -221,6 +242,8 @@ local function on_clear_input_clicked(e)
   e.element.enabled = false
 end
 
+---Handle on_clear_all_clicked
+---@param e EventData.on_gui_click
 local function on_clear_all_clicked(e)
   if storage.no_input_filter and next(storage.no_input_filter) then
     for k,_ in pairs(storage.no_input_filter) do
@@ -237,6 +260,8 @@ local function on_clear_all_clicked(e)
   on_closed_clicked(e)
 end
 
+---Handle on_remove_clicked
+---@param e EventData.on_gui_click
 local function on_remove_clicked(e)
   local i_ml = tonumber(e.element.name)
   if not i_ml then
@@ -247,6 +272,8 @@ local function on_remove_clicked(e)
   e.element.enabled = false
 end
 
+---Handle on_remove_all_clicked
+---@param e EventData.on_gui_click
 local function on_remove_all_clicked(e)
   if storage.miniloaders_to_migrate and next(storage.miniloaders_to_migrate) then
     for k,_ in pairs(storage.miniloaders_to_migrate) do
@@ -263,6 +290,8 @@ local function on_remove_all_clicked(e)
   on_next_clicked(e)
 end
 
+---Generate the content list of loaders that were input loaders with filters
+---@return flib.GuiElemDef
 local function input_loaders()
   if not storage.no_input_filter or not next(storage.no_input_filter) then
     return {{type = "label", caption = "No input loader filter issues found. "}}
@@ -295,7 +324,9 @@ local function input_loaders()
   return elems
 end
 
-local function blacklist_loaders()
+---Generate the content list of loaders with blacklist filters
+---@return flib.GuiElemDef
+local function loaders_with_blacklist_filter()
   if not storage.no_blacklist or not next(storage.no_blacklist) then
     return {{type = "label", caption = "No blacklist filter issues found. "}}
   end
@@ -327,6 +358,8 @@ local function blacklist_loaders()
   return elems
 end
 
+---Generate the content for the list of loaders that were not migrated
+---@return flib.GuiElemDef[]
 local function unmigrated_loaders()
   if not storage.miniloaders_to_migrate or not next(storage.miniloaders_to_migrate) then
     return {{ type = "label", caption = "No more Miniloaders left to migrate!" }}
@@ -359,6 +392,10 @@ local function unmigrated_loaders()
   return elems
 end
 
+---Display the list of Miniloaders that had filters that could not be processed
+---Filters configured as blacklist filters
+---Filters that were configured on loaders of type input
+---@param e EventData.on_gui_click
 create_filter_list = function(e)
   local player = game.get_player(e.player_index)
   if not player then
@@ -399,7 +436,7 @@ create_filter_list = function(e)
           type = "table",
           name = "mdrn_loader_table",
           column_count = 4,
-          children = blacklist_loaders()
+          children = loaders_with_blacklist_filter()
         },
       },
       {
@@ -429,8 +466,10 @@ create_filter_list = function(e)
   })
 end
 
-local function create_not_migrated_list(e)
-  local player = game.get_player(e.player_index)
+---Display a list of Miniloaders that were not migrated
+---@param pi integer
+local function create_not_migrated_list(pi)
+  local player = game.get_player(pi)
   if not player then
     return
   end
@@ -488,6 +527,8 @@ local function create_not_migrated_list(e)
   })
 end
 
+---Replace found Miniloaders
+---@param e EventData.on_gui_click
 local function replace_miniloaders(e)
   storage.no_blacklist = storage.no_blacklist or {}
   storage.no_input_filter = storage.no_input_filter or {}
@@ -513,9 +554,11 @@ local function replace_miniloaders(e)
     end
   end
 
-  create_not_migrated_list(e)
+  create_not_migrated_list(e.player_index)
 end
 
+---Display migration notification
+---@param player LuaPlayer
 local function create_notification(player)
   if player.gui.screen.mdrn_loader_warning_window then
     return
@@ -551,6 +594,7 @@ local function create_notification(player)
   })
 end
 
+---Gui handlers
 flib_gui.add_handlers{
   replace_miniloaders = replace_miniloaders,
   on_ping_miniloaders_clicked = on_ping_miniloader_clicked,
@@ -563,11 +607,13 @@ flib_gui.add_handlers{
   on_closed_clicked = on_closed_clicked,
 }
 
+---Find all miniloaders and desable their opeeration
 local function find_and_disable_all_miniloaders()
   if storage.miniloaders_to_migrate then
     return
   end
 
+  ---@type table<integer, string>
   local miniloader_parts = {}
   for _,v in pairs(prototypes.entity) do
     if string.find(v.name, ".*miniloader.*") then
@@ -575,6 +621,8 @@ local function find_and_disable_all_miniloaders()
     end
   end
 
+
+  ---@type table<integer, LuaEntity>
   local to_migrate = {}
   for _, surface in pairs(game.surfaces) do
     local miniloaders = surface.find_entities_filtered{type = {"loader-1x1", "inserter"}, name = miniloader_parts}
@@ -590,6 +638,7 @@ local function find_and_disable_all_miniloaders()
   storage.miniloaders_to_migrate = to_migrate
 end
 
+---Entry point to start the migration process
 local function migrate()
   find_and_disable_all_miniloaders()
   for _, player in pairs(game.players) do
@@ -598,12 +647,15 @@ local function migrate()
 end
 
 local from_miniloader = {}
-from_miniloader.on_configuration_changed = function(e)
+---Process on_configuration_changed events
+from_miniloader.on_configuration_changed = function()
   migrate()
 end
 
-commands.add_command("mdrn-migrations", nil, function(e)
-  create_not_migrated_list(e)
+---Console command to reopen migration window
+---@param cd CustomCommandData
+commands.add_command("mdrn-migrations", nil, function(cd)
+  create_not_migrated_list(cd.player_index)
 end)
 
 return from_miniloader

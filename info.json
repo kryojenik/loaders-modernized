@@ -18,8 +18,7 @@
         "ignore": [
             "TODO.md",
             "types.lua",
-            "screenshots/*",
-            "data-final-fixes.lua"
+            "screenshots/*"
         ],
         "sync_portal_details": true
     }

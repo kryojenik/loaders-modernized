@@ -1,7 +1,17 @@
 local hit_effects = require("__base__.prototypes.entity.hit-effects")
 local max_belt_stack_size = data.raw["utility-constants"].default.max_belt_stack_size
 
-local function create_entity(prefix, stack, next, tint)
+-- These loaders will not use split lanes
+local split_lane_blacklist = {
+  ["chute-"] = true
+}
+
+---Create the loader entities
+---@param prefix string Loader tier prefix
+---@param stack boolean Is stacking enabled for this loader
+---@param next_prefix string Prefix of next tier upgrade
+---@param tint Color Color used for belt tier
+local function create_entity(prefix, stack, next_prefix, tint)
   local base_underground_name = "underground-belt"
   local name = prefix .. "mdrn-loader"
   local underground_name = prefix ~= "chute-" and (prefix .. base_underground_name) or base_underground_name
@@ -19,7 +29,7 @@ local function create_entity(prefix, stack, next, tint)
     minable = { mining_time = 0.1, result = prefix .. "mdrn-loader" },
     max_health = 170,
     filter_count = 5,
-    next_upgrade = next and next .. "mdrn-loader" or nil,
+    next_upgrade = next_prefix and next_prefix .. "mdrn-loader" or nil,
     corpse = "small-remnants",
     dying_explosion = base_underground_name .. "-explosion",
     open_sound = { filename = "__base__/sound/open-close/inserter-open.ogg" },
@@ -180,7 +190,7 @@ local function create_entity(prefix, stack, next, tint)
     entity.energy_per_item = "4kJ"
   end
 
-  -- chute
+  -- Chute specific settings.  Will also be basic- when supporting Bob's
   if entity.name == "chute-mdrn-loader" then
     entity.filter_count = 0
     entity.speed = entity.speed / 4
@@ -190,6 +200,8 @@ local function create_entity(prefix, stack, next, tint)
   end
 
   -- space-age
+  -- May not exactly be working correctly
+  -- https://forums.factorio.com/viewtopic.php?f=65&t=117803
   if mods["space-age"] then
     entity.heating_energy = ug_entity.heating_energy
   end
@@ -198,7 +210,7 @@ local function create_entity(prefix, stack, next, tint)
     entity
   }
 
-  if entity.name ~= "chute-mdrn-loader" then
+  if not split_lane_blacklist[prefix] then
     local split_entity = table.deepcopy(entity)
     split_entity.name = name .. "-split"
     split_entity.filter_count = 2

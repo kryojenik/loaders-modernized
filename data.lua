@@ -4,41 +4,37 @@ local items = require("__loaders-modernized__.prototypes.items")
 local recipes = require("__loaders-modernized__.prototypes.recipes")
 local technologies = require("__loaders-modernized__.prototypes.technologies")
 
-local below_turbo = {
-  ["chute-"] = true,
-  ["basic-"] = true,
-  [""] = true,
-  ["fast-"] = true,
-  ["express-"] = true,
-}
-local never = {
-  ["chute-"] = true,
-  ["basic-"] = true,
+-- Loaders that will not allow belt stacking based on mod settings
+local blacklist = {
+  ["turbo-and-above"] = {
+    ["chute-"] = true,
+    ["basic-"] = true,
+    [""] = true,
+    ["fast-"] = true,
+    ["express-"] = true,
+  },
+  ["all"] = {
+    ["chute-"] = true,
+    ["basic-"] = true,
+  },
 }
 
+---Should the loader allow stacking.  If mdrn-enable-stacking is set and prefix not on the blacklist
+---allow the loader to stack when tech is researched.
+---@param prefix string Belt tier prefix the loader is part of.
+---@return boolean
 local function stack(prefix)
-  if not settings.startup["mdrn-enable-stacking"] then
-    return false
-  end
-
   local belt_stacking = settings.startup["mdrn-enable-stacking"].value
-  if belt_stacking == "none" then
+  if not belt_stacking or belt_stacking == "none" then
     return false
   end
 
-  if belt_stacking == "turbo-and-above"
-  and below_turbo[prefix] then
-    return false
-  end
-
-  if belt_stacking == "all"
-  and never[prefix] then
+  if blacklist[belt_stacking][prefix] then
     return false
   end
 
   return true
 end
-
 
 for prefix, loader_t in pairs(templates) do
   entities.create_entity(prefix, stack(prefix), loader_t.next_prefix, loader_t.tint)

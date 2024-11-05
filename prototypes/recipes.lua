@@ -1,5 +1,7 @@
---- @param prefix string
---- @param template table
+---Create recipe prototypes
+---@param prefix string
+---@param stack boolean
+---@param template LMRecipeData
 local function create_recipe(prefix, stack, template)
   local item_name = prefix .. "mdrn-loader"
   local ug_name = prefix ~= "chute-" and (prefix .. "underground-belt") or "underground-belt"

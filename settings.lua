@@ -31,6 +31,8 @@ data:extend({
 })
 
 
+-- If space-age is enabled we can do belt_stacking
+-- TODO: Can stacking be done on 2.0 without the DLC being purchased?
 if mods["space-age"] then
   data:extend({
     {

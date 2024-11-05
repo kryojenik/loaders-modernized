@@ -1,3 +1,7 @@
+---Create technology prototype for loaders
+---@param prefix string Loader tier prefix
+---@param prereq_techs TechnologyID[]
+---@param tint Color
 local function create_technology(prefix, prereq_techs, tint)
   if prefix == "chute-" then
     return

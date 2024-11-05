@@ -12,8 +12,9 @@ local transport_belt_connectables = {
   "lane-splitter",
 }
 
---- @param entity LuaEntity
---- @return boolean
+---Look for adjacent belt and snap the loader to connect to the belt
+---@param entity LuaEntity
+---@return boolean
 local function snap_to_belt(entity)
   -- front_direction is the belt side
   -- back_direction is the inventory side
@@ -62,7 +63,8 @@ local function snap_to_belt(entity)
   return true
 end -- snap_to_belt()
 
---- @param entity LuaEntity
+---If we're not yet adjacent to a belt, find an entity to snap away from
+---@param entity LuaEntity
 local function snap_away_from_non_belt(entity)
   local front_direction = entity.direction
   local back_direction = flib_direction.opposite(front_direction)
@@ -99,14 +101,16 @@ local function snap_away_from_non_belt(entity)
 
 end -- snap_away_from_non_belt()
 
---- @param entity LuaEntity
+---Entry into the snapping logic
+---@param entity LuaEntity
 local function snap(entity)
   if not snap_to_belt(entity) then
     snap_away_from_non_belt(entity)
   end
 end -- snap()
 
---- @param e BuiltEvent
+---Handle on_entity_built
+---@param e BuiltEvent
 local function on_entity_built(e)
   local entity = e.entity or e.destination
   if not entity.valid then
@@ -124,6 +128,8 @@ local function on_entity_built(e)
   snap(entity)
 end -- on_entity_built()
 
+---Handle on_player_joined
+---@param e EventData.on_player_joined_game
 local function on_player_joined(e)
   local players = storage.loader_modernized.players or {}
   players[e.player_index] = players[e.player_index] or {}
@@ -131,6 +137,7 @@ end
 
 local loader_modernized = {}
 
+---on_init handler
 loader_modernized.on_init = function()
   storage.loader_modernized = {
     players = {}
@@ -140,6 +147,7 @@ loader_modernized.on_init = function()
   end
 end
 
+---Event handlers
 loader_modernized.events = {
   [defines.events.on_built_entity] = on_entity_built,
   [defines.events.on_entity_cloned] = on_entity_built,
