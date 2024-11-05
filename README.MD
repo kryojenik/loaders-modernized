@@ -14,6 +14,7 @@ do use power.  So keep those power poles handy!
 - Loaders snap to belts and away from non-belts
 - Stack items on to the belts based on belt stacking technology level
 - Split Lanes!!!
+- AAI Loader graphics can be used as long as AAI Loader mode is installed.
 - Able to migrate Miniloaders.
 
 ## Alternate belt set supported
@@ -30,8 +31,7 @@ overhaul mods are not implemented yet.  Please drop a message if one is needed.
 
 ## TODO
 
-- Support belts from overhaul mods
-- Provide interface for overhaul mods to generate their own loaders
+- Support belts from additional overhaul mods
 
 ## Acknowledgements
 

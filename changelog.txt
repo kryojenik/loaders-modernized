@@ -3,6 +3,7 @@ Version: 0.7.2
 Date: ????
   Changes:
     - Update property name change to color_hint
+    - Add setting to enable use of AAI Loader graphics
   Bugfixes:
     - Item Import locaions no correctly set
 ---------------------------------------------------------------------------------------------------

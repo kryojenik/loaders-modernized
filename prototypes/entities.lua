@@ -20,10 +20,6 @@ local function create_entity(prefix, stack, next_prefix, tint)
   local entity = {
     type = "loader-1x1",
     name = name,
-    icons = {
-      { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-base.png" },
-      { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-mask.png", tint = tint }
-    },
     flags = {"placeable-player", "placeable-neutral", "player-creation"},
     placeable_by = { item = name, count = 1 },
     minable = { mining_time = 0.1, result = prefix .. "mdrn-loader" },
@@ -44,6 +40,10 @@ local function create_entity(prefix, stack, next_prefix, tint)
     container_distance = 1;
     speed = ug_entity.speed,
     max_belt_stack_size = stack and max_belt_stack_size or 1,
+    icons = {
+      { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-base.png" },
+      { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-mask.png", tint = tint }
+    },
     structure = {
       direction_in = {
         sheets = {
@@ -184,6 +184,108 @@ local function create_entity(prefix, stack, next_prefix, tint)
       }
     ),
   }
+
+  if settings.startup["mdrn-use-aai-graphics"] then
+    local shadow_shift = { 0.4, 0.15 }
+    local sprite_shift = { 0, -0.15 }
+    entity.icons = {
+      {
+        icon = "__aai-loaders__/graphics/icons/loader.png",
+        icon_size = 64
+      },
+      {
+        icon = "__aai-loaders__/graphics/icons/loader_mask.png",
+        icon_size = 64,
+        tint = tint
+      }
+    }
+    entity.structure = {
+      direction_in = {
+        sheets = {
+          {
+            filename = "__aai-loaders__/graphics/entity/loader/loader_shadows.png",
+            priority = "extra-high",
+            shift = shadow_shift,
+            width = 138,
+            height = 79,
+            scale = 0.5,
+            draw_as_shadow = true
+          },
+          {
+            filename = "__aai-loaders__/graphics/entity/loader/loader.png",
+            priority = "extra-high",
+            shift = sprite_shift,
+            width = 99,
+            height = 117,
+            scale = 0.5,
+          },
+          {
+            filename = "__aai-loaders__/graphics/entity/loader/loader_tint.png",
+            priority = "extra-high",
+            shift = sprite_shift,
+            width = 99,
+            height = 117,
+            scale = 0.5,
+            tint = tint
+          }
+        }
+      },
+      direction_out = {
+        sheets = {
+          {
+            filename = "__aai-loaders__/graphics/entity/loader/loader_shadows.png",
+            priority = "extra-high",
+            shift = shadow_shift,
+            width = 138,
+            height = 79,
+            y = 79,
+            scale = 0.5,
+            draw_as_shadow = true
+          },
+          {
+            filename = "__aai-loaders__/graphics/entity/loader/loader.png",
+            priority = "extra-high",
+            shift = sprite_shift,
+            width = 99,
+            height = 117,
+            y = 117,
+            scale = 0.5,
+          },
+          {
+            filename = "__aai-loaders__/graphics/entity/loader/loader_tint.png",
+            priority = "extra-high",
+            shift = sprite_shift,
+            width = 99,
+            height = 117,
+            scale = 0.5,
+            y = 117,
+            tint = tint
+          }
+        }
+      },
+      frozen_patch_in = {
+        sheet = {
+          filename = "__aai-loaders__/graphics/entity/loader/frozen/loader.png",
+          priority = "extra-high",
+          shift = sprite_shift,
+          width = 99,
+          height = 117,
+          scale = 0.5
+        }
+      },
+      frozen_patch_out = {
+        sheet = {
+          filename = "__aai-loaders__/graphics/entity/loader/frozen/loader.png",
+          priority = "extra-high",
+          shift = sprite_shift,
+          width = 99,
+          height = 117,
+          y = 117,
+          scale = 0.5
+        }
+      }
+    }
+  end
 
   if settings.startup["mdrn-use-electricity"].value then
     entity.energy_source = {type = "electric", usage_priority = "secondary-input", drain = "2kW"}
