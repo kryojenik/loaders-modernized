@@ -11,7 +11,8 @@
     "dependencies": [
         "base >= 2.0.14",
         "flib >= 0.15.0",
-        "? space-age >= 2.0.14"
+        "? space-age >= 2.0.14",
+        "? UltimateBeltsSpaceAge"
     ],
     "package": {
         "git_publish_branch": "main",
