@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.2
-Date: ????
+Date: 2024-11-06
   Changes:
     - Update color blind property name change to color_hint
     - Add setting to enable use of AAI Loader graphics
