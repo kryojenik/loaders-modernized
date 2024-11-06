@@ -138,7 +138,7 @@ gui.on_gui_opened = function(e)
     { type = "label", caption = {"strings.mdrn-use-split-lanes"}},
     {
       type = "checkbox",
-      state = string.match(entity.name, "%-split$") and true or false,
+      state = string.match(name, "%-split$") and true or false,
       name = "cb_state",
       handler = {
         [defines.events.on_gui_checked_state_changed] = on_split_lane_state_changed
