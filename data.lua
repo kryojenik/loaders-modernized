@@ -24,12 +24,12 @@ local blacklist = {
 ---@param prefix string Belt tier prefix the loader is part of.
 ---@return boolean
 local function stack(prefix)
-  local belt_stacking = settings.startup["mdrn-enable-stacking"].value
-  if not belt_stacking or belt_stacking == "none" then
+  local belt_stacking = settings.startup["mdrn-enable-stacking"]
+  if not belt_stacking or belt_stacking.value == "none" then
     return false
   end
 
-  if blacklist[belt_stacking][prefix] then
+  if blacklist[belt_stacking.value][prefix] then
     return false
   end
 

@@ -3,6 +3,7 @@ Version: 0.7.3
 Date: ????
   Bugfixes:
     - Split-lane checkbox not being marked when loader is a ghost. #7
+    - Fix failing to load when Space Age! not enabled. #8
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.2
 Date: 2024-11-06
