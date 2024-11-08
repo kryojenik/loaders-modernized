@@ -5,6 +5,12 @@
 local function create_recipe(prefix, stack, template)
   local item_name = prefix .. "mdrn-loader"
   local ug_name = prefix ~= "chute-" and (prefix .. "underground-belt") or "underground-belt"
+  local cheap_stacking = settings.startup["mdrn-cheap-stacking"]
+  if cheap_stacking and cheap_stacking.value then
+    -- Use the standard recipe
+    stack = false
+  end
+
   local recipe= {
     type = "recipe",
     name = prefix .. "mdrn-loader",

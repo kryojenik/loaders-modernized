@@ -2,6 +2,7 @@
 Version: 0.7.4
 Date: ????
   Changes:
+    - Add setting to use cheaper, standard recipes when enabling stacking
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.3
 Date: 2024-11-06
