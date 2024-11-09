@@ -38,7 +38,7 @@ if mods["aai-loaders"] then
     {
       type = "bool-setting",
       name = "mdrn-use-aai-graphics",
-      order = "se",
+      order = "sy",
       setting_type = "startup",
       default_value = true,
     },
@@ -56,6 +56,13 @@ if mods["space-age"] then
       setting_type = "startup",
       default_value = "none",
       allowed_values = { "none", "turbo-and-above", "all" }
+    },
+    {
+      type = "bool-setting",
+      name = "mdrn-cheap-stacking",
+      order = "se",
+      setting_type = "startup",
+      default_value = false
     },
   })
 end

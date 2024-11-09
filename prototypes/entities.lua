@@ -185,7 +185,8 @@ local function create_entity(prefix, stack, next_prefix, tint)
     ),
   }
 
-  if settings.startup["mdrn-use-aai-graphics"] then
+  local setting_use_aai_graphics = settings.startup["mdrn-use-aai-graphics"]
+  if setting_use_aai_graphics and setting_use_aai_graphics.value then
     local shadow_shift = { 0.4, 0.15 }
     local sprite_shift = { 0, -0.15 }
     entity.icons = {
