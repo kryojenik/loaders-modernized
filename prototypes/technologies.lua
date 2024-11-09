@@ -26,6 +26,21 @@ local function create_technology(prefix, prereq_techs, tint)
     prerequisites = prereq_techs,
     unit = util.table.deepcopy(data.raw["technology"][prereq_techs[1]].unit)
   }
+  local setting_use_aai_graphics = settings.startup["mdrn-use-aai-graphics"]
+  if setting_use_aai_graphics and setting_use_aai_graphics.value then
+    technology.icons = {
+      {
+        icon = "__aai-loaders__/graphics/technology/loader-tech-icon.png",
+        icon_size = 256,
+      },
+      {
+        icon = "__aai-loaders__/graphics/technology/loader-tech-icon_mask.png",
+        icon_size = 256,
+        tint = tint,
+      },
+    }
+  end
+
   data:extend{technology}
 end
 

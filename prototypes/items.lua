@@ -29,6 +29,20 @@ local function create_item(prefix, tint)
     weight = (ug_item.weight or (20*kg) ),
     default_import_location = (ug_item.default_import_location or nil)
   }
+
+  local setting_use_aai_graphics = settings.startup["mdrn-use-aai-graphics"]
+  if setting_use_aai_graphics and setting_use_aai_graphics.value then
+    item.icons = {
+      {
+        icon = "__aai-loaders__/graphics/icons/loader.png",
+      },
+      {
+        icon = "__aai-loaders__/graphics/icons/loader_mask.png",
+        tint = tint
+      }
+    }
+  end
+
   data:extend{
     item
   }
