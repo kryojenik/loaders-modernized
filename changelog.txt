@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.4
-Date: ????
+Date: 2024-11-10
   Bugfixes:
     - Fix graphics from AAI Loaders not used for items
     - Fix graphics from AAI loaders used for entities even if setting unchecked
