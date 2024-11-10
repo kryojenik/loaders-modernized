@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.5
-Date: ????
+Date: 2024-11-10
   Bugfixes:
     - Add missing Tech names and descriptions for Ultimate Belts Space Age!
     - Fix Technology unlock cost for loaders with Ultimate Belts Space Age!
