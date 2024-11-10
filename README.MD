@@ -41,5 +41,3 @@ overhaul mods are not implemented yet.  Please drop a message if one is needed.
 ## Known issues
 
 - Input loaders (filling a container) ignore filters.  This is currently a limitation of the game engine.
-- When upgrading (or downgrading) [loaders its filter mode is turned off](https://forums.factorio.com/viewtopic.php?f=30&t=119559).
-  - This is fixed in Experimental 2.0.15
