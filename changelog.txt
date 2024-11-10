@@ -1,7 +1,11 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.5
 Date: ????
+  Bugfixes:
+    - Add missing Tech names and descriptions for Ultimate Belts Space Age!
+    - Fix Technology unlock cost for loaders with Ultibate Belts Space Age!
   Changes:
+    - Remove dependency on Turbo Logistics for Ultimate Belts Loaders since the Belts do not.
     - Forgot RU locale update on 7.4 from Shadow Man
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.4

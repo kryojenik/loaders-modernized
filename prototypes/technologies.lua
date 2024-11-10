@@ -22,7 +22,7 @@ local function create_technology(prefix, prereq_techs, tint)
       }
     },
     effects = {{type = "unlock-recipe", recipe = prefix .. "mdrn-loader"}},
-    order = prereq_techs[1],
+    order = prereq_techs[1].order,
     prerequisites = prereq_techs,
     unit = util.table.deepcopy(data.raw["technology"][prereq_techs[1]].unit)
   }

@@ -119,12 +119,15 @@ end
 -- Ultimate Belts Space Age!
 if mods["UltimateBeltsSpaceAge"] then
   loader_templates["ultra-fast-"] = {
-    previous_prefix = space and "turbo" or "express-",
+    --previous_prefix = space and "turbo" or "express-",
+    --Ultimate belts move on passes express and ignore Space Age! Turbo belts
+    previous_prefix = "express-",
     next_prefix = "extreme-fast-",
     tint = util.color("00ac08d1"),
     prerequisite_techs = {
       "ultra-fast-logistics",
-      space and "turbo-mdrn-loader" or "express-mdrn-loader"
+      --space and "turbo-mdrn-loader" or "express-mdrn-loader"
+      "express-mdrn-loader"
     },
     recipe_data = {
       ingredients = {
@@ -133,7 +136,8 @@ if mods["UltimateBeltsSpaceAge"] then
           {type = "item", name = "bulk-inserter", amount = 3},
           {
             type = "item",
-            name = space and "turbo-mdrn-loader" or "express-mdrn-loader",
+            --name = space and "turbo-mdrn-loader" or "express-mdrn-loader",
+            name = "express-mdrn-loader",
             amount = 1
           },
         },
@@ -142,7 +146,8 @@ if mods["UltimateBeltsSpaceAge"] then
           {type = "item", name = "bulk-inserter", amount = 6},
           {
             type = "item",
-            name = space and "turbo-mdrn-loader" or "express-mdrn-loader",
+            --name = space and "turbo-mdrn-loader" or "express-mdrn-loader",
+            name = "express-mdrn-loader",
             amount = 1
           },
         }
@@ -265,11 +270,11 @@ if mods["UltimateBeltsSpaceAge"] then
     }
   }
 
-  if space then
+  --[[if space then
     loader_templates["turbo-"].next_prefix = "ultra-fast-"
-  else
+  else]]
     loader_templates["express-"].next_prefix = "ultra-fast-"
-  end
+  --end
 end
 
 return loader_templates
