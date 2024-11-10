@@ -2,6 +2,7 @@
 Version: 0.7.5
 Date: ????
   Changes:
+    - Forgot RU locale update on 7.4 from Shadow Man
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.4
 Date: 2024-11-10
