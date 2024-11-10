@@ -3,9 +3,10 @@ Version: 0.7.5
 Date: ????
   Bugfixes:
     - Add missing Tech names and descriptions for Ultimate Belts Space Age!
-    - Fix Technology unlock cost for loaders with Ultibate Belts Space Age!
+    - Fix Technology unlock cost for loaders with Ultimate Belts Space Age!
+    - Several spelling errors corrected
   Changes:
-    - Remove dependency on Turbo Logistics for Ultimate Belts Loaders since the Belts do not.
+    - Remove dependency on Turbo Logistics for Ultimate Belts Loaders since the Belts do not
     - Forgot RU locale update on 7.4 from Shadow Man
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.4
@@ -29,14 +30,14 @@ Date: 2024-11-06
     - Update color blind property name change to color_hint
     - Add setting to enable use of AAI Loader graphics
   Bugfixes:
-    - Item Import locaions not correctly set
-    - Ultimate Belts Space Age! set as optional dependancy to make sure load order is deterministic.
+    - Item Import locations not correctly set
+    - Ultimate Belts Space Age! set as optional dependency to make sure load order is deterministic.
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.1
 Date: 2024-11-04
   Changes:
     - Added DE translation - Thanks GIGAAj1
-    - Updated RU tranlation  - Thanks Shadow Man
+    - Updated RU translation  - Thanks Shadow Man
   Bugfixes:
     - Keep UI open when switching to split-lane mode
     - Upgrades missing to first tier of Ultimate Belts when available
@@ -47,7 +48,7 @@ Date: 2024-11-02
   Bugfixes:
     - Remove sticky warning windows post miniloader migration for other players in multiplayer game
     - Fixed blueprinting of split lane loaders
-    - Fixed loosing / shifting wires when swtiching between split and non-split configurations
+    - Fixed loosing / shifting wires when switching between split and non-split configurations
     - Deconstruction planner can now remove both split and non-split loaders
     - Added missing strings for Ultimate Belts Space Age derived loaders
     - Allow split lane loaders to be upgradeable
@@ -105,7 +106,7 @@ Date: 2024-10-27
   Changes:
     - Updated README
   Features:
-    - Setting to allow migration from Miniloaders.  Note: kind of expirimental ** MAKE A BACKUP **
+    - Setting to allow migration from Miniloaders.  Note: kind of experimental ** MAKE A BACKUP **
     - Adds chutes
 ---------------------------------------------------------------------------------------------------
 Version: 0.5.4
@@ -114,7 +115,7 @@ Date: 2024-10-17
     - Added settings:
       - Allow loaders to work without electricity
       - Double recipe and create loaders 2 at a time
-      - Adjusted turbo-loader recipe to use bulk-insters vs. stack-inserters
+      - Adjusted turbo-loader recipe to use bulk-inserters vs. stack-inserters
       - Create additional technologies to unlock the loader recipes
 ---------------------------------------------------------------------------------------------------
 Version: 0.5.3

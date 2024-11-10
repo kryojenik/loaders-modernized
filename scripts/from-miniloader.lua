@@ -21,7 +21,7 @@ Game engine limitations:
 - Any loader that had a blacklist filter will now be a whitelist filter.
 - Any "input" loader will ignore filter that are set.
 
-*Note: All Miniloader and Filter Miniloader items in inventories and Contianer are gone.  This is a one time loss - sorry.  Assemblers creating miniloaders will now be idle and need to manually be configured for a new recipe.
+*Note: All Miniloader and Filter Miniloader items in inventories and Container are gone.  This is a one time loss - sorry.  Assemblers creating miniloaders will now be idle and need to manually be configured for a new recipe.
 
 -Kryojenik
 
@@ -39,11 +39,11 @@ Please report any belt packs that result in miniloaders not migrating and I may 
 -Kryojenik]]
 
 local filter_notice =
-[[The following loaders either had a filter set as an "input" (filling container) loader or they had a filter set as a blacklist filterd.  Both of these are not allowed due to game engine limitations.  These filters have been removed.
+[[The following loaders either had a filter set as an "input" (filling container) loader or they had a filter set as a blacklist filtered.  Both of these are not allowed due to game engine limitations.  These filters have been removed.
 
 I am currently working on enhancing the migration to migrate blacklists and split lanes.  This will take a little more time.
 
-You can return to this list wiht the command /mdrn-migrations.]]
+You can return to this list with the command /mdrn-migrations.]]
 
 -- Forward declaration
 local create_filter_list
@@ -110,7 +110,7 @@ local function replace_miniloader(old_ldr)
     end
   end
 
-  -- Destroy / remve old combo-entities
+  -- Destroy / remove old combo-entities
   local surface = old_ldr.surface
   old_ldr.destroy()
   for _,i in pairs(inserters) do
@@ -301,7 +301,7 @@ local function input_loaders()
   for k, v in pairs(storage.no_input_filter) do
     elems = table.array_merge{elems, {
       { type = "label", caption = v.name },
-      { type = "label", caption = "Locaton: " .. v.position.x .. ", " .. v.position.y .. ", " .. v.surface.name },
+      { type = "label", caption = "Location: " .. v.position.x .. ", " .. v.position.y .. ", " .. v.surface.name },
       {
         type = "button",
         name = k,
@@ -335,7 +335,7 @@ local function loaders_with_blacklist_filter()
   for k, v in pairs(storage.no_blacklist) do
     elems = table.array_merge{elems, {
       { type = "label", caption = v.name },
-      { type = "label", caption = "Locaton: " .. v.position.x .. ", " .. v.position.y .. ", " .. v.surface.name },
+      { type = "label", caption = "Location: " .. v.position.x .. ", " .. v.position.y .. ", " .. v.surface.name },
       {
         type = "button",
         name = k,
@@ -360,7 +360,7 @@ end
 
 ---Generate the content for the list of loaders that were not migrated
 ---@return flib.GuiElemDef[]
-local function unmigrated_loaders()
+local function non_migrated_loaders()
   if not storage.miniloaders_to_migrate or not next(storage.miniloaders_to_migrate) then
     return {{ type = "label", caption = "No more Miniloaders left to migrate!" }}
   end
@@ -369,7 +369,7 @@ local function unmigrated_loaders()
   for k, v in pairs(storage.miniloaders_to_migrate) do
     elems = table.array_merge{elems, {
       { type = "label", caption = v.name },
-      { type = "label", caption = "Locaton: " .. v.position.x .. ", " .. v.position.y .. ", " .. v.surface.name },
+      { type = "label", caption = "Location: " .. v.position.x .. ", " .. v.position.y .. ", " .. v.surface.name },
       {
         type = "button",
         name = k,
@@ -447,7 +447,7 @@ create_filter_list = function(e)
           type = "button",
           style = "red_button",
           caption = "Clear all!",
-          tooltip = "Cleare all loaders from tracking lists.",
+          tooltip = "Clear all loaders from tracking lists.",
           handler = {
             [defines.events.on_gui_click] = on_clear_all_clicked
           },
@@ -498,7 +498,7 @@ local function create_not_migrated_list(pi)
           type = "table",
           name = "mdrn_loader_table",
           column_count = 4,
-          children = unmigrated_loaders()
+          children = non_migrated_loaders()
         },
       },
       {
@@ -607,7 +607,7 @@ flib_gui.add_handlers{
   on_closed_clicked = on_closed_clicked,
 }
 
----Find all miniloaders and desable their opeeration
+---Find all miniloaders and disable their operation
 local function find_and_disable_all_miniloaders()
   if storage.miniloaders_to_migrate then
     return

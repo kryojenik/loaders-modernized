@@ -98,7 +98,7 @@ local function on_split_lane_state_changed(e)
   game.get_player(e.player_index).opened = new_entity
 end
 
----Create and display a releative GUI attached to the in-game Loader UI
+---Create and display a relative GUI attached to the in-game Loader UI
 ---@param e EventData.on_gui_opened
 gui.on_gui_opened = function(e)
   local entity = e.entity

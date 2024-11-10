@@ -27,7 +27,7 @@ local miniloader_migrations = {
   "plutonium-",
   -- UltimateBelts
   "ub-ultra-fast-",
-  "ub-extreame-fast-",
+  "ub-extreme-fast-",
   "ub-ultra-express-",
   "ub-extreme-express-",
   "ub-ultimate-",
@@ -102,7 +102,7 @@ local function create_dummy_entities(prefix)
     name = prefix .. "miniloader-inserter",
     localised_name = "Loader (" .. prefix .. ") migration dummy",
     icon = "NIL",
-    platform_pciture = "NIL",
+    platform_picture = "NIL",
     hand_base_picture = "NIL",
     hand_open_picture = "NIL",
     hand_closed_picture = "NIL",
