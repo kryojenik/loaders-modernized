@@ -1,32 +1,34 @@
 ---Create recipe prototypes
----@param prefix string
+---@param tier string
+---@param t LMLoaderTemplate
 ---@param stack boolean
----@param template LMRecipeData
-local function create_recipe(prefix, stack, template)
-  local item_name = prefix .. "mdrn-loader"
-  local ug_name = prefix ~= "chute-" and (prefix .. "underground-belt") or "underground-belt"
+local function create_recipe(tier, t, stack)
+  local item_name = t.name or tier .. "mdrn-loader"
+  local rd = t.recipe_data
+  local ug_name = t.underground_name or tier .. "underground-belt"
   local cheap_stacking = settings.startup["mdrn-cheap-stacking"]
   if cheap_stacking and cheap_stacking.value then
     -- Use the standard recipe
     stack = false
   end
 
+  ---@type data.RecipePrototype
   local recipe= {
     type = "recipe",
-    name = prefix .. "mdrn-loader",
+    name = tier .. "mdrn-loader",
     enabled = false,
-    energy_required = template.energy_required or 1,
-    ingredients = stack and template.ingredients.stack or template.ingredients.standard,
+    energy_required = rd.energy_required or 1,
+    ingredients = stack and rd.ingredients.stack or rd.ingredients.standard,
     results = {{type = "item", name = item_name, amount = 1}},
-    category = template.category or data.raw["recipe"][ug_name].category
+    category = rd.category or data.raw["recipe"][ug_name].category
   }
 
-  if prefix == "chute-" then
+  if tier == "chute-" then
     recipe.enabled = true
   end
 
   if mods["space-age"] then
-    recipe.surface_conditions = template.surface_conditions
+    recipe.surface_conditions = rd.surface_conditions
   end
 
   if settings.startup["mdrn-double-recipe"].value then

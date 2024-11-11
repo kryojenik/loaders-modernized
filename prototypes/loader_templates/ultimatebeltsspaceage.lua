@@ -155,6 +155,7 @@ local loader_templates = {
 }
 
 -- Ultimate Belts progress from Express to Ultra-fast and skip turbo
+---@diagnostic disable-next-line: missing-fields
 loader_templates["express-"] = {
   next_prefix = "ultra-fast-"
 }

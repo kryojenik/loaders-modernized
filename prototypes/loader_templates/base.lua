@@ -64,6 +64,7 @@ local loader_templates = {
 if settings.startup["mdrn-enable-chute"].value then
   loader_templates["chute-"] = {
     next_prefix = "",
+    underground_name = "underground-belt",
     tint = util.color("808080d1"),
     recipe_data = {
       ingredients = {
