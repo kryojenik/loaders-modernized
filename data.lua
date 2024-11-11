@@ -1,4 +1,4 @@
-local templates = require("__loaders-modernized__.prototypes.loader_templates")
+local templates = require("__loaders-modernized__.prototypes.loader_templates.loader_templates")
 local entities = require("__loaders-modernized__.prototypes.entities")
 local items = require("__loaders-modernized__.prototypes.items")
 local recipes = require("__loaders-modernized__.prototypes.recipes")
