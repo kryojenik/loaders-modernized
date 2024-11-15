@@ -1,7 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.6
 Date: ????
+  Bugfixes:
+    - Split-lane UI could show up on other loaders that were not from this mod and did not have split-lane capability.
   Changes:
+    - Add support for 5 Dim New Transport
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.5
 Date: 2024-11-10

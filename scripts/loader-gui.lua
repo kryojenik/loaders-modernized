@@ -55,13 +55,14 @@ local function on_split_lane_state_changed(e)
   end
 
 
-  local split = (string.match(proto.name, "%-split"))
-  local base_name = string.match(proto.name, "^(.*%-?mdrn%-loader)")
-  local new_name = split and base_name or base_name .. "-split"
+  -- Grab the non-split entity from the split name and make it the new name.
+  -- If it is not a split entity, make a new from the prototype name
+  local base_name = string.match(proto.name, "^(.*)-split")
+  local new_name = base_name or proto.name .. "-split"
 
   local new = {
     create_build_effect_smoke = false,
-    name = split and base_name or base_name .. "-split",
+    name = new_name,
     position = old.position,
     direction = old.direction,
     force = old.force,

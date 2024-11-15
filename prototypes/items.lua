@@ -19,9 +19,10 @@ local function create_item(tier, t)
         tint = t.tint
       }
     },
-    subgroup = "belt",
+    group = t.group or "logistics",
+    subgroup = t.subgroup or "belt",
     colorblind_aid = ug_item.color_hint,
-    order = string.gsub(ug_item.order, "^b%[underground%-belt%]", "e[mdrn-loader]"),
+    order = t.order or string.gsub(ug_item.order, "^b%[underground%-belt%]", "e[mdrn-loader]"),
     inventory_move_sound = ug_item.inventory_move_sound,
     pick_sound = ug_item.pick_sound,
     drop_sound = ug_item.pick_sound,
@@ -45,9 +46,12 @@ local function create_item(tier, t)
     }
   end
 
+  return item
+  --[[
   data:extend{
     item
   }
+  ]]
 end
 
 return {

@@ -66,3 +66,33 @@ if mods["space-age"] then
     },
   })
 end
+
+-- Settings if 5Dim's New Transport is loaded
+if mods["5dim_transport"] then
+  data:extend({
+    {
+      type = "string-setting",
+      name = "mdrn-keep-5d-loaders",
+      order = "sf",
+      setting_type = "startup",
+      default_value = "none",
+      allowed_values = {"none", "1x2", "all"}
+    },
+    --[[
+    {
+      type = "bool-setting",
+      name = "mdrn-keep-1x1-loaders",
+      order = "sf",
+      setting_type = "startup",
+      default_value = false
+    },
+    {
+      type = "bool-setting",
+      name = "mdrn-keep-1x2-loaders",
+      order = "sg",
+      setting_type = "startup",
+      default_value = false
+    },
+    ]]
+  })
+end

@@ -15,7 +15,7 @@ local function create_recipe(tier, t, stack)
   ---@type data.RecipePrototype
   local recipe= {
     type = "recipe",
-    name = tier .. "mdrn-loader",
+    name = item_name,
     enabled = false,
     energy_required = rd.energy_required or 1,
     ingredients = stack and rd.ingredients.stack or rd.ingredients.standard,
@@ -41,9 +41,12 @@ local function create_recipe(tier, t, stack)
     end
   end
 
+  return recipe
+  --[[
   data:extend{
     recipe
   }
+  ]]
 end
 
 return {

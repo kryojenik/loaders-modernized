@@ -6,10 +6,9 @@ end
 ---@type table<string, LMLoaderTemplate>
 local loader_templates = {
   ["ultra-fast-"] = {
-    --previous_prefix = space and "turbo" or "express-",
+    -- = space and "turbo" or "express-",
     --Ultimate belts move on passes express and ignore Space Age! Turbo belts
-    previous_prefix = "express-",
-    next_prefix = "extreme-fast-",
+    next_upgrade = "extreme-fast-mdrn-loader",
     tint = util.color("00ac08d1"),
     prerequisite_techs = {
       "ultra-fast-logistics",
@@ -42,8 +41,7 @@ local loader_templates = {
     }
   },
   ["extreme-fast-"] = {
-    previous_prefix = "ultra-fast-",
-    next_prefix = "ultra-express-",
+    next_upgrade = "ultra-express-mdrn-loader",
     tint = util.color("db071fd1"),
     prerequisite_techs = { "extreme-fast-logistics", "ultra-fast-mdrn-loader" },
     recipe_data = {
@@ -70,8 +68,7 @@ local loader_templates = {
     }
   },
   ["ultra-express-"] = {
-    previous_prefix = "extreme-fast-",
-    next_prefix = "extreme-express-",
+    next_upgrade = "extreme-express-mdrn-loader",
     tint = util.color("4a01d8d1"),
     prerequisite_techs = { "ultra-express-logistics", "extreme-fast-mdrn-loader" },
     recipe_data = {
@@ -98,8 +95,7 @@ local loader_templates = {
     }
   },
   ["extreme-express-"] = {
-    previous_prefix = "ultra-express-",
-    next_prefix = "original-ultimate-",
+    next_upgrade = "original-ultimate-mdrn-loader",
     tint = util.color("0620d6d1"),
     prerequisite_techs = { "extreme-express-logistics", "ultra-express-mdrn-loader" },
     recipe_data = {
@@ -126,7 +122,6 @@ local loader_templates = {
     }
   },
   ["original-ultimate-"] = {
-    previous_prefix = "extreme-express-",
     tint = util.color("06d9c4d1"),
     prerequisite_techs = { "ultimate-logistics", "extreme-express-mdrn-loader" },
     recipe_data = {
@@ -157,7 +152,7 @@ local loader_templates = {
 -- Ultimate Belts progress from Express to Ultra-fast and skip turbo
 ---@diagnostic disable-next-line: missing-fields
 loader_templates["express-"] = {
-  next_prefix = "ultra-fast-"
+  next_upgrade = "ultra-fast-mdrn-loader"
 }
 
 return loader_templates

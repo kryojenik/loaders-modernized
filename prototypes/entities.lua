@@ -21,10 +21,10 @@ local function create_entity(tier, t, stack)
     name = name,
     flags = {"placeable-player", "placeable-neutral", "player-creation"},
     placeable_by = { item = name, count = 1 },
-    minable = { mining_time = 0.1, result = tier .. "mdrn-loader" },
+    minable = { mining_time = 0.1, result = name },
     max_health = 170,
     filter_count = 5,
-    next_upgrade = t.next_prefix and t.next_prefix .. "mdrn-loader" or nil,
+    next_upgrade = t.next_upgrade,
     corpse = "small-remnants",
     dying_explosion = ug_entity.dying_explosion or "underground-belt-explosion",
     open_sound = { filename = "__base__/sound/open-close/inserter-open.ogg" },
@@ -308,22 +308,29 @@ local function create_entity(tier, t, stack)
     entity.heating_energy = ug_entity.heating_energy
   end
 
+  --[[
   data:extend{
     entity
   }
+  ]]
 
+  local split_entity
   if not split_lane_blacklist[tier] then
-    local split_entity = table.deepcopy(entity)
+    split_entity = table.deepcopy(entity)
     split_entity.name = name .. "-split"
     split_entity.filter_count = 2
     split_entity.per_lane_filters = true
     split_entity.factoriopedia_alternative = name
     split_entity.deconstruction_alternative = name
     split_entity.next_upgrade = entity.next_upgrade and entity.next_upgrade .. "-split" or nil
+    --[[
     data:extend{
       split_entity
     }
+    ]]
   end
+
+  return {entity, split_entity}
 
 end -- create_entity()
 

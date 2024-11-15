@@ -13,6 +13,7 @@ local function create_technology(tier, t)
     return
   end
 
+  ---@type data.TechnologyPrototype
   local technology = {
     type = "technology",
     name = name,
@@ -47,7 +48,12 @@ local function create_technology(tier, t)
     }
   end
 
-  data:extend{technology}
+  return technology
+  --[[
+  data:extend{
+    technology
+  }
+  ]]
 end
 
 return {

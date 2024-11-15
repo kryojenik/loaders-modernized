@@ -12,7 +12,8 @@
         "base >= 2.0.15",
         "flib >= 0.15.0",
         "? space-age >= 2.0.15",
-        "? UltimateBeltsSpaceAge"
+        "? UltimateBeltsSpaceAge",
+        "? 5dim-transport"
     ],
     "package": {
         "git_publish_branch": "main",

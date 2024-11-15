@@ -36,11 +36,43 @@ local function stack(tier)
   return true
 end
 
+---@type data.Loader1x1Prototype[]
+local entity_prototypes = {}
+---@type data.ItemPrototype[]
+local item_prototypes = {}
+---@type data.RecipePrototype[]
+local recipe_prototypes = {}
+---@type data.TechnologyPrototype[]
+local technology_prototypes = {}
+
 for tier, loader_t in pairs(templates) do
-  entities.create_entity(tier, loader_t, stack(tier))
-  items.create_item(tier, loader_t)
-  recipes.create_recipe(tier, loader_t, stack(tier))
-  technologies.create_technology(tier, loader_t)
+  for _, entity in ipairs(entities.create_entity(tier, loader_t, stack(tier))) do 
+    if entity then
+      table.insert(entity_prototypes, entity)
+    end
+  end
+
+  local item = items.create_item(tier, loader_t)
+  if item then
+    table.insert(item_prototypes, item)
+  end
+
+  local recipe = recipes.create_recipe(tier, loader_t, stack(tier))
+  if recipe then
+    table.insert(recipe_prototypes, recipe)
+  end
+
+  local technology = technologies.create_technology(tier, loader_t)
+  if technology then
+    table.insert(technology_prototypes, technology)
+  end
+end
+
+data:extend(entity_prototypes)
+data:extend(item_prototypes)
+data:extend(recipe_prototypes)
+if next(technology_prototypes) then
+  data:extend(technology_prototypes)
 end
 
 require("__loaders-modernized__.prototypes.miniloader-migrations")

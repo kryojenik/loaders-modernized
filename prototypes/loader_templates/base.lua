@@ -1,7 +1,7 @@
 ---@type table<string, LMLoaderTemplate>
 local loader_templates = {
   [""] = {
-    next_prefix = "fast-",
+    next_upgrade = "fast-mdrn-loader",
     tint = util.color("ffd955d1"),
     prerequisite_techs = { "logistics" },
     recipe_data = {
@@ -20,8 +20,7 @@ local loader_templates = {
     }
   },
   ["fast-"] = {
-    previous_prefix = "",
-    next_prefix = "express-",
+    next_upgrade = "express-mdrn-loader",
     tint = util.color("ff1838d1"),
     prerequisite_techs = { "logistics-2", "mdrn-loader" },
     recipe_data = {
@@ -40,7 +39,6 @@ local loader_templates = {
     }
   },
   ["express-"] = {
-    previous_prefix = "fast-",
     tint = util.color("5abeffd1"),
     prerequisite_techs = { "logistics-3", "fast-mdrn-loader" },
     recipe_data = {
@@ -63,7 +61,7 @@ local loader_templates = {
 -- Chute
 if settings.startup["mdrn-enable-chute"].value then
   loader_templates["chute-"] = {
-    next_prefix = "",
+    next_upgrade = "mdrn-loader",
     underground_name = "underground-belt",
     tint = util.color("808080d1"),
     recipe_data = {
@@ -80,7 +78,6 @@ end
 -- Space Age!
 if data.raw["transport-belt"]["turbo-transport-belt"] then
   loader_templates["turbo-"] = {
-    previous_prefix = "express-",
     tint = util.color("9bb600d1"),
     prerequisite_techs = { "turbo-transport-belt", "express-mdrn-loader" },
     recipe_data = {
@@ -99,7 +96,7 @@ if data.raw["transport-belt"]["turbo-transport-belt"] then
       }
     }
   }
-  loader_templates["express-"].next_prefix = "turbo-"
+  loader_templates["express-"].next_upgrade = "turbo-mdrn-loader"
 end
 
 return loader_templates
