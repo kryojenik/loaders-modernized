@@ -1,7 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.8
 Date: ????
+  Bugfixes:
+    - 5Dim's: First 3 tiers of loaders are no longer lost if you were using Loaders Modernized prior to version 0.7.6
   Changes:
+    - 5Dim's: You can now keep Turbo Loader active if you need it for some reason.  It is the speed as Mk 4 after all.
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.7
 Date: 2024-11-15

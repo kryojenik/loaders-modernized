@@ -19,6 +19,7 @@ local function create_entity(tier, t, stack)
   local entity = {
     type = "loader-1x1",
     name = name,
+    localised_name = t.localised_name or nil,
     flags = {"placeable-player", "placeable-neutral", "player-creation"},
     placeable_by = { item = name, count = 1 },
     minable = { mining_time = 0.1, result = name },

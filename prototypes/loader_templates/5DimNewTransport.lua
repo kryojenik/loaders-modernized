@@ -1,5 +1,6 @@
 -- 5 Dim New Transport
-utils = require("__loaders-modernized__.scripts.utils")
+local meld = require("meld")
+local utils = require("__loaders-modernized__.scripts.utils")
 
 if not mods["5dim_transport"] then
   return false
@@ -17,11 +18,12 @@ data:extend({
 ---@type table<string, LMLoaderTemplate>
 local loader_templates = {
   ["01"] = {
-    name = "mdrn-loader-01",
+    name = "mdrn-loader",
+    localised_name = {"entity-name.mdrn-loader-01"},
     underground_name = "underground-belt",
     group = "transport",
     subgroup = "transport-loader-mdrn",
-    next_upgrade = "mdrn-loader-02",
+    next_upgrade = "fast-mdrn-loader",
     tint = util.color("ffc502d1"),
     unlocked_by = "logistics",
     recipe_data = {
@@ -37,24 +39,26 @@ local loader_templates = {
     }
   },
   ["02"] = {
-    name = "mdrn-loader-02",
+    name = "fast-mdrn-loader",
+    localised_name = {"entity-name.mdrn-loader-02"},
     underground_name = "fast-underground-belt",
     group = "transport",
     subgroup = "transport-loader-mdrn",
-    next_upgrade = "mdrn-loader-03",
+    next_upgrade = "express-mdrn-loader",
     tint = util.color("f91c0bd1"),
     unlocked_by = "logistics-2",
     recipe_data = {
       ingredients = {
         standard = {
           {type = "item", name = "fast-transport-belt", amount = 5},
-          {type = "item", name = "mdrn-loader-01", amount = 1},
+          {type = "item", name = "mdrn-loader", amount = 1},
         },
       }
     }
   },
   ["03"] = {
-    name = "mdrn-loader-03",
+    name = "express-mdrn-loader",
+    localised_name = {"entity-name.mdrn-loader-03"},
     underground_name = "express-underground-belt",
     group = "transport",
     subgroup = "transport-loader-mdrn",
@@ -65,7 +69,7 @@ local loader_templates = {
       ingredients = {
         standard = {
           {type = "item", name = "express-transport-belt", amount = 5},
-          {type = "item", name = "mdrn-loader-02", amount = 1},
+          {type = "item", name = "fast-mdrn-loader", amount = 1},
         },
       }
     }
@@ -82,7 +86,7 @@ local loader_templates = {
       ingredients = {
         standard = {
           {type = "item", name = "5d-transport-belt-04", amount = 5},
-          {type = "item", name = "mdrn-loader-03", amount = 1},
+          {type = "item", name = "express-mdrn-loader", amount = 1},
         },
       }
     }
@@ -215,6 +219,34 @@ if settings.startup["mdrn-keep-5d-loaders"].value == "none" then
     local effects = data.raw["technology"][loader.unlocked_by].effects
     utils.remove_recipe_from_effects(effects, name)
   end
+end
+
+-- Remove the base loaders we typically set up as they are created in the 5Dim's style.
+loader_templates[""] = meld.delete()
+loader_templates["fast-"] = meld.delete()
+loader_templates["express-"] = meld.delete()
+
+-- Someone may want to keep the turbo loaders around -- Why?
+if mods["space-age"] and settings.startup["mdrn-keep-turbo-loader"].value then
+  loader_templates["turbo-"] = {
+    group = "transport",
+    subgroup = "transport-turbo-belt",
+    order = "d",
+    next_upgrade = meld.delete(),
+    prerequisite_techs = meld.delete(),
+    unlocked_by = "turbo-transport-belt",
+  }
+else
+  loader_templates["turbo-"] = meld.delete()
+end
+
+-- If the chute is enabled, move the item to the appropriate 5Dim's location
+if settings.startup["mdrn-enable-chute"].value then
+  loader_templates["chute-"] = {
+    group = "transport",
+    subgroup = "transport-misc",
+    order = "z",
+  }
 end
 
 return loader_templates

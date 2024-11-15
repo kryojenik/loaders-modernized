@@ -78,21 +78,16 @@ if mods["5dim_transport"] then
       default_value = "none",
       allowed_values = {"none", "1x2", "all"}
     },
-    --[[
-    {
-      type = "bool-setting",
-      name = "mdrn-keep-1x1-loaders",
-      order = "sf",
-      setting_type = "startup",
-      default_value = false
-    },
-    {
-      type = "bool-setting",
-      name = "mdrn-keep-1x2-loaders",
-      order = "sg",
-      setting_type = "startup",
-      default_value = false
-    },
-    ]]
   })
+  if mods["space-age"] then
+    data:extend({
+      {
+        type = "bool-setting",
+        name = "mdrn-keep-turbo-loader",
+        order = "sfa",
+        setting_type = "startup",
+        default_value = false
+      },
+    })
+  end
 end

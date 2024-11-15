@@ -1,0 +1,20 @@
+{
+  "entity":
+  [
+    ["mdrn-loader-01", "mdrn-loader"],
+    ["mdrn-loader-02", "fast-mdrn-loader"],
+    ["mdrn-loader-03", "express-mdrn-loader"]
+  ],
+  "item":
+  [
+    ["mdrn-loader-01", "mdrn-loader"],
+    ["mdrn-loader-02", "fast-mdrn-loader"],
+    ["mdrn-loader-03", "express-mdrn-loader"]
+  ],
+  "recipe":
+  [
+    ["mdrn-loader-01", "mdrn-loader"],
+    ["mdrn-loader-02", "fast-mdrn-loader"],
+    ["mdrn-loader-03", "express-mdrn-loader"]
+  ]
+}

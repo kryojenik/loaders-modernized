@@ -7,7 +7,6 @@ if mods["5dim_transport"] and settings.startup["mdrn-keep-5d-loaders"].value == 
     ["loader"] = "logistics",
     ["fast-loader"] = "logistics-2",
     ["express-loader"] = "logistics-3",
-    ["turbo-loader"] = "turbo-transport-belt"
   }) do
     data.raw["loader"][name].next_upgrade = nil
     data.raw["loader"][name].hidden = true

@@ -17,6 +17,7 @@ local meld = require("meld")
 ---@field group? string
 ---@field subgroup? string
 ---@field order? string
+---@field localised_name? data.LocalisedString
 
 
 local loader_templates = require("base")
@@ -31,16 +32,6 @@ end
 addon = require("5DimNewTransport")
 if addon then
   meld.meld(loader_templates, addon)
-  loader_templates[""] = nil
-  loader_templates["fast-"] = nil
-  loader_templates["express-"] = nil
-  loader_templates["turbo-"] = nil
-  if settings.startup["mdrn-enable-chute"].value then
-    loader_templates["chute-"].group = "transport"
-    loader_templates["chute-"].subgroup = "transport-misc"
-    loader_templates["chute-"].order = "z"
-    loader_templates["chute-"].next_upgrade = "mdrn-loader-01"
-  end
 end
 
 return loader_templates
