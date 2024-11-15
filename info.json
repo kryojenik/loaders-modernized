@@ -13,7 +13,7 @@
         "flib >= 0.15.0",
         "? space-age >= 2.0.15",
         "? UltimateBeltsSpaceAge",
-        "? 5dim-transport"
+        "? 5dim_transport"
     ],
     "package": {
         "git_publish_branch": "main",
@@ -22,7 +22,7 @@
             "types.lua",
             "screenshots/*"
         ],
-        "sync_portal_details": true,
+        "sync_portal_details": false,
         "no_git_push": true
     }
 }
