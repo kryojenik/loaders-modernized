@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.6
-Date: ????
+Date: 2024-11-15
   Bugfixes:
     - Split-lane UI could show up on other loaders that were not from this mod and did not have split-lane capability.
   Changes:
