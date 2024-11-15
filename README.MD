@@ -20,6 +20,7 @@ do use power.  So keep those power poles handy!
 ## Alternate belt set supported
 
 - [Ultimate Belts Space Age](https://mods.factorio.com/mod/UltimateBeltsSpaceAge)
+- [5Dim's New Transport](https://mods.factorio.com/mod/5dim_transport)
 
 ## Migrating from Miniloaders
 
@@ -37,7 +38,3 @@ overhaul mods are not implemented yet.  Please drop a message if one is needed.
 
 - Inspired by [Miniloader](https://mods.factorio.com/mod/miniloader) by therax.
 - Artwork is included and modified from Kirazy's [Vanilla Loaders](https://mods.factorio.com/mod/vanilla-loaders-hd).
-
-## Known issues
-
-- Input loaders (filling a container) ignore filters.  This is currently a limitation of the game engine.
