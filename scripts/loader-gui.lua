@@ -106,11 +106,6 @@ gui.on_gui_opened = function(e)
     return
   end
 
-  local name = entity.name ~= "entity-ghost" and entity.name or entity.ghost_name
-  if not string.match(name, "mdrn%-loader") then
-    return
-  end
-
   local player = game.get_player(e.player_index)
   if not player then
     return
@@ -118,6 +113,11 @@ gui.on_gui_opened = function(e)
 
   if player.gui.relative.split_lane then
     player.gui.relative.split_lane.destroy()
+  end
+
+  local name = entity.name ~= "entity-ghost" and entity.name or entity.ghost_name
+  if not string.match(name, "mdrn%-loader") then
+    return
   end
 
   if string.match(name, "^chute") then
