@@ -43,22 +43,26 @@ local function on_split_lane_state_changed(e)
     end
   end
 
+  -- Grab the non-split entity from the split name and make it the new name.
+  -- If it is not a split entity, make a new from the prototype name
+  local base_name = string.match(proto.name, "^(.*)-split")
+  local new_name = base_name or proto.name .. "-split"
+
   -- Save any filters
+  local new_filter_count = prototypes.entity[new_name].filter_count
   local loader_filter_mode = old.loader_filter_mode
   local filters = {}
   for i=1, proto.filter_count do
     local filter = old.get_filter(i)
     if filter then
-      filters[#filters+1] = filter
-      filters[#filters].index = #filters
+      local j = #filters+1
+      filters[j] = filter
+      filters[j].index = j
+      if j == new_filter_count then
+        break
+      end
     end
   end
-
-
-  -- Grab the non-split entity from the split name and make it the new name.
-  -- If it is not a split entity, make a new from the prototype name
-  local base_name = string.match(proto.name, "^(.*)-split")
-  local new_name = base_name or proto.name .. "-split"
 
   local new = {
     create_build_effect_smoke = false,
