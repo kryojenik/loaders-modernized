@@ -24,12 +24,12 @@ local loader_templates = require("base")
 
 -- Ultimate Belts Space Age!
 local addon = require("ultimatebeltsspaceage")
-if addon then
+if addon and not mods["5dim_transport"] then
   meld.meld(loader_templates, addon)
 end
 
 -- 5 Dim New Transport
-addon = require("5DimNewTransport")
+addon = require("5dim_transport")
 if addon then
   meld.meld(loader_templates, addon)
 end
