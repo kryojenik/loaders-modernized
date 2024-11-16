@@ -8,6 +8,7 @@ Date: ????
     - Improved compatibility when using Ultimate Belts Space Age with 5Dim.
       Loaders Modernized will only make loaders to match 5Dim belts.
       If 5Dim New Transport is not installed, it will make loaders to match Ultimate Belts.
+    - RU Locale update from Shadow Man
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.7
 Date: 2024-11-15
