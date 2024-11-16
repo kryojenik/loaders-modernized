@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.8
-Date: ????
+Date: 2024-11-16
   Bugfixes:
     - 5Dim's: First 3 tiers of loaders are no longer lost if you were using Loaders Modernized prior to version 0.7.6
     - Crash when switching to split-lane mode with more than 2 filters / signals plus set-filters.
