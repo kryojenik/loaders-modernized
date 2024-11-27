@@ -64,6 +64,9 @@ local function on_split_lane_state_changed(e)
     end
   end
 
+  -- Retain quality when switching between split and non-split configurations
+  local quality = old.quality
+
   local new = {
     create_build_effect_smoke = false,
     name = new_name,
@@ -73,6 +76,7 @@ local function on_split_lane_state_changed(e)
     player = old.last_user,
     type = old.loader_type,
     filters = filters,
+    quality = quality,
   }
   if old.name == "entity-ghost" then
     new.name = "entity-ghost"
