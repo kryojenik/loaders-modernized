@@ -1,11 +1,7 @@
+local loader = require("__loaders-modernized__.scripts.loaders-modernized")
 local flib_gui = require("__flib__.gui")
 
-local gui = {}
-
 ---Handle on_split_lane_state_changed.
----When state changes, replace the existing entity with the alternate entity.
----(prefix-)mdrn-loader <-> (prefix-)mdrn-loader-split
----The -split version has filter_count == 2 and filter configured per lane
 ---@param e EventData.on_gui_checked_state_changed
 local function on_split_lane_state_changed(e)
   local pd = storage.loader_modernized.players[e.player_index]
@@ -15,101 +11,13 @@ local function on_split_lane_state_changed(e)
     return
   end
 
-  local old = pd.open_loader.entity
-  local proto = old.prototype
-  if old.name == "entity-ghost" then
-    proto = old.ghost_prototype
-  end
-
-  -- Save the ControlBehavior
-  local cb = {}
-  local old_cb = old.get_control_behavior()
-  if old_cb then
-    cb = {
-      circuit_set_filters = old_cb.circuit_set_filters,
-      circuit_read_transfers = old_cb.circuit_read_transfers,
-      circuit_enable_disable = old_cb.circuit_enable_disable,
-      circuit_condition = old_cb.circuit_condition,
-    }
-  end
-
-  -- Save the wires
-  local wires = {}
-  for _,w in pairs(old.get_wire_connectors()) do
-    if w.connection_count > 0 then
-      wires[w.wire_connector_id] = (function()
-        return w.connections
-      end)()
-    end
-  end
-
-  -- Grab the non-split entity from the split name and make it the new name.
-  -- If it is not a split entity, make a new from the prototype name
-  local base_name = string.match(proto.name, "^(.*)-split")
-  local new_name = base_name or proto.name .. "-split"
-
-  -- Save any filters
-  local new_filter_count = prototypes.entity[new_name].filter_count
-  local loader_filter_mode = old.loader_filter_mode
-  local filters = {}
-  for i=1, proto.filter_count do
-    local filter = old.get_filter(i)
-    if filter then
-      local j = #filters+1
-      filters[j] = filter
-      filters[j].index = j
-      if j == new_filter_count then
-        break
-      end
-    end
-  end
-
-  -- Retain quality when switching between split and non-split configurations
-  local quality = old.quality
-
-  local new = {
-    create_build_effect_smoke = false,
-    name = new_name,
-    position = old.position,
-    direction = old.direction,
-    force = old.force,
-    player = old.last_user,
-    type = old.loader_type,
-    filters = filters,
-    quality = quality,
-  }
-  if old.name == "entity-ghost" then
-    new.name = "entity-ghost"
-    new.inner_name = new_name
-  end
-
-  local surface = old.surface
-  old.destroy()
-  local new_entity = surface.create_entity(new)
-  new_entity.loader_filter_mode = loader_filter_mode
-  if old_cb then
-    local new_cb = new_entity.get_or_create_control_behavior()
-    new_cb.circuit_set_filters = cb.circuit_set_filters
-    new_cb.circuit_read_transfers = cb.circuit_read_transfers
-    new_cb.circuit_enable_disable = cb.circuit_enable_disable
-    new_cb.circuit_condition = cb.circuit_condition
-    if wires then
-      for wire_id, connections in pairs(wires) do
-        local wire = new_entity.get_wire_connector(wire_id, true)
-        for _, c in pairs(connections) do
-          if c.target.owner.valid then
-            wire.connect_to(c.target, true, c.origin)
-          end
-        end
-      end
-    end
-  end
-  game.get_player(e.player_index).opened = new_entity
+  local new = loader.swap_split(pd.open_loader.entity)
+  game.get_player(e.player_index).opened = new
 end
 
 ---Create and display a relative GUI attached to the in-game Loader UI
 ---@param e EventData.on_gui_opened
-gui.on_gui_opened = function(e)
+local function on_gui_opened(e)
   local entity = e.entity
   if not entity or not entity.valid then
     return
@@ -159,6 +67,12 @@ end
 -- GUI handlers
 flib_gui.add_handlers{
   on_split_lane_state_changed = on_split_lane_state_changed,
+}
+
+local gui = {}
+
+gui.events = {
+  [defines.events.on_gui_opened] = on_gui_opened,
 }
 
 return gui
