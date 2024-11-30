@@ -152,6 +152,10 @@ local function on_pre_build(e)
     return
   end
 
+  if player.is_cursor_empty() or player.is_cursor_blueprint() then
+    return
+  end
+
   local item_name
   if player.cursor_stack.valid_for_read then
     item_name = player.cursor_stack.name
