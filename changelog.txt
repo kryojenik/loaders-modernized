@@ -5,6 +5,8 @@ Date: ????
     - Fix loosing quality when switching between split and non-split configurations.
     - Fix split-lane loaders reverting to non-split during fast-replace operations
   Changes:
+    - RU locale update from Shadow Man
+    - DE locale update from GIGAAj1
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.8
 Date: 2024-11-16
