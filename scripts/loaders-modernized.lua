@@ -1,5 +1,5 @@
 local flib_direction = require("__flib__.direction")
-local position = require("__flib__.position")
+local flib_position = require("__flib__.position")
 
 local transport_belt_connectables = {
   "transport-belt",
@@ -10,6 +10,8 @@ local transport_belt_connectables = {
   "linked-belt",
   "lane-splitter",
 }
+
+local loader_modernized = {}
 
 ---Look for adjacent belt and snap the loader to connect to the belt
 ---@param entity LuaEntity
@@ -24,8 +26,8 @@ local function snap_to_belt(entity)
     front_direction = flib_direction.opposite(entity.direction)
   end
 
-  local front_position = position.add(entity.position, flib_direction.to_vector(front_direction))
-  local back_position = position.add(entity.position, flib_direction.to_vector(back_direction))
+  local front_position = flib_position.add(entity.position, flib_direction.to_vector(front_direction))
+  local back_position = flib_position.add(entity.position, flib_direction.to_vector(back_direction))
   local front = true
   local belt =
     entity.surface.find_entities_filtered({ position = front_position, type = transport_belt_connectables })[1]
@@ -72,8 +74,8 @@ local function snap_away_from_non_belt(entity)
     front_direction = flib_direction.opposite(entity.direction)
   end
 
-  local front_position = position.add(entity.position, flib_direction.to_vector(front_direction))
-  local back_position = position.add(entity.position, flib_direction.to_vector(back_direction))
+  local front_position = flib_position.add(entity.position, flib_direction.to_vector(front_direction))
+  local back_position = flib_position.add(entity.position, flib_direction.to_vector(back_direction))
   local non_belt = entity.surface.find_entities_filtered({
     position = back_position,
     type = transport_belt_connectables,
@@ -125,16 +127,62 @@ local function on_entity_built(e)
   end
 
   snap(entity)
+
+  local position = entity.position.x .. "," .. entity.position.y
+  local surface_name = entity.surface.name
+  local surface_data = storage.fast_replace_split[surface_name] or {}
+  if surface_data[position] then
+    loader_modernized.swap_split(entity)
+    surface_data[position] = nil
+    storage.fast_replace_split[surface_name] = surface_data
+  end
 end -- on_entity_built()
 
 ---Handle on_player_joined
 ---@param e EventData.on_player_joined_game
 local function on_player_joined(e)
-  local players = storage.loader_modernized.players or {}
+  local players = storage.players or {}
   players[e.player_index] = players[e.player_index] or {}
 end
 
-local loader_modernized = {}
+---@param e EventData.on_pre_build
+local function on_pre_build(e)
+  local player = game.get_player(e.player_index)
+  if not player then
+    return
+  end
+
+  local item_name
+  if player.cursor_stack.valid_for_read then
+    item_name = player.cursor_stack.name
+  else
+    item_name = player.cursor_ghost.name.name
+  end
+
+  if not string.match(item_name, "mdrn%-loader") then
+    return
+  end
+
+  local surface = player.surface
+  local fast_replace = surface.can_fast_replace{
+      position = e.position,
+      direction = e.direction,
+      force = player.force,
+      name = item_name
+  }
+
+  if not fast_replace then
+    return
+  end
+
+  local entity = surface.find_entities_filtered{position = e.position}[1]
+  local entity_name = string.match(entity.name, "mdrn%-loader") and entity.name or entity.ghost_name
+  if string.match(entity_name, "-split") then
+    local surface_data = storage.fast_replace_split[surface.name] or {}
+    surface_data[entity.position.x .. "," .. entity.position.y] = true
+    storage.fast_replace_split[surface.name] = surface_data
+  end
+end
 
 ---When switching state, replace the existing entity with the alternate entity.
 ---(tier-)mdrn-loader <-> (tier-)mdrn-loader-split
@@ -233,11 +281,14 @@ end
 
 ---on_init handler
 loader_modernized.on_init = function()
-  storage.loader_modernized = {
-    players = {}
+  storage = {
+    players = {},
+    fast_replace_split = {}
   }
   for i, player in pairs(game.players) do
-    storage.loader_modernized.players[i] = {}
+    storage.players[i] = {
+      name = player.name
+    }
   end
 end
 
@@ -249,12 +300,7 @@ loader_modernized.events = {
   [defines.events.script_raised_built] = on_entity_built,
   [defines.events.script_raised_revive] = on_entity_built,
   [defines.events.on_player_joined_game] = on_player_joined,
-  --[[
-  [defines.events.on_pre_build] = on_fast_replace,
-  [defines.events.on_pre_player_mined_item] = on_fast_replace,
-  [defines.events.on_player_mined_entity] = on_fast_replace,
-  [defines.events.on_player_mined_item] = on_fast_replace,
-  ]]
+  [defines.events.on_pre_build] = on_pre_build,
 }
 
 return loader_modernized

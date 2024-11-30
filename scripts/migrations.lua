@@ -17,6 +17,14 @@ local version_migrations = {
         window.destroy()
       end
     end
+  end,
+  ["0.7.9"] = function()
+    local store = storage.loader_modernized or {}
+    storage = store
+    storage.fast_replace_split = {}
+    for i, player in pairs(game.players) do
+      storage.players[i].name = player.name
+    end
   end
 }
 

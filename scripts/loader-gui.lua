@@ -4,7 +4,7 @@ local flib_gui = require("__flib__.gui")
 ---Handle on_split_lane_state_changed.
 ---@param e EventData.on_gui_checked_state_changed
 local function on_split_lane_state_changed(e)
-  local pd = storage.loader_modernized.players[e.player_index]
+  local pd = storage.players[e.player_index]
 
   if not pd.open_loader.entity or not pd.open_loader.entity.valid then
     pd.open_loader = nil
@@ -41,7 +41,7 @@ local function on_gui_opened(e)
     return
   end
 
-  local pd = storage.loader_modernized.players[player.index]
+  local pd = storage.players[player.index]
   pd.open_loader = {}
   pd.open_loader.entity = entity
   pd.open_loader.gui = flib_gui.add(player.gui.relative, {
