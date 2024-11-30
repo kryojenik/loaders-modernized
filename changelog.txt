@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.9
-Date: ????
+Date: 2024-11-30
   Bugfixes:
     - Fix loosing quality when switching between split and non-split configurations.
     - Fix split-lane loaders reverting to non-split during fast-replace operations
