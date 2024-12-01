@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.11
-Date: ????
+Date: 2024-12-01
   Bugfixes:
     - Fix crash from invalid data in storage
     - Fix crash when replacing a loader a player is standing on
