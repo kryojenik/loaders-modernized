@@ -18,12 +18,15 @@ local version_migrations = {
       end
     end
   end,
-  ["0.7.9"] = function()
-    local store = storage.loader_modernized or {}
-    storage = store
+  ["0.7.11"] = function()
+    -- Nuke storage and reset
+    storage.loader_modernized = nil
     storage.fast_replace_split = {}
+    storage.players = {}
     for i, player in pairs(game.players) do
-      storage.players[i].name = player.name
+      storage.players[i] = {
+        name = player.name
+      }
     end
   end
 }
