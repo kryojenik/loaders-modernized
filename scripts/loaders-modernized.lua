@@ -179,7 +179,7 @@ local function on_pre_build(e)
     return
   end
 
-  local entity = surface.find_entities_filtered{position = e.position}[1]
+  local entity = surface.find_entities_filtered{position = e.position, type = {"loader-1x1", "entity-ghost"}}[1]
   local entity_name = string.match(entity.name, "mdrn%-loader") and entity.name or entity.ghost_name
   if string.match(entity_name, "-split") then
     local surface_data = storage.fast_replace_split[surface.name] or {}
