@@ -14,7 +14,8 @@
         "? space-age >= 2.0.15",
         "? UltimateBeltsSpaceAge",
         "? 5dim_transport",
-        "? aai-industry"
+        "? aai-industry",
+        "? SchallBeltConfiguration"
     ],
     "package": {
         "git_publish_branch": "main",
