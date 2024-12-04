@@ -22,6 +22,12 @@ local meld = require("meld")
 
 local loader_templates = require("base")
 
+-- AAI-Industry
+local addon = require("aai-industry")
+if addon then
+  meld.meld(loader_templates, addon)
+end
+
 -- Ultimate Belts Space Age!
 local addon = require("ultimatebeltsspaceage")
 if addon and not mods["5dim_transport"] then

@@ -13,7 +13,8 @@
         "flib >= 0.15.0",
         "? space-age >= 2.0.15",
         "? UltimateBeltsSpaceAge",
-        "? 5dim_transport"
+        "? 5dim_transport",
+        "? aai-industry"
     ],
     "package": {
         "git_publish_branch": "main",
