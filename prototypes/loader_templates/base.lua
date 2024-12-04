@@ -90,7 +90,7 @@ if data.raw["transport-belt"]["turbo-transport-belt"] then
         },
         stack = {
           {type = "item", name = "turbo-underground-belt", amount = 1},
-          {type = "item", name = "stack-inserter", amount = 4},
+          {type = "item", name = "bulk-inserter", amount = 8},
           {type = "item", name = "express-mdrn-loader", amount = 1},
         }
       }

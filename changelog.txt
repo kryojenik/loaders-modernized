@@ -2,6 +2,9 @@
 Version: 0.7.12
 Date: ????
   Changes:
+    - Split-lane checkbox caption is now clickable
+    - * Recipe Change * Turbo loaders no-longer require stack inserters when stacking is enabled.
+      This made turbo loaders unavailable with the turbo belts until stacking was unlocked on Gleba 
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.11
 Date: 2024-12-01

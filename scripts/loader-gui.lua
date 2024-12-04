@@ -52,9 +52,9 @@ local function on_gui_opened(e)
       gui = defines.relative_gui_type.loader_gui,
       position = defines.relative_gui_position.bottom,
     },
-    { type = "label", caption = {"strings.mdrn-use-split-lanes"}},
     {
       type = "checkbox",
+      caption = {"strings.mdrn-use-split-lanes"},
       state = string.match(name, "%-split$") and true or false,
       name = "cb_state",
       handler = {
