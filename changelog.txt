@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.0
-Date: ????
+Date: 2024-12-05
   Features:
     - When AAI-Industry is detected, use recipes that more appropriately fit with AAI-Industry
     - Add support for Schall Belt Configuration
