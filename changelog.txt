@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.7.12
+Version: 0.8.0
 Date: ????
   Features:
     - When AAI-Industry is detected, use recipes that more appropriately fit with AAI-Industry
