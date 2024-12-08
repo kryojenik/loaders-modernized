@@ -27,6 +27,10 @@ local function create_recipe(tier, t, stack)
     recipe.enabled = true
   end
 
+    if tier == "stack-" then
+    recipe.enabled = true
+  end
+
   if mods["space-age"] then
     recipe.surface_conditions = rd.surface_conditions
   end

@@ -8,11 +8,11 @@ do use power.  So keep those power poles handy!
 
 ## Features
 
-- Works in Factorio 2.0 and supports Space Age
+- Works in Factorio 2.0 and supports Space Age.
 - Control circuit supported.
 - Works with cargo wagons.
-- Loaders snap to belts and away from non-belts
-- Stack items on to the belts based on belt stacking technology level
+- Loaders snap to belts and away from non-belts.
+- Stack items on to the belts based on belt stacking technology level.
 - Split Lanes!!!
 - AAI Loader graphics can be used as long as AAI Loader mode is installed.
 - Able to migrate Miniloaders.
@@ -32,7 +32,7 @@ overhaul mods are not implemented yet.  Please drop a message if one is needed.
 
 ## TODO
 
-- Support belts from additional overhaul mods
+- Support belts from additional overhaul mods.
 
 ## Acknowledgements
 

@@ -1,6 +1,6 @@
 {
     "name": "loaders-modernized",
-    "version": "0.7.12",
+    "version": "0.8.1",
     "title": "Loaders Modernized",
     "description": "Compact 1x1 loader requiring power.",
     "author": "kryojenik",
@@ -14,7 +14,8 @@
         "? space-age >= 2.0.15",
         "? UltimateBeltsSpaceAge",
         "? 5dim_transport",
-        "? aai-industry"
+        "? aai-industry",
+        "? SchallBeltConfiguration"
     ],
     "package": {
         "git_publish_branch": "main",

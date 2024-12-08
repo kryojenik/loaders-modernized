@@ -1,12 +1,25 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.7.12
-Date: ????
+Version: 0.8.1
+Date: 2024-12-06
   Features:
-    - When AAI-Industry is detected, use recipes that more appropriately fit with AAI-Industry.
+    - Setting added when AAI-Industry is detected which allows user to choose to use AAI-Industry recipe or base recipe
+    - Stack Loader entity added
+      - Effectively this is a recolored turbo loader with stacking capabilities
+      - Recipe similar to stack inserter; requires jelly, carbon fiber, and processing units
+      - Setting added to enable or disable Stack Loader
+  Changes:
+    - RU locale removed
+    - DE locale removed
+---------------------------------------------------------------------------------------------------
+Version: 0.8.0
+Date: 2024-12-05
+  Features:
+    - When AAI-Industry is detected, use recipes that more appropriately fit with AAI-Industry
+    - Add support for Schall Belt Configuration
   Changes:
     - Split-lane checkbox caption is now clickable
-    - * Recipe Change * Turbo loaders no-longer require stack inserters when stacking is enabled.
-      This made turbo loaders unavailable with the turbo belts until stacking was unlocked on Gleba.
+    - * Recipe Change * Turbo loaders no-longer require stack inserters when stacking is enabled
+      This made turbo loaders unavailable with the turbo belts until stacking was unlocked on Gleba
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.11
 Date: 2024-12-01
@@ -22,7 +35,7 @@ Date: 2024-11-30
 Version: 0.7.9
 Date: 2024-11-30
   Bugfixes:
-    - Fix loosing quality when switching between split and non-split configurations.
+    - Fix loosing quality when switching between split and non-split configurations
     - Fix split-lane loaders reverting to non-split during fast-replace operations
   Changes:
     - RU locale update from Shadow Man
@@ -32,12 +45,12 @@ Version: 0.7.8
 Date: 2024-11-16
   Bugfixes:
     - 5Dim's: First 3 tiers of loaders are no longer lost if you were using Loaders Modernized prior to version 0.7.6
-    - Crash when switching to split-lane mode with more than 2 filters / signals plus set-filters.
+    - Crash when switching to split-lane mode with more than 2 filters / signals plus set-filters
   Changes:
-    - 5Dim's: You can now keep Turbo Loader active if you need it for some reason.  It is the speed as Mk 4 after all.
-    - Improved compatibility when using Ultimate Belts Space Age with 5Dim.
-      Loaders Modernized will only make loaders to match 5Dim belts.
-      If 5Dim New Transport is not installed, it will make loaders to match Ultimate Belts.
+    - 5Dim's: You can now keep Turbo Loader active if you need it for some reason.  It is the speed as Mk 4 after all
+    - Improved compatibility when using Ultimate Belts Space Age with 5Dim
+      Loaders Modernized will only make loaders to match 5Dim belts
+      If 5Dim New Transport is not installed, it will make loaders to match Ultimate Belts
     - RU Locale update from Shadow Man
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.7
@@ -48,7 +61,7 @@ Date: 2024-11-15
 Version: 0.7.6
 Date: 2024-11-15
   Bugfixes:
-    - Split-lane UI could show up on other loaders that were not from this mod and did not have split-lane capability.
+    - Split-lane UI could show up on other loaders that were not from this mod and did not have split-lane capability
   Changes:
     - Add support for 5 Dim New Transport
 ---------------------------------------------------------------------------------------------------
@@ -69,7 +82,7 @@ Date: 2024-11-10
     - Fix graphics from AAI loaders used for entities even if setting unchecked
   Changes:
     - Add setting to use cheaper, standard recipes when enabling stacking
-    - Leave settings for AAI loaders available.  Allows for both mods to be used simultaneously if you need that for some reason.  Typically AAI Loaders should be set to graphics-only.
+    - Leave settings for AAI loaders available.  Allows for both mods to be used simultaneously if you need that for some reason.  Typically AAI Loaders should be set to graphics-only
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.3
 Date: 2024-11-06
@@ -84,7 +97,7 @@ Date: 2024-11-06
     - Add setting to enable use of AAI Loader graphics
   Bugfixes:
     - Item Import locations not correctly set
-    - Ultimate Belts Space Age! set as optional dependency to make sure load order is deterministic.
+    - Ultimate Belts Space Age! set as optional dependency to make sure load order is deterministic
 ---------------------------------------------------------------------------------------------------
 Version: 0.7.1
 Date: 2024-11-04
