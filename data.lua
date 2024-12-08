@@ -18,6 +18,12 @@ local blacklist = {
     ["basic-"] = true,
   },
 }
+-- Loaders that will always allow belt stacking irrelevant of mdrn-enable-stacking setting
+local whitelist = {
+  ["none"] = {
+    ["stack-"] = true,
+  },
+}
 
 ---Should the loader allow stacking.  If mdrn-enable-stacking is set and prefix not on the blacklist
 ---allow the loader to stack when tech is researched.
@@ -25,6 +31,11 @@ local blacklist = {
 ---@return boolean
 local function stack(tier)
   local belt_stacking = settings.startup["mdrn-enable-stacking"]
+
+  if whitelist[belt_stacking.value][tier] then
+    return true
+  end
+
   if not belt_stacking or belt_stacking.value == "none" then
     return false
   end

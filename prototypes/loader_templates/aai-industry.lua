@@ -2,6 +2,10 @@ if not mods["aai-industry"] then
   return false
 end
 
+if settings.startup["mdrn-use-aai-recipes"].value == false then
+  return false
+end
+
 local loader_templates = {
   [""] = {
     recipe_data = {

@@ -6,6 +6,10 @@ local function create_technology(tier, t)
     return
   end
 
+  if tier == "stack-" then
+    return
+  end
+
   local name = t.name or tier .. "mdrn-loader"
   local unlocked_by = data.raw["technology"][t.unlocked_by]
   if unlocked_by then

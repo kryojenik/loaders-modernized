@@ -3,7 +3,15 @@ Version: 0.8.1
 Date: ????
   Bugfixes:
     - Fix crash possible crash in multiplayer due to missing nil check (#17)
+  Features:
+    - Setting added when AAI-Industry is detected which allows user to choose to use AAI-Industry recipe or base recipe
+    - Stack Loader entity added
+      - Effectively this is a recolored turbo loader with stacking capabilities
+      - Recipe similar to stack inserter; requires jelly, carbon fiber, and processing units
+      - Setting added to enable or disable Stack Loader
   Changes:
+    - RU locale removed
+    - DE locale removed
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.0
 Date: 2024-12-05

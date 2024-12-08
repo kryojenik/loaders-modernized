@@ -99,4 +99,29 @@ if data.raw["transport-belt"]["turbo-transport-belt"] then
   loader_templates["express-"].next_upgrade = "turbo-mdrn-loader"
 end
 
+-- Stack Loader
+if settings.startup["mdrn-enable-stack-loader"].value then
+  loader_templates["stack-"] = {
+    underground_name = "turbo-underground-belt",
+    tint = util.color("f5f5f5d1"),
+    prerequisite_techs = { "turbo-mdrn-loader", "stack-inserter" },
+    recipe_data = {
+      ingredients = {
+        standard = {
+          {type = "item", name = "processing-unit", amount = 1},
+          {type = "item", name = "stack-inserter", amount = 4},
+          {type = "item", name = "turbo-mdrn-loader", amount = 1},
+        },
+        stack = {
+          {type = "item", name = "processing-unit", amount = 1},
+          {type = "item", name = "stack-inserter", amount = 4},
+          {type = "item", name = "turbo-mdrn-loader", amount = 1},
+        }
+      }
+    }
+  }
+  loader_templates["turbo-"].next_upgrade = "stack-mdrn-loader"
+end
+
+
 return loader_templates
