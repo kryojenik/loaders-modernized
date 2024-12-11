@@ -6,6 +6,10 @@ local flib_gui = require("__flib__.gui")
 local function on_split_lane_state_changed(e)
   local pd = storage.players[e.player_index]
 
+  if not pd.open_loader then
+    return
+  end
+
   if not pd.open_loader.entity or not pd.open_loader.entity.valid then
     pd.open_loader = nil
     return
