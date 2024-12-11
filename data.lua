@@ -46,7 +46,7 @@ local recipe_prototypes = {}
 local technology_prototypes = {}
 
 for tier, loader_t in pairs(templates) do
-  for _, entity in ipairs(entities.create_entity(tier, loader_t, stack(tier))) do 
+  for _, entity in ipairs(entities.create_entity(tier, loader_t, stack(tier))) do
     if entity then
       table.insert(entity_prototypes, entity)
     end

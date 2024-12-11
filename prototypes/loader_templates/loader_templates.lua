@@ -29,7 +29,7 @@ if addon then
 end
 
 -- Ultimate Belts Space Age!
-local addon = require("ultimatebeltsspaceage")
+addon = require("ultimatebeltsspaceage")
 if addon and not mods["5dim_transport"] then
   meld.meld(loader_templates, addon)
 end
