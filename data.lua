@@ -48,23 +48,23 @@ local technology_prototypes = {}
 for tier, loader_t in pairs(templates) do
   for _, entity in ipairs(entities.create_entity(tier, loader_t, stack(tier))) do
     if entity then
-      table.insert(entity_prototypes, entity)
+      entity_prototypes[#entity_prototypes+1] = entity
     end
   end
 
   local item = items.create_item(tier, loader_t)
   if item then
-    table.insert(item_prototypes, item)
+    item_prototypes[#item_prototypes+1] = item
   end
 
   local recipe = recipes.create_recipe(tier, loader_t, stack(tier))
   if recipe then
-    table.insert(recipe_prototypes, recipe)
+    recipe_prototypes[#recipe_prototypes+1] = recipe
   end
 
   local technology = technologies.create_technology(tier, loader_t)
   if technology then
-    table.insert(technology_prototypes, technology)
+    technology_prototypes[#technology_prototypes+1] = technology
   end
 end
 
