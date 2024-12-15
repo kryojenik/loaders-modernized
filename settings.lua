@@ -16,13 +16,6 @@ data:extend({
   },
   {
     type = "bool-setting",
-    name = "mdrn-enable-stack-loader",
-    order = "sc",
-    setting_type = "startup",
-    default_value = true,
-  },
-  {
-    type = "bool-setting",
     name = "mdrn-double-recipe",
     order = "sd",
     setting_type = "startup",
@@ -49,6 +42,11 @@ if mods["aai-loaders"] then
       setting_type = "startup",
       default_value = true,
     },
+  })
+end
+
+if mods["aai-industry"] then
+  data:extend({
     {
       type = "bool-setting",
       name = "mdrn-use-aai-recipes",
@@ -61,24 +59,33 @@ end
 
 -- If space-age is enabled we can do belt_stacking
 -- TODO: Can stacking be done on 2.0 without the DLC being purchased?
-if mods["space-age"] then
   data:extend({
     {
       type = "string-setting",
       name = "mdrn-enable-stacking",
       order = "se",
       setting_type = "startup",
-      default_value = "none",
-      allowed_values = { "none", "turbo-and-above", "all" }
+      default_value = "stack-tier",
+      allowed_values = { "none", "turbo-and-above", "all", "stack-tier" }
     },
     {
       type = "bool-setting",
       name = "mdrn-cheap-stacking",
-      order = "sf",
+      order = "sea",
       setting_type = "startup",
       default_value = false
     },
   })
+
+if not mods["space-age"] then
+  local stacking = data.raw["string-setting"]["mdrn-enable-stacking"]
+  stacking.default_value = "none"
+  stacking.allowed_values = { "none" }
+  stacking.hidden = true
+
+  local cost = data.raw["bool-setting"]["mdrn-cheap-stacking"]
+  cost.forced_value = false
+  cost.hidden = true
 end
 
 -- Settings if 5Dim's New Transport is loaded

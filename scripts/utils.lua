@@ -1,4 +1,5 @@
 utils = {}
+local startup_settings = settings.startup
 
 utils.remove_recipe_from_effects = function(effects, recipe)
   local j = 1
@@ -15,5 +16,25 @@ utils.remove_recipe_from_effects = function(effects, recipe)
     i = i + 1
   end
 end
+
+utils.stack =  function(tier, blacklist)
+  if startup_settings["mdrn-enable-stacking"].value == "none"
+  or startup_settings["mdrn-enable-stacking"].value == "stack-tier" then
+    return false
+  end
+
+  if startup_settings["mdrn-enable-stacking"].value == "turbo-and-above"
+  and blacklist.below_turbo[tier] then
+    return false
+  end
+
+  if startup_settings["mdrn-enable-stacking"].value == "all"
+  and blacklist.split[tier] then
+    return false
+  end
+
+  return true
+end
+
 
 return utils

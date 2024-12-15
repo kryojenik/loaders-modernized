@@ -12,6 +12,7 @@ if mods["SchallBeltConfiguration"] then
   end
 
   for _, tier in pairs(tiers) do
-  data.raw["loader-1x1"][tier .. "mdrn-loader"].speed = data.raw["transport-belt"][tier .. "transport-belt"].speed
+    data.raw["loader-1x1"][tier .. "mdrn-loader"].speed = data.raw["transport-belt"][tier .. "transport-belt"].speed
+    data.raw["loader-1x1"][tier .. "mdrn-loader-split"].speed = data.raw["transport-belt"][tier .. "transport-belt"].speed
   end
 end

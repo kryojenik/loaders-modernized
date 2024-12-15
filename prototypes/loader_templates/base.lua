@@ -1,3 +1,16 @@
+local startup_settings = settings.startup
+
+local blacklist = {
+  ["split"] = {
+    ["chute-"] = true
+  },
+  ["below_turbo"] = {
+    ["chute-"] = true,
+    [""] = true,
+    ["fast-"] = true,
+    ["express-"] = true
+  }
+}
 ---@type table<string, LMLoaderTemplate>
 local loader_templates = {
   [""] = {
@@ -59,7 +72,7 @@ local loader_templates = {
 }
 
 -- Chute
-if settings.startup["mdrn-enable-chute"].value then
+if startup_settings["mdrn-enable-chute"].value then
   loader_templates["chute-"] = {
     next_upgrade = "mdrn-loader",
     underground_name = "underground-belt",
@@ -76,12 +89,12 @@ if settings.startup["mdrn-enable-chute"].value then
 end
 
 -- Space Age!
-if data.raw["transport-belt"]["turbo-transport-belt"] then
+if mods["space-age"] then
   loader_templates["turbo-"] = {
     tint = util.color("9bb600d1"),
     prerequisite_techs = { "turbo-transport-belt", "express-mdrn-loader" },
     recipe_data = {
-      surface_conditions = data.raw["transport-belt"]["turbo-transport-belt"].surface_conditions,
+      surface_conditions = data.raw["recipe"]["turbo-underground-belt"].surface_conditions,
       ingredients = {
         standard = {
           {type = "item", name = "turbo-underground-belt", amount = 1},
@@ -92,36 +105,35 @@ if data.raw["transport-belt"]["turbo-transport-belt"] then
           {type = "item", name = "turbo-underground-belt", amount = 1},
           {type = "item", name = "bulk-inserter", amount = 8},
           {type = "item", name = "express-mdrn-loader", amount = 1},
-        }
-      }
-    }
-  }
-  loader_templates["express-"].next_upgrade = "turbo-mdrn-loader"
-end
-
--- Stack Loader
-if settings.startup["mdrn-enable-stack-loader"].value then
-  loader_templates["stack-"] = {
-    underground_name = "turbo-underground-belt",
-    tint = util.color("f5f5f5d1"),
-    prerequisite_techs = { "turbo-mdrn-loader", "stack-inserter" },
-    recipe_data = {
-      ingredients = {
-        standard = {
-          {type = "item", name = "processing-unit", amount = 1},
-          {type = "item", name = "stack-inserter", amount = 4},
-          {type = "item", name = "turbo-mdrn-loader", amount = 1},
         },
-        stack = {
-          {type = "item", name = "processing-unit", amount = 1},
-          {type = "item", name = "stack-inserter", amount = 4},
-          {type = "item", name = "turbo-mdrn-loader", amount = 1},
-        }
       }
     }
   }
-  loader_templates["turbo-"].next_upgrade = "stack-mdrn-loader"
+
+  -- Express loader can upgrade to the turbo loader
+  loader_templates["express-"].next_upgrade = "turbo-mdrn-loader"
+
+  -- Separate stack tier
+  if startup_settings["mdrn-enable-stacking"].value == "stack-tier" then
+    loader_templates["stack-"] = {
+      tint = util.color("f5f5f5d1"),
+      underground_name = "turbo-underground-belt",
+      prerequisite_techs = { "stack-inserter", "fast-mdrn-loader" },
+      max_belt_stack_size = data.raw["utility-constants"].default.max_belt_stack_size,
+      recipe_data = {
+        ingredients = {
+          standard = {
+            {type = "item", name = "processing-unit", amount = 1},
+            {type = "item", name = "stack-inserter", amount = 4},
+            {type = "item", name = "turbo-mdrn-loader", amount = 1},
+          }
+        }
+      }
+    }
+
+    loader_templates["turbo-"].next_upgrade = "stack-mdrn-loader"
+  end
 end
 
-
+loader_templates.blacklist = blacklist
 return loader_templates

@@ -18,6 +18,8 @@ local meld = require("meld")
 ---@field subgroup? string
 ---@field order? string
 ---@field localised_name? data.LocalisedString
+---@field stack_tint? Color
+---@field max_belt_stack_size? int
 
 
 local loader_templates = require("base")

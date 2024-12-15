@@ -1,28 +1,47 @@
+local startup_settings = settings.startup
+
+data:extend{
+  {
+      type = "item-subgroup",
+      name = "belt-loader",
+      group = "logistics",
+      order = "b-loader"
+  }
+}
+
+local function create_icons(tint)
+  if startup_settings["mdrn-use-aai-graphics"] and startup_settings["mdrn-use-aai-graphics"].value then
+    return {
+      { icon = "__aai-loaders__/graphics/icons/loader.png" },
+      { icon = "__aai-loaders__/graphics/icons/loader_mask.png", tint = tint }
+    }
+  end
+
+  return {
+    { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-base.png" },
+    { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-mask.png", tint = tint }
+  }
+end
+
 ---Create the Item prototypes
 ---@param tier string Loader tier prefix
----@param t LMLoaderTemplate Template for loader tier
-local function create_item(tier, t)
-  local name = t.name or tier .. "mdrn-loader"
-  local underground_name = t.underground_name or tier .. "underground-belt"
+---@param template LMLoaderTemplate Template for loader tier
+---@param blacklist table
+local function create_item(tier, template, blacklist)
+  local name = template.name or tier .. "mdrn-loader"
+  local underground_name = template.underground_name or tier .. "underground-belt"
   local ug_item = data.raw["item"][underground_name]
 
+  local items = {}
   ---@type data.ItemPrototype
   local item = {
     type = "item",
     name = name,
-    icons = {
-      {
-        icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-base.png",
-      },
-      {
-        icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-mask.png",
-        tint = t.tint
-      }
-    },
-    group = t.group or "logistics",
-    subgroup = t.subgroup or "belt",
+    icons = create_icons(template.tint),
+    group = template.group or "logistics",
+    subgroup = template.subgroup or "belt-loader",
     colorblind_aid = ug_item.color_hint,
-    order = t.order or string.gsub(ug_item.order, "^b%[underground%-belt%]", "e[mdrn-loader]"),
+    order = template.order or string.gsub(ug_item.order, "^b%[underground%-belt%]", "e[mdrn-loader]"),
     inventory_move_sound = ug_item.inventory_move_sound,
     pick_sound = ug_item.pick_sound,
     drop_sound = ug_item.pick_sound,
@@ -33,25 +52,23 @@ local function create_item(tier, t)
     default_import_location = (ug_item.default_import_location or nil)
   }
 
-  local setting_use_aai_graphics = settings.startup["mdrn-use-aai-graphics"]
-  if setting_use_aai_graphics and setting_use_aai_graphics.value then
-    item.icons = {
-      {
-        icon = "__aai-loaders__/graphics/icons/loader.png",
-      },
-      {
-        icon = "__aai-loaders__/graphics/icons/loader_mask.png",
-        tint = t.tint
-      }
-    }
-  end
-
-  return item
+  items[#items+1] = item
+  -- If stack loaders are separate entities we need a separate item for them
   --[[
-  data:extend{
-    item
-  }
+  if startup_settings["mdrn-enable-stacking"].value == "turbo-and-above"
+  and not blacklist.below_turbo[tier] then
+    local stack_name = string.gsub(name, "mdrn%-loader", "stack-mdrn-loader")
+    local stack_item = table.deepcopy(item)
+    stack_item.name = stack_name
+    stack_item.place_result = stack_name
+    items[#items+1] = stack_item
+    if not startup_settings["mdrn-use-stack-sticker"].value then
+      stack_item.icons = create_icons(template.stack_tint)
+    end
+  end
   ]]
+
+  return items
 end
 
 return {

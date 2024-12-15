@@ -1,25 +1,30 @@
+local utils = require("scripts.utils")
+local startup_settings = settings.startup
+
 ---Create recipe prototypes
 ---@param tier string
 ---@param t LMLoaderTemplate
----@param stack boolean
-local function create_recipe(tier, t, stack)
-  local item_name = t.name or tier .. "mdrn-loader"
+---@param blacklist table
+local function create_recipe(tier, t, blacklist)
+  local name = t.name or tier .. "mdrn-loader"
   local rd = t.recipe_data
   local ug_name = t.underground_name or tier .. "underground-belt"
-  local cheap_stacking = settings.startup["mdrn-cheap-stacking"]
-  if cheap_stacking and cheap_stacking.value then
-    -- Use the standard recipe
-    stack = false
+
+  -- Determine which recipe to set for the tiers loader
+  local base_recipe = "standard"
+  if utils.stack(tier, blacklist) and not startup_settings["mdrn-cheap-stacking"].value then
+    base_recipe = "stack"
   end
 
+  local recipes = {}
   ---@type data.RecipePrototype
-  local recipe= {
+  local recipe = {
     type = "recipe",
-    name = item_name,
+    name = name,
     enabled = false,
     energy_required = rd.energy_required or 1,
-    ingredients = stack and rd.ingredients.stack or rd.ingredients.standard,
-    results = {{type = "item", name = item_name, amount = 1}},
+    ingredients = rd.ingredients[base_recipe],
+    results = {{type = "item", name = name, amount = 1}},
     category = rd.category or data.raw["recipe"][ug_name].category
   }
 
@@ -27,15 +32,12 @@ local function create_recipe(tier, t, stack)
     recipe.enabled = true
   end
 
-    if tier == "stack-" then
-    recipe.enabled = true
-  end
-
   if mods["space-age"] then
     recipe.surface_conditions = rd.surface_conditions
   end
 
-  if settings.startup["mdrn-double-recipe"].value then
+  -- Double recipe to consume undergrounds evenly
+  if startup_settings["mdrn-double-recipe"].value then
     for _, i in pairs(recipe.ingredients) do
       i.amount = i.amount * 2
     end
@@ -45,12 +47,21 @@ local function create_recipe(tier, t, stack)
     end
   end
 
-  return recipe
+  recipes[#recipes+1] = recipe
   --[[
-  data:extend{
-    recipe
-  }
+  -- If stack loaders are separate entities we need to make a stack recipe
+  if settings.startup["mdrn-enable-stacking"].value == "turbo-and-above"
+  and not blacklist.below_turbo[tier] then
+    local stack_name = string.gsub(name, "mdrn%-loader", "stack-mdrn-loader")
+    local stack_recipe = table.deepcopy(recipe)
+    stack_recipe.name = stack_name
+    stack_recipe.ingredients = rd.ingredients["stack"]
+    stack_recipe.results = {{type = "item", name = stack_name, amount = 1}}
+    recipes[#recipes+1] = stack_recipe
+  end
   ]]
+
+  return recipes
 end
 
 return {
