@@ -1,6 +1,15 @@
 -- 5 Dim New Transport
 local meld = require("meld")
 local utils = require("__loaders-modernized__.scripts.utils")
+local startup_settings = settings.startup
+
+local blacklist = {
+  ["below_turbo"] = {
+    ["01"] = true,
+    ["02"] = true,
+    ["03"] = true,
+  }
+}
 
 if not mods["5dim_transport"] then
   return false
@@ -194,7 +203,7 @@ local loader_templates = {
   },
 }
 
-if settings.startup["mdrn-keep-5d-loaders"].value ~= "all" then
+if startup_settings["mdrn-keep-5d-loaders"].value ~= "all" then
   for tier, loader in pairs(loader_templates) do
     local name = "5d-loader-1x1-" .. tier
     data.raw["loader-1x1"][name] = nil
@@ -210,7 +219,7 @@ end
 -- 5Dim's loaders are messy.  Remove the higher tier loaders here.
 -- The base tier 1x2 loaders use the base game names, and 5 Dim moves them around in
 -- data_final_fixes.  We have to wait to remove them until then.
-if settings.startup["mdrn-keep-5d-loaders"].value == "none" then
+if startup_settings["mdrn-keep-5d-loaders"].value == "none" then
   for tier, loader in pairs(loader_templates) do
     local name = "5d-loader-" .. tier
     data.raw["loader"][name] = nil
@@ -227,7 +236,7 @@ loader_templates["fast-"] = meld.delete()
 loader_templates["express-"] = meld.delete()
 
 -- Someone may want to keep the turbo loaders around -- Why?
-if mods["space-age"] and settings.startup["mdrn-keep-turbo-loader"].value then
+if mods["space-age"] and startup_settings["mdrn-keep-turbo-loader"].value then
   loader_templates["turbo-"] = {
     group = "transport",
     subgroup = "transport-turbo-belt",
@@ -241,7 +250,7 @@ else
 end
 
 -- If the chute is enabled, move the item to the appropriate 5Dim's location
-if settings.startup["mdrn-enable-chute"].value then
+if startup_settings["mdrn-enable-chute"].value then
   loader_templates["chute-"] = {
     group = "transport",
     subgroup = "transport-misc",
@@ -249,4 +258,16 @@ if settings.startup["mdrn-enable-chute"].value then
   }
 end
 
+if startup_settings["mdrn-enable-stacking"].value == "stack-tier" then
+  loader_templates["stack-"] = {
+    group = "transport",
+    subgroup = "transport-misc",
+    order = "za",
+    prerequisite_techs = meld.delete(),
+    unlocked_by = "stack-inserter",
+    tint = util.color("000000d1")
+  }
+end
+
+loader_templates.blacklist = blacklist
 return loader_templates

@@ -6,36 +6,24 @@ end
 ---@type table<string, LMLoaderTemplate>
 local loader_templates = {
   ["ultra-fast-"] = {
-    -- = space and "turbo" or "express-",
-    --Ultimate belts move on passes express and ignore Space Age! Turbo belts
+    --Ultimate belts move on passed express and ignore Space Age! Turbo belts
     next_upgrade = "extreme-fast-mdrn-loader",
     tint = util.color("00ac08d1"),
     prerequisite_techs = {
       "ultra-fast-logistics",
-      --space and "turbo-mdrn-loader" or "express-mdrn-loader"
       "express-mdrn-loader"
     },
     recipe_data = {
       ingredients = {
         standard = {
-          {type = "item", name = "ultra-fast-underground-belt", amount = 1},
-          {type = "item", name = "bulk-inserter", amount = 3},
-          {
-            type = "item",
-            --name = space and "turbo-mdrn-loader" or "express-mdrn-loader",
-            name = "express-mdrn-loader",
-            amount = 1
-          },
+          { type = "item", name = "ultra-fast-underground-belt", amount = 1 },
+          { type = "item", name = "bulk-inserter", amount = 3 },
+          { type = "item", name = "express-mdrn-loader", amount = 1 },
         },
         stack = {
-          {type = "item", name = "ultra-fast-underground-belt", amount = 1},
-          {type = "item", name = "bulk-inserter", amount = 6},
-          {
-            type = "item",
-            --name = space and "turbo-mdrn-loader" or "express-mdrn-loader",
-            name = "express-mdrn-loader",
-            amount = 1
-          },
+          { type = "item", name = "ultra-fast-underground-belt", amount = 1 },
+          { type = "item", name = "bulk-inserter", amount = 6 },
+          { type = "item", name = "express-mdrn-loader", amount = 1 },
         }
       }
     }
@@ -47,22 +35,14 @@ local loader_templates = {
     recipe_data = {
       ingredients = {
         standard = {
-          {type = "item", name = "extreme-fast-underground-belt", amount = 1},
-          {type = "item", name = "bulk-inserter", amount = 3},
-          {
-            type = "item",
-            name = "ultra-fast-mdrn-loader",
-            amount = 1
-          },
+          { type = "item", name = "extreme-fast-underground-belt", amount = 1 },
+          { type = "item", name = "bulk-inserter", amount = 3 },
+          { type = "item", name = "ultra-fast-mdrn-loader", amount = 1 },
         },
         stack = {
-          {type = "item", name = "extreme-fast-underground-belt", amount = 1},
-          {type = "item", name = "bulk-inserter", amount = 6},
-          {
-            type = "item",
-            name = "ultra-fast-mdrn-loader",
-            amount = 1
-          },
+          { type = "item", name = "extreme-fast-underground-belt", amount = 1 },
+          { type = "item", name = "bulk-inserter", amount = 6 },
+          { type = "item", name = "ultra-fast-mdrn-loader", amount = 1 },
         }
       }
     }
@@ -74,22 +54,14 @@ local loader_templates = {
     recipe_data = {
       ingredients = {
         standard = {
-          {type = "item", name = "ultra-express-underground-belt", amount = 1},
-          {type = "item", name = "bulk-inserter", amount = 3},
-          {
-            type = "item",
-            name = "extreme-fast-mdrn-loader",
-            amount = 1
-          },
+          { type = "item", name = "ultra-express-underground-belt", amount = 1 },
+          { type = "item", name = "bulk-inserter", amount = 3 },
+          { type = "item", name = "extreme-fast-mdrn-loader", amount = 1 },
         },
         stack = {
-          {type = "item", name = "ultra-express-underground-belt", amount = 1},
-          {type = "item", name = "bulk-inserter", amount = 6},
-          {
-            type = "item",
-            name = "extreme-fast-mdrn-loader",
-            amount = 1
-          },
+          { type = "item", name = "ultra-express-underground-belt", amount = 1 },
+          { type = "item", name = "bulk-inserter", amount = 6 },
+          { type = "item", name = "extreme-fast-mdrn-loader", amount = 1 },
         }
       }
     }
@@ -101,22 +73,14 @@ local loader_templates = {
     recipe_data = {
       ingredients = {
         standard = {
-          {type = "item", name = "extreme-express-underground-belt", amount = 1},
-          {type = "item", name = "bulk-inserter", amount = 3},
-          {
-            type = "item",
-            name = "ultra-express-mdrn-loader",
-            amount = 1
-          },
+          { type = "item", name = "extreme-express-underground-belt", amount = 1 },
+          { type = "item", name = "bulk-inserter", amount = 3 },
+          { type = "item", name = "ultra-express-mdrn-loader", amount = 1 },
         },
         stack = {
-          {type = "item", name = "extreme-express-underground-belt", amount = 1},
-          {type = "item", name = "bulk-inserter", amount = 6},
-          {
-            type = "item",
-            name = "ultra-express-mdrn-loader",
-            amount = 1
-          },
+          { type = "item", name = "extreme-express-underground-belt", amount = 1 },
+          { type = "item", name = "bulk-inserter", amount = 6 },
+          { type = "item", name = "ultra-express-mdrn-loader", amount = 1 },
         }
       }
     }
@@ -127,22 +91,14 @@ local loader_templates = {
     recipe_data = {
       ingredients = {
         standard = {
-          {type = "item", name = "original-ultimate-underground-belt", amount = 1},
-          {type = "item", name = "bulk-inserter", amount = 3},
-          {
-            type = "item",
-            name = "extreme-express-mdrn-loader",
-            amount = 1
-          },
+          { type = "item", name = "original-ultimate-underground-belt", amount = 1 },
+          { type = "item", name = "bulk-inserter", amount = 3 },
+          { type = "item", name = "extreme-express-mdrn-loader", amount = 1 },
         },
         stack = {
-          {type = "item", name = "original-ultimate-underground-belt", amount = 1},
-          {type = "item", name = "bulk-inserter", amount = 6},
-          {
-            type = "item",
-            name = "extreme-express-mdrn-loader",
-            amount = 1
-          },
+          { type = "item", name = "original-ultimate-underground-belt", amount = 1 },
+          { type = "item", name = "bulk-inserter", amount = 6 },
+          { type = "item", name = "extreme-express-mdrn-loader", amount = 1 },
         }
       }
     }

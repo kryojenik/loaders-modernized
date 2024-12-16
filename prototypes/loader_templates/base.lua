@@ -131,7 +131,7 @@ if mods["space-age"] then
           standard = {
             {type = "item", name = "processing-unit", amount = 1},
             {type = "item", name = "stack-inserter", amount = 4},
-            {type = "item", name = "turbo-mdrn-loader", amount = 1},
+            {type = "item", name = "fast-mdrn-loader", amount = 1},
           }
         }
       }

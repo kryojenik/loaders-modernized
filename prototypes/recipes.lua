@@ -23,7 +23,7 @@ local function create_recipe(tier, t, blacklist)
     name = name,
     enabled = false,
     energy_required = rd.energy_required or 1,
-    ingredients = rd.ingredients[base_recipe],
+    ingredients = rd.ingredients[base_recipe] or rd.ingredients["standard"],
     results = {{type = "item", name = name, amount = 1}},
     category = rd.category or data.raw["recipe"][ug_name].category
   }
