@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.1
-Date: 2024-12-16 
+Date: 2024-12-16
   Info:
     - Hopefully everyone likes how this mod works and the direction it is going.
       I've added a specific Stack loader entity that will operate at your fastest tier belt speed.
