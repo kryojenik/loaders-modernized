@@ -1,7 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.2
 Date: ????
-  Changes:
+  Bugfixes:
+    - Restore original thumbnail
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.1
 Date: 2024-12-16
@@ -17,7 +18,7 @@ Date: 2024-12-16
     - Fixed technology icons incorrectly tinting the loader frame
   Features:
     - Setting added when AAI-Industry is detected which allows user to choose to use AAI-Industry recipe or mod recipe
-    - Separate stack Loader entities option added
+    - Separate stack Loader entities option added (Thanks jcclark1414)
       - Makes a single Stack Loader entity that requires stack inserters.  This will be the default going forward
       - You are still able to keep the prior behavior where all loader can stack once the research is completed
       - The stack loader will be able to fill your fastest belt
