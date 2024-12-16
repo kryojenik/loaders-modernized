@@ -15,6 +15,7 @@ local blacklist = {
 local loader_templates = {
   [""] = {
     next_upgrade = "fast-mdrn-loader",
+    order = "b",
     tint = util.color("ffd955d1"),
     prerequisite_techs = { "logistics" },
     recipe_data = {
@@ -34,6 +35,7 @@ local loader_templates = {
   },
   ["fast-"] = {
     next_upgrade = "express-mdrn-loader",
+    order = "c",
     tint = util.color("ff1838d1"),
     prerequisite_techs = { "logistics-2", "mdrn-loader" },
     recipe_data = {
@@ -52,6 +54,7 @@ local loader_templates = {
     }
   },
   ["express-"] = {
+    order = "d",
     tint = util.color("5abeffd1"),
     prerequisite_techs = { "logistics-3", "fast-mdrn-loader" },
     recipe_data = {
@@ -75,6 +78,7 @@ local loader_templates = {
 if startup_settings["mdrn-enable-chute"].value then
   loader_templates["chute-"] = {
     next_upgrade = "mdrn-loader",
+    order = "a",
     underground_name = "underground-belt",
     tint = util.color("808080d1"),
     recipe_data = {
@@ -91,6 +95,7 @@ end
 -- Space Age!
 if mods["space-age"] then
   loader_templates["turbo-"] = {
+    order = "e",
     tint = util.color("9bb600d1"),
     prerequisite_techs = { "turbo-transport-belt", "express-mdrn-loader" },
     recipe_data = {
@@ -116,6 +121,7 @@ if mods["space-age"] then
   -- Separate stack tier
   if startup_settings["mdrn-enable-stacking"].value == "stack-tier" then
     loader_templates["stack-"] = {
+      order = "z",
       tint = util.color("f5f5f5d1"),
       underground_name = "turbo-underground-belt",
       prerequisite_techs = { "stack-inserter", "fast-mdrn-loader" },
