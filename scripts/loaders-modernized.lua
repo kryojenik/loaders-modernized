@@ -191,15 +191,17 @@ end
 ---When switching state, replace the existing entity with the alternate entity.
 ---(tier-)mdrn-loader <-> (tier-)mdrn-loader-split
 ---The -split version has filter_count == 2 and filter configured per lane
+---@param old LuaEntity
+---@return LuaEntity?
 loader_modernized.swap_split = function(old)
   local proto = old.prototype
   if old.name == "entity-ghost" then
-    proto = old.ghost_prototype
+    proto = old.ghost_prototype --[[@as LuaEntityPrototype]]
   end
 
   -- Save the ControlBehavior
   local cb = {}
-  local old_cb = old.get_control_behavior()
+  local old_cb = old.get_control_behavior() --[[@as LuaLoaderControlBehavior?]]
   if old_cb then
     cb = {
       circuit_set_filters = old_cb.circuit_set_filters,
@@ -211,7 +213,7 @@ loader_modernized.swap_split = function(old)
 
   -- Save the wires
   local wires = {}
-  for _,w in pairs(old.get_wire_connectors()) do
+  for _, w in pairs(old.get_wire_connectors(false)) do
     if w.connection_count > 0 then
       wires[w.wire_connector_id] = (function()
         return w.connections
@@ -233,7 +235,6 @@ loader_modernized.swap_split = function(old)
     if filter then
       local j = #filters+1
       filters[j] = filter
-      filters[j].index = j
       if j == new_filter_count then
         break
       end
@@ -262,9 +263,12 @@ loader_modernized.swap_split = function(old)
   local surface = old.surface
   old.destroy()
   local new_entity = surface.create_entity(new)
+  if not new_entity then
+    return
+  end
   new_entity.loader_filter_mode = loader_filter_mode
   if old_cb then
-    local new_cb = new_entity.get_or_create_control_behavior()
+    local new_cb = new_entity.get_or_create_control_behavior() --[[@as LuaLoaderControlBehavior]]
     new_cb.circuit_set_filters = cb.circuit_set_filters
     new_cb.circuit_read_transfers = cb.circuit_read_transfers
     new_cb.circuit_enable_disable = cb.circuit_enable_disable
@@ -273,7 +277,7 @@ loader_modernized.swap_split = function(old)
       for wire_id, connections in pairs(wires) do
         local wire = new_entity.get_wire_connector(wire_id, true)
         for _, c in pairs(connections) do
-          if c.target.owner.valid then
+          if c.target.valid and c.target.owner.valid then
             wire.connect_to(c.target, true, c.origin)
           end
         end

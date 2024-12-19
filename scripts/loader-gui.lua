@@ -1,4 +1,4 @@
-local loader = require("__loaders-modernized__.scripts.loaders-modernized")
+local loader = require("scripts.loaders-modernized")
 local flib_gui = require("__flib__.gui")
 
 ---Handle on_split_lane_state_changed.

@@ -48,5 +48,3 @@ data:extend(recipe_prototypes)
 if next(technology_prototypes) then
   data:extend(technology_prototypes)
 end
-
-require("__loaders-modernized__.prototypes.miniloader-migrations")

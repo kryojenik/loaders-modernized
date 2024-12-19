@@ -21,13 +21,6 @@ data:extend({
     setting_type = "startup",
     default_value = false,
   },
-  {
-    type = "bool-setting",
-    name = "mdrn-migrate-from-miniloaders",
-    order = "sz",
-    setting_type = "startup",
-    default_value = false,
-  },
 })
 
 -- If the AAI Loaders mod is found, assume the player wants to use the AAI graphics
