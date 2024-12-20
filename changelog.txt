@@ -1,7 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.3
 Date: ????
+  Bugfixes:
+    - A few items went missing or got held up when switching between split-lanes and not
   Changes:
+    - Moved miniloader migration code to a separate mod
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.2
 Date: 2024-12-16
@@ -11,11 +14,11 @@ Date: 2024-12-16
 Version: 0.8.1
 Date: 2024-12-16
   Info:
-    - Hopefully everyone likes how this mod works and the direction it is going.
-      I've added a specific Stack loader entity that will operate at your fastest tier belt speed.
+    - Hopefully everyone likes how this mod works and the direction it is going
+      I've added a specific Stack loader entity that will operate at your fastest tier belt speed
       It will be locked behind Fulgora and require Stack inserters in the recipe.  By enabling this, all
-      other loaders will revert to not Stack.  You can adjust these behaviors with the mod settings.
-      I'm sure with the recent changes I broke something for someone.  Please let me know in the discussions and I'll fix it as soon as I can.
+      other loaders will revert to not Stack.  You can adjust these behaviors with the mod settings
+      I'm sure with the recent changes I broke something for someone.  Please let me know in the discussions and I'll fix it as soon as I can
   Bugfixes:
     - Fix crash possible crash in multiplayer due to missing nil check (#17)
     - Turbo loader wasn't requiring to be built on Vulcanus

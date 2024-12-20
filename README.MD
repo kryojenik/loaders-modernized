@@ -15,7 +15,7 @@ do use power.  So keep those power poles handy!
 - Stack items on to the belts based on belt stacking technology level.
 - Split Lanes!!!
 - AAI Loader graphics can be used as long as AAI Loader mode is installed.
-- ~~Able to migrate Miniloaders.~~ Move functionality to separate mod - [Miniloader migration](https://mods.factorio.com/mod/miniloader-migration).
+- ~~Able to migrate Miniloaders.~~ Moved functionality to separate mod - [Miniloader migration](https://mods.factorio.com/mod/miniloader-migration).
 
 ## Alternate belt set supported
 
