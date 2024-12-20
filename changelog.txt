@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.3
-Date: ????
+Date: 2024-12-20
   Bugfixes:
     - A few items went missing or got held up when switching between split-lanes and not
   Changes:
