@@ -235,6 +235,7 @@ loader_modernized.swap_split = function(old)
     if filter then
       local j = #filters+1
       filters[j] = filter
+      filters[j].index = j
       if j == new_filter_count then
         break
       end
