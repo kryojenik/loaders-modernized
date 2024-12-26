@@ -42,4 +42,10 @@ if addon then
   meld.meld(loader_templates, addon)
 end
 
+-- Iper belt
+addon = require("iper-belt")
+if addon then
+  meld.meld(loader_templates, addon)
+end
+
 return loader_templates

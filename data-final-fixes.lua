@@ -11,7 +11,7 @@ if mods["5dim_transport"] and startup_settings["mdrn-keep-5d-loaders"].value == 
   }) do
     data.raw["loader"][name].next_upgrade = nil
     data.raw["loader"][name].hidden = true
-    data.raw["recipe"][name] = nil
+    data.raw["recipe"][name].hidden = true
     data.raw["item"][name].hidden = true
     local effects = data.raw["technology"][tech].effects
     utils.remove_recipe_from_effects(effects, name)

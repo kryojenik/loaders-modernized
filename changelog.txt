@@ -1,7 +1,11 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.4
 Date: ????
+  Bugfixes:
+    - Hide base loader recipe when 5Dim's present instead of remove
   Changes:
+    - Add loader for Iper belt
+    - Update RU locale
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.3
 Date: 2024-12-20
