@@ -312,6 +312,7 @@ local function create_entity(tier, template, blacklist)
 
   -- Chute specific settings.  Will also be basic- when supporting Bob's
   if entity.name == "chute-mdrn-loader" then
+    entity.localised_description = { "entity-description." .. entity.name }
     entity.filter_count = 0
     entity.speed = entity.speed / 4
     entity.circuit_wire_max_distance = 0
