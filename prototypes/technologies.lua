@@ -37,6 +37,7 @@ local function create_technology(tier, template, blacklist)
   local technology = {
     type = "technology",
     name = name,
+    localised_description = { "technology-description.common" },
     icons = create_icons(template.tint),
     effects = {{ type = "unlock-recipe", recipe = name }},
     order = template.prerequisite_techs[1].order,

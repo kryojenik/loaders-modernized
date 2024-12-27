@@ -225,7 +225,8 @@ local function create_entity(tier, template, blacklist)
     placeable_by = { item = name, count = 1 },
     minable = { mining_time = 0.1, result = name },
     next_upgrade = template.next_upgrade,
-    localised_name = template.localised_name or nil,
+    localised_name = template.localised_name or { "entity-name." .. name },
+    localised_description = {"" , { "entity-description.common" }},
     flags = {"placeable-player", "placeable-neutral", "player-creation"},
     max_health = 170,
     filter_count = 5,
@@ -324,6 +325,9 @@ local function create_entity(tier, template, blacklist)
   if mods["space-age"] then
     entity.heating_energy = ug_entity.heating_energy
     entity.max_belt_stack_size =  template.max_belt_stack_size or utils.stack(tier, blacklist) and max_belt_stack_size or 1
+    if entity.max_belt_stack_size > 1 then
+      entity.localised_description[#entity.localised_description+1] = { "entity-description.stack" }
+    end
   end
 
   entities[#entities+1] = entity
