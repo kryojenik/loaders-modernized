@@ -32,7 +32,7 @@ local function create_recipe(tier, t, blacklist)
     recipe.enabled = true
   end
 
-  if mods["space-age"] then
+  if feature_flags.space_travel then
     recipe.surface_conditions = rd.surface_conditions
   end
 

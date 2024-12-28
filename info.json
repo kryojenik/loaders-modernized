@@ -16,6 +16,7 @@
         "? 5dim_transport",
         "? aai-industry",
         "? iper-belt",
+        "? stack-inserter",
         "(?) SchallBeltConfiguration"
     ],
     "package": {

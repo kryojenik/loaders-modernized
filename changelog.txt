@@ -6,6 +6,8 @@ Date: ????
   Changes:
     - Add loader for Iper belt
     - Update RU locale
+  Features:
+    - Stacking loaders now possible without Space Age!  It does, however, require using the Stack Inserters mod
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.3
 Date: 2024-12-20

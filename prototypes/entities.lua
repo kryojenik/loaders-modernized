@@ -323,7 +323,7 @@ local function create_entity(tier, template, blacklist)
   -- space-age
   -- May not exactly be working correctly
   -- https://forums.factorio.com/viewtopic.php?f=65&t=117803
-  if mods["space-age"] then
+  if feature_flags.space_travel then
     entity.heating_energy = ug_entity.heating_energy
     entity.max_belt_stack_size =  template.max_belt_stack_size or utils.stack(tier, blacklist) and max_belt_stack_size or 1
     if entity.max_belt_stack_size > 1 then

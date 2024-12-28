@@ -52,33 +52,37 @@ end
 
 -- If space-age is enabled we can do belt_stacking
 -- TODO: Can stacking be done on 2.0 without the DLC being purchased?
-  data:extend({
-    {
-      type = "string-setting",
-      name = "mdrn-enable-stacking",
-      order = "se",
-      setting_type = "startup",
-      default_value = "stack-tier",
-      allowed_values = { "none", "turbo-and-above", "all", "stack-tier" }
-    },
-    {
-      type = "bool-setting",
-      name = "mdrn-cheap-stacking",
-      order = "sea",
-      setting_type = "startup",
-      default_value = false
-    },
-  })
+data:extend({
+  {
+    type = "string-setting",
+    name = "mdrn-enable-stacking",
+    order = "se",
+    setting_type = "startup",
+    default_value = "stack-tier",
+    allowed_values = { "none", "turbo-and-above", "all", "stack-tier" }
+  },
+  {
+    type = "bool-setting",
+    name = "mdrn-cheap-stacking",
+    order = "sea",
+    setting_type = "startup",
+    default_value = false
+  },
+})
 
 if not mods["space-age"] then
   local stacking = data.raw["string-setting"]["mdrn-enable-stacking"]
-  stacking.default_value = "none"
-  stacking.allowed_values = { "none" }
-  stacking.hidden = true
+  if feature_flags.space_travel then
+    stacking.allowed_values = { "none", "all", "stack-tier" }
+  else
+    stacking.allowed_values = { "none" }
+    stacking.default_value = "none"
+    stacking.hidden = true
 
-  local cost = data.raw["bool-setting"]["mdrn-cheap-stacking"]
-  cost.forced_value = false
-  cost.hidden = true
+    local cheap_stack = data.raw["bool-setting"]["mdrn-cheap-stacking"]
+    cheap_stack.forced_value = false
+    cheap_stack.hidden = true
+  end
 end
 
 -- Settings if 5Dim's New Transport is loaded

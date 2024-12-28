@@ -2,8 +2,8 @@
 
 # Loaders Modernized
 
-A Space Aged, compact loader the size of a single tile.  This loader should be UPS friendly and does
-not use LUA to move items.  It also does not use hidden inserters to move inventory.  However, they
+A Space Aged, compact loader the size of a single tile.  These loaders should be relatively UPS friendly
+and do not use LUA script to move items.  They also do not use hidden inserters to move inventory.  However, they
 do use power.  So keep those power poles handy!
 
 ## Features
@@ -15,24 +15,18 @@ do use power.  So keep those power poles handy!
 - Stack items on to the belts based on belt stacking technology level.
 - Split Lanes!!!
 - AAI Loader graphics can be used as long as AAI Loader mode is installed.
-- ~~Able to migrate Miniloaders.~~ Moved functionality to separate mod - [Miniloader migration](https://mods.factorio.com/mod/miniloader-migration).
+- Stacked loaders can be used without Space Age!  This requires the use of the [Stack Inserters](https://mods.factorio.com/mod/stack-inserters) mod.
+- ~~Able to migrate Miniloaders.~~ Miniloader migration functionality moved to its own mod - [Miniloader migration](https://mods.factorio.com/mod/miniloader-migration).
 
-## Alternate belt set supported
+## Alternate belt sets supported
 
 - [Ultimate Belts Space Age](https://mods.factorio.com/mod/UltimateBeltsSpaceAge)
 - [5Dim's New Transport](https://mods.factorio.com/mod/5dim_transport)
-
-## Migrating from Miniloaders
-
-**CAUTION: Backup your save file before migrating Miniloaders**
-As a startup setting, you can enable migration of existing Miniloaders.  This will attempt to find all
-miniloaders and replace them with equivalent Loaders Modernized.  This may not be perfect, and I'll fix
-what I can when reported.  Please backup your save file before attempting migration.  Specific Belt
-overhaul mods are not implemented yet.  Please drop a message if one is needed.
+- [Iper Belt](https://mods.factorio.com/mod/iper-belt)
 
 ## TODO
 
-- Support belts from additional overhaul mods.
+- Support belts from additional overhaul mods as they are requested.
 
 ## Acknowledgements
 
