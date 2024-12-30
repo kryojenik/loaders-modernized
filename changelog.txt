@@ -2,6 +2,7 @@
 Version: 0.8.6
 Date: ????
   Changes:
+    - Added identifier to split-lane loader icons to better distinguish them in the upgrade planner.
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.5
 Date: 2024-12-30

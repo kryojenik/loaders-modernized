@@ -206,6 +206,15 @@ function create_split_entity(entity)
   split_entity.factoriopedia_alternative = entity.name
   split_entity.deconstruction_alternative = entity.name
   split_entity.next_upgrade = entity.next_upgrade and entity.next_upgrade .. "-split" or nil
+  table.insert(
+    split_entity.icons,
+    {
+      icon = "__loaders-modernized__/graphics/icon/split-lane-out.png",
+      icon_size = 64,
+      scale = 0.18,
+      shift = { -9, 9 }
+    }
+  )
   return split_entity
 end
 
