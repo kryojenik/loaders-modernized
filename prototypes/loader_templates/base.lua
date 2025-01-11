@@ -93,8 +93,8 @@ if startup_settings["mdrn-enable-chute"].value then
 end
 
 local space_age = mods["space-age"]
--- Space Age!
-if space_age then
+-- Space Age! or if another mod adds turbo belts (e.g. Bob Logistics)
+if space_age or data.raw.item["turbo-underground-belt"]then
   loader_templates["turbo-"] = {
     order = "e",
     tint = util.color("9bb600d1"),
