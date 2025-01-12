@@ -2,6 +2,7 @@ if not mods["boblogistics"] then return false end
 log("\nBob Logistics found, implement additional loaders.")
 ---@type table<string, LMLoaderTemplate>
 local loader_templates = {}
+
 if settings.startup["bobmods-logistics-beltoverhaul"].value == true then
 loader_templates["basic-"] = {
     next_upgrade = "mdrn-loader",
@@ -30,7 +31,33 @@ loader_templates["basic-"] = {
         }
     }
 }
+
+loader_templates["chute-"] = {
+    next_upgrade = "basic-mdrn-loader"
+}
+
+loader_templates[""] = {
+    subgroup = "bob-logistic-tier-1",
+    order = "f[loader]-1[mdrn-loader]",
+    prerequisite_techs = {"logistics", "basic-mdrn-loader"},
+    recipe_data = {
+            ingredients = {
+                standard = {
+                    {type = "item", name = "underground-belt", amount = 1},
+                    {type = "item", name = "inserter", amount = 6},
+                    {type = "item", name = "basic-mdrn-loader", amount = 1}
+                },
+                stack = {
+                    {type = "item", name = "underground-belt", amount = 1},
+                    {type = "item", name = "inserter", amount = 8},
+                    {type = "item", name = "basic-mdrn-loader", amount = 6}
+                }
+            }
+        }
+}
+
 end
+
 loader_templates["ultimate-"] = {
     tint = defines.color.green,
     prerequisite_techs = {"ultimate-transport-belt", "turbo-mdrn-loader"},
@@ -54,28 +81,7 @@ loader_templates["ultimate-"] = {
 
 -- Express loader can upgrade to the turbo loader
 ---@diagnostic disable-next-line: missing-fields
-loader_templates["chute-"] = {
-    next_upgrade = "basic-mdrn-loader"
-}
-loader_templates[""] = {
-    subgroup = "bob-logistic-tier-1",
-    order = "f[loader]-1[mdrn-loader]",
-    prerequisite_techs = {"logistics", "basic-mdrn-loader"},
-    recipe_data = {
-            ingredients = {
-                standard = {
-                    {type = "item", name = "underground-belt", amount = 1},
-                    {type = "item", name = "inserter", amount = 6},
-                    {type = "item", name = "basic-mdrn-loader", amount = 1}
-                },
-                stack = {
-                    {type = "item", name = "underground-belt", amount = 1},
-                    {type = "item", name = "inserter", amount = 8},
-                    {type = "item", name = "basic-mdrn-loader", amount = 6}
-                }
-            }
-        }
-}
+
 loader_templates["fast-"] = {
     subgroup = "bob-logistic-tier-2",
     order = "f[loader]-1[fast-mdrn-loader]",
