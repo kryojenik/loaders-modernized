@@ -60,7 +60,7 @@ end
 
 loader_templates["ultimate-"] = {
     tint = defines.color.green,
-    prerequisite_techs = {"ultimate-transport-belt", "turbo-mdrn-loader"},
+    prerequisite_techs = {"logistics-5", "turbo-mdrn-loader"},
     subgroup = "bob-logistic-tier-5",
     order = "f[loader]-1[ultimate-mdrn-loader]",
     recipe_data = {
