@@ -2,7 +2,7 @@
     "name": "loaders-modernized",
     "version": "0.8.7",
     "title": "Loaders Modernized",
-    "description": "Compact 1x1 loader requiring power.",
+    "description": "Compact 1x1 loader requiring electricity to run.  There are options to enable or modify capabilities like stacking, disable power consumption, or recipe cost.",
     "author": "kryojenik",
     "contact": "https://github.com/kryojenik/loaders-modernized",
     "homepage": "https://github.com/kryojenik/loaders-modernized",
