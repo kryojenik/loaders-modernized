@@ -26,4 +26,10 @@ if addon then
   meld.meld(loader_templates, addon)
 end
 
+-- Hyper belt
+addon = require("ev-logistics")
+if addon then
+  meld.meld(loader_templates, addon)
+end
+
 return loader_templates
