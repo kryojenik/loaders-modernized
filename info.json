@@ -17,7 +17,8 @@
         "? aai-industry",
         "? iper-belt",
         "? stack-inserters",
-        "(?) SchallBeltConfiguration"
+        "(?) SchallBeltConfiguration",
+        "(?) pycoalprocessing"
     ],
     "package": {
         "git_publish_branch": "main",

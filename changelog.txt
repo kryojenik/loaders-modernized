@@ -2,6 +2,7 @@
 Version: 0.8.7
 Date: ????
   Changes:
+    - Improved compatibility with Pyanodon's mods.  Some startup issues are resolved, and belt stacking is available natively in Pyanodon's.
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.6
 Date: 2024-12-30

@@ -138,13 +138,11 @@ if startup_settings["mdrn-enable-stacking"].value == "stack-tier" then
       }
     }
   }
-  if not space_age then
-    loader_templates["stack-"].underground_name = "express-underground-belt"
-  end
 
   if space_age then
     loader_templates["turbo-"].next_upgrade = "stack-mdrn-loader"
   else
+    loader_templates["stack-"].underground_name = "express-underground-belt"
     loader_templates["express-"].next_upgrade = "stack-mdrn-loader"
   end
 end

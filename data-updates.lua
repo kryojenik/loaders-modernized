@@ -16,3 +16,12 @@ if mods["SchallBeltConfiguration"] then
     data.raw["loader-1x1"][tier .. "mdrn-loader-split"].speed = data.raw["transport-belt"][tier .. "transport-belt"].speed
   end
 end
+
+-- PyMods doesn't create the belt-stacking technology until data-updates.  Need to apply tech requirements
+-- to the stack tier if enabled.
+if mods["pycoalprocessing"] and settings.startup["mdrn-enable-stacking"].value == "stack-tier" then
+  local t = data.raw["technology"]["stack-mdrn-loader"]
+  t.prerequisites[1] = "py-transport-belt-capacity-1"
+  t.unit = data.raw["technology"]["py-transport-belt-capacity-1"].unit
+  data.raw["recipe"]["stack-mdrn-loader"].ingredients[2].name = "py-stack-inserter"
+end
