@@ -23,6 +23,7 @@ do use power.  So keep those power poles handy!
 - [Ultimate Belts Space Age](https://mods.factorio.com/mod/UltimateBeltsSpaceAge)
 - [5Dim's New Transport](https://mods.factorio.com/mod/5dim_transport)
 - [Iper Belt](https://mods.factorio.com/mod/iper-belt)
+- [Extended Vanilla: Modular Logistics & Robotics](https://mods.factorio.com/mod/ev-logistics)
 
 ## TODO
 
