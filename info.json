@@ -12,13 +12,14 @@
         "base >= 2.0.23",
         "flib >= 0.16.0",
         "? space-age >= 2.0.23",
-        "? UltimateBeltsSpaceAge",
-        "? 5dim_transport",
-        "? aai-industry",
-        "? iper-belt",
-        "? stack-inserters",
+        "(?) UltimateBeltsSpaceAge",
+        "(?) 5dim_transport",
+        "(?) aai-industry",
+        "(?) iper-belt",
+        "(?) stack-inserters",
         "(?) SchallBeltConfiguration",
-        "(?) pycoalprocessing"
+        "(?) pycoalprocessing",
+        "(?) ev-logistics"
     ],
     "package": {
         "git_publish_branch": "main",
