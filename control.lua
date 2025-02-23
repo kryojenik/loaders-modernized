@@ -1,5 +1,5 @@
 -- Using game provided event_handler.
-local handler = require("__core__.lualib.event_handler")
+local handler = require("event_handler")
 
 handler.add_libraries({
   require("__flib__.gui"),

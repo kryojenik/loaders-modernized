@@ -1,6 +1,6 @@
 -- 5 Dim New Transport
 local meld = require("meld")
-local utils = require("__loaders-modernized__.scripts.utils")
+local utils = require("scripts.utils")
 
 if not mods["5dim_transport"] then
   return false
