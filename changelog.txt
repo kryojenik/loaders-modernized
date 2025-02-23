@@ -1,6 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.8
 Date: ????
+  Changes:
+    - Belt stack size override is supported if running Factorio 2.0.35 or higher.
+    - Update to RU locale
+    - Update to DE locale
   Bugfixes:
     - Add optional dependency on ev-logistics
 ---------------------------------------------------------------------------------------------------
