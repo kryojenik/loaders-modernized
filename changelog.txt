@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.8
-Date: ????
+Date: 2025-02-23
   Changes:
     - Belt stack size override is supported if running Factorio 2.0.35 or higher.
     - Update to RU locale
