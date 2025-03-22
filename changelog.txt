@@ -2,6 +2,9 @@
 Version: 0.8.9
 Date: ????
   Changes:
+    - Mark incompatible with AAI Loader: Electric Powered
+  Bugfixes:
+    - Extended Vanilla Modular Logistics: Fix failure to load when Hyper-belts are disabled.
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.8
 Date: 2025-02-23
