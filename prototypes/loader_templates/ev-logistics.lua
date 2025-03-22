@@ -2,6 +2,9 @@
 if not mods["ev-logistics"] then
     return false
 end
+if not settings.startup["ev-belts-enabled"].value then
+  return false
+end
 
 -- Define the loader template for the tier 5 turbo belt
 local loader_templates = {
