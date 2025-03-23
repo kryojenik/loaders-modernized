@@ -21,6 +21,14 @@ data:extend({
     setting_type = "startup",
     default_value = false,
   },
+  {
+    type = "string-setting",
+    name = "mdrn-unlock-technology",
+    order = "sc",
+    setting_type = "startup",
+    default_value = "separate",
+    allowed_values = { "separate", "belt" }
+  },
 })
 
 -- If the AAI Loaders mod is found, assume the player wants to use the AAI graphics
@@ -110,4 +118,8 @@ if mods["5dim_transport"] then
       },
     })
   end
+  local mut = data.raw["string-setting"]["mdrn-unlock-technology"]
+  mut.default_value = "belt"
+  mut.allowed_values = { "belt" }
+  mut.hidden = true
 end
