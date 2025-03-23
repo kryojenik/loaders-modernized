@@ -9,9 +9,9 @@
     "source": "https://github.com/kryojenik/loaders-modernized",
     "factorio_version": "2.0",
     "dependencies": [
-        "base >= 2.0.23",
-        "flib >= 0.16.0",
-        "? space-age >= 2.0.23",
+        "base >= 2.0.35",
+        "flib >= 0.16.2",
+        "? space-age >= 2.0.35",
         "(?) UltimateBeltsSpaceAge",
         "(?) 5dim_transport",
         "(?) aai-industry",
