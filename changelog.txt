@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.9
-Date: ????
+Date: 2025-03-23
   Features:
     - Added setting to allow unlocking loaders with the belt of same tier.
   Changes:
