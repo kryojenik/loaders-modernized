@@ -19,8 +19,7 @@
         "(?) stack-inserters",
         "(?) SchallBeltConfiguration",
         "(?) pycoalprocessing",
-        "(?) ev-logistics",
-        "! aai-loaders-electric"
+        "(?) ev-logistics"
     ],
     "package": {
         "git_publish_branch": "main",

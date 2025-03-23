@@ -4,7 +4,7 @@ Date: ????
   Features:
     - Added setting to allow unlocking loaders with the belt of same tier.
   Changes:
-    - Mark incompatible with AAI Loader: Electric Powered.
+    - Improve compatibility with AAI Loaders: Electric Powered.
   Bugfixes:
     - Extended Vanilla Modular Logistics: Fix failure to load when Hyper-belts are disabled.
     - Fixed compatibility with 5 Dims and Ultimate Belts: Space Age used at the same time.
