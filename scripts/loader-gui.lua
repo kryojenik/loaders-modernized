@@ -15,7 +15,7 @@ local function on_split_lane_state_changed(e)
     return
   end
 
-  local new = loader.swap_split(pd.open_loader.entity)
+  local new = loader.swap_split(pd.open_loader.entity, e.player_index)
   game.get_player(e.player_index).opened = new
 end
 
