@@ -25,6 +25,10 @@ local function create_technology(tier, template, blacklist)
 
   local name = template.name or tier .. "mdrn-loader"
   local unlocked_by = data.raw["technology"][template.unlocked_by]
+  if not unlocked_by and startup_settings["mdrn-unlock-technology"].value == "belt" then
+    unlocked_by = data.raw["technology"][template.prerequisite_techs[1]]
+  end
+
   if unlocked_by then
     unlocked_by.effects[#unlocked_by.effects+1] = { type = "unlock-recipe", recipe = name }
     return {}

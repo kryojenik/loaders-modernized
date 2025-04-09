@@ -1,6 +1,6 @@
 -- Ultimate Belts Space Age adjusts logistics-3 tech cost in data-updates.
 -- Adjust to unlock at same science tier
-if mods["UltimateBeltsSpaceAge"] and not mods["5dim_transport"] then
+if mods["UltimateBeltsSpaceAge"] and settings.startup["mdrn-unlock-technology"].value == "separate" then
   data.raw["technology"]["express-mdrn-loader"].unit = data.raw["technology"]["logistics-3"].unit
 end
 
@@ -20,8 +20,10 @@ end
 -- PyMods doesn't create the belt-stacking technology until data-updates.  Need to apply tech requirements
 -- to the stack tier if enabled.
 if mods["pycoalprocessing"] and settings.startup["mdrn-enable-stacking"].value == "stack-tier" then
-  local t = data.raw["technology"]["stack-mdrn-loader"]
-  t.prerequisites[1] = "py-transport-belt-capacity-1"
-  t.unit = data.raw["technology"]["py-transport-belt-capacity-1"].unit
   data.raw["recipe"]["stack-mdrn-loader"].ingredients[2].name = "py-stack-inserter"
+  if settings.startup["mdrn-unlock-technology"].value == "separate" then
+    local t = data.raw["technology"]["stack-mdrn-loader"]
+    t.prerequisites[1] = "py-transport-belt-capacity-1"
+    t.unit = data.raw["technology"]["py-transport-belt-capacity-1"].unit
+  end
 end

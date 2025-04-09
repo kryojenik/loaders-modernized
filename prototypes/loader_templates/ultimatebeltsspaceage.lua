@@ -50,7 +50,10 @@ local loader_templates = {
   ["ultra-express-"] = {
     next_upgrade = "extreme-express-mdrn-loader",
     tint = util.color("4a01d8d1"),
-    prerequisite_techs = { "ultra-express-logistics", "extreme-fast-mdrn-loader" },
+    prerequisite_techs = {
+      "ultra-express-logistics",
+      "extreme-fast-mdrn-loader"
+    },
     recipe_data = {
       ingredients = {
         standard = {
@@ -69,7 +72,10 @@ local loader_templates = {
   ["extreme-express-"] = {
     next_upgrade = "original-ultimate-mdrn-loader",
     tint = util.color("0620d6d1"),
-    prerequisite_techs = { "extreme-express-logistics", "ultra-express-mdrn-loader" },
+    prerequisite_techs = {
+      "extreme-express-logistics",
+      "ultra-express-mdrn-loader"
+    },
     recipe_data = {
       ingredients = {
         standard = {
@@ -87,7 +93,10 @@ local loader_templates = {
   },
   ["original-ultimate-"] = {
     tint = util.color("06d9c4d1"),
-    prerequisite_techs = { "ultimate-logistics", "extreme-express-mdrn-loader" },
+    prerequisite_techs = {
+      "ultimate-logistics",
+      "extreme-express-mdrn-loader"
+    },
     recipe_data = {
       ingredients = {
         standard = {

@@ -1,6 +1,29 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.8.8
+Version: 0.8.11
 Date: ????
+  Changes:
+---------------------------------------------------------------------------------------------------
+Version: 0.8.10
+Date: 2025-03-26
+  Bugfixes:
+    - Fixed loader duplication bug (#26)
+---------------------------------------------------------------------------------------------------
+Version: 0.8.9
+Date: 2025-03-23
+  Features:
+    - Added setting to allow unlocking loaders with the belt of same tier.
+  Changes:
+    - Improve compatibility with AAI Loaders: Electric Powered.
+  Bugfixes:
+    - Extended Vanilla Modular Logistics: Fix failure to load when Hyper-belts are disabled.
+    - Fixed compatibility with 5 Dims and Ultimate Belts: Space Age used at the same time.
+---------------------------------------------------------------------------------------------------
+Version: 0.8.8
+Date: 2025-02-23
+  Changes:
+    - Belt stack size override is supported if running Factorio 2.0.35 or higher.
+    - Update to RU locale
+    - Update to DE locale
   Bugfixes:
     - Add optional dependency on ev-logistics
 ---------------------------------------------------------------------------------------------------
