@@ -6,6 +6,7 @@ local loader_templates = {}
 if settings.startup["bobmods-logistics-beltoverhaul"].value == true then
 loader_templates["basic-"] = {
     next_upgrade = "mdrn-loader",
+    underground_name = "bob-basic-underground-belt",
     tint = util.color("808080d1"),
     subgroup = "bob-logistic-tier-0",
     order = "f[loader]-1[basic-mdrn-loader]",
@@ -21,11 +22,11 @@ loader_templates["basic-"] = {
     recipe_data = {
         ingredients = {
             standard = {
-                {type = "item", name = "basic-underground-belt", amount = 1},
+                {type = "item", name = "bob-basic-underground-belt", amount = 1},
                 {type = "item", name = "burner-inserter", amount = 3}
             },
             stack = {
-                {type = "item", name = "basic-underground-belt", amount = 1},
+                {type = "item", name = "bob-basic-underground-belt", amount = 1},
                 {type = "item", name = "burner-inserter", amount = 6}
             }
         }
@@ -61,18 +62,19 @@ end
 loader_templates["ultimate-"] = {
     tint = defines.color.green,
     prerequisite_techs = {"logistics-5", "turbo-mdrn-loader"},
+    underground_name = "bob-ultimate-underground-belt",
     subgroup = "bob-logistic-tier-5",
     order = "f[loader]-1[ultimate-mdrn-loader]",
     recipe_data = {
         ingredients = {
             standard = {
-                {type = "item", name = "ultimate-underground-belt", amount = 1},
-                {type = "item", name = "express-inserter", amount = 6},
+                {type = "item", name = "bob-ultimate-underground-belt", amount = 1},
+                {type = "item", name = "bob-express-inserter", amount = 6},
                 {type = "item", name = "turbo-mdrn-loader", amount = 1}
             },
             stack = {
-                {type = "item", name = "ultimate-underground-belt", amount = 1},
-                {type = "item", name = "express-bulk-inserter", amount = 8},
+                {type = "item", name = "bob-ultimate-underground-belt", amount = 1},
+                {type = "item", name = "bob-express-bulk-inserter", amount = 8},
                 {type = "item", name = "turbo-mdrn-loader", amount = 1}
             }
         }
@@ -96,7 +98,7 @@ loader_templates["fast-"] = {
                 },
                 stack = {
                     {type = "item", name = "fast-underground-belt", amount = 1},
-                    {type = "item", name = "red-bulk-inserter", amount = 8},
+                    {type = "item", name = "bob-red-bulk-inserter", amount = 8},
                     {type = "item", name = "mdrn-loader", amount = 1}
                 }
             }
@@ -123,27 +125,32 @@ loader_templates["express-"] = {
             }
         }
 }
-loader_templates["turbo-"] = {
+  loader_templates["turbo-"] = {
     next_upgrade = "ultimate-mdrn-loader",
     subgroup = "bob-logistic-tier-4",
     order = "f[loader]-1[turbo-mdrn-loader]",
+    underground_name = "bob-turbo-underground-belt",
     tint = defines.color.purple,
+    prerequisite_techs = { "logistics-4", "express-mdrn-loader" },
     recipe_data = {
-            surface_conditions = data.raw["recipe"]["turbo-underground-belt"]
-                .surface_conditions,
-            ingredients = {
+        ingredients = {
                 standard = {
-                    {type = "item", name = "turbo-underground-belt", amount = 1},
-                    {type = "item", name = "turbo-inserter", amount = 6},
+                    {type = "item", name = "bob-turbo-underground-belt", amount = 1},
+                    {type = "item", name = "bob-turbo-inserter", amount = 6},
                     {type = "item", name = "express-mdrn-loader", amount = 1}
                 },
                 stack = {
-                    {type = "item", name = "turbo-underground-belt", amount = 1},
-                    {type = "item", name = "bulk-inserter", amount = 8},
+                    {type = "item", name = "bob-turbo-underground-belt", amount = 1},
+                    {type = "item", name = "bob-turbo-bulk-inserter", amount = 8},
                     {type = "item", name = "express-mdrn-loader", amount = 1}
                 }
-            }
         }
-}
+    }
+  }
+  if mods['space-age'] then
+    loader_templates["turbo-"].recipe_data.surface_conditions = data.raw["recipe"]["bob-turbo-underground-belt"].surface_conditions
+  end
+  -- Express loader can upgrade to the turbo loader
+  loader_templates["express-"].next_upgrade = "turbo-mdrn-loader"
 
 return loader_templates

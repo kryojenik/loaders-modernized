@@ -93,8 +93,8 @@ if startup_settings["mdrn-enable-chute"].value then
 end
 
 local space_age = mods["space-age"]
--- Space Age! or if another mod adds turbo belts (e.g. Bob Logistics)
-if space_age or data.raw.item["turbo-underground-belt"] then
+-- Space Age!
+if space_age then
   loader_templates["turbo-"] = {
     order = "e",
     tint = util.color("9bb600d1"),
@@ -138,13 +138,11 @@ if startup_settings["mdrn-enable-stacking"].value == "stack-tier" then
       }
     }
   }
-  if not space_age then
-    loader_templates["stack-"].underground_name = "express-underground-belt"
-  end
 
   if space_age then
     loader_templates["turbo-"].next_upgrade = "stack-mdrn-loader"
   else
+    loader_templates["stack-"].underground_name = "express-underground-belt"
     loader_templates["express-"].next_upgrade = "stack-mdrn-loader"
   end
 end

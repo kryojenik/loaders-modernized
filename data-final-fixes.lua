@@ -19,7 +19,8 @@ if mods["5dim_transport"] and startup_settings["mdrn-keep-5d-loaders"].value == 
 end
 
 -- Make sure the stack loader tier is at the fastest belt speed
-if startup_settings["mdrn-enable-stacking"].value == "stack-tier" then
+if startup_settings["mdrn-enable-stacking"].value == "stack-tier"
+and data.raw["loader-1x1"]["stack-mdrn-loader"] then
   local fastest_belt = 0
   for _, ug in pairs(data.raw["underground-belt"]) do
     if ug.speed > fastest_belt then
@@ -29,4 +30,8 @@ if startup_settings["mdrn-enable-stacking"].value == "stack-tier" then
 
   data.raw["loader-1x1"]["stack-mdrn-loader"].speed = fastest_belt
   data.raw["loader-1x1"]["stack-mdrn-loader-split"].speed = fastest_belt
+end
+
+if mods['boblogistics'] then
+  require("prototypes.boblogistics-ff")
 end
