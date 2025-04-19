@@ -33,4 +33,11 @@ if addon then
   meld.meld(loader_templates, addon)
 end
 
+-- boblogistics
+addon = require("boblogistics")
+if addon then
+  meld.meld(loader_templates, addon)
+end
+
+
 return loader_templates
