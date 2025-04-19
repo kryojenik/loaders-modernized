@@ -1,8 +1,12 @@
 -- 5 Dim New Transport
 local meld = require("meld")
-local utils = require("__loaders-modernized__.scripts.utils")
-local startup_settings = settings.startup
+local utils = require("scripts.utils")
 
+if not mods["5dim_transport"] then
+  return false
+end
+
+local startup_settings = settings.startup
 local blacklist = {
   ["below_turbo"] = {
     ["01"] = true,
@@ -10,10 +14,6 @@ local blacklist = {
     ["03"] = true,
   }
 }
-
-if not mods["5dim_transport"] then
-  return false
-end
 
 data:extend({
   {

@@ -337,6 +337,7 @@ local function create_entity(tier, template, blacklist)
     entity.max_belt_stack_size =  template.max_belt_stack_size or utils.stack(tier, blacklist) and max_belt_stack_size or 1
     if entity.max_belt_stack_size > 1 then
       entity.localised_description[#entity.localised_description+1] = { "entity-description.stack" }
+      entity.adjustable_belt_stack_size = true
     end
   end
 

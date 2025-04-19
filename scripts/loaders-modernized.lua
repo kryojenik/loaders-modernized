@@ -193,7 +193,7 @@ end
 ---The -split version has filter_count == 2 and filter configured per lane
 ---@param old LuaEntity
 ---@return LuaEntity?
-loader_modernized.swap_split = function(old)
+loader_modernized.swap_split = function(old, player_index)
   local proto = old.prototype
   if old.name == "entity-ghost" then
     proto = old.ghost_prototype --[[@as LuaEntityPrototype]]
@@ -206,17 +206,18 @@ loader_modernized.swap_split = function(old)
 
   -- Retain quality when switching between split and non-split configurations
   local quality = old.quality
+  local player = player_index and game.get_player(player_index) or nil
 
   local new = {
     name = new_name,
     fast_replace = true,
     create_build_effect_smoke = false,
-    player = old.last_user,
     position = old.position,
     direction = old.direction,
     force = old.force,
     type = old.loader_type,
     quality = quality,
+    spill = false,
   }
   if old.name == "entity-ghost" then
     new.name = "entity-ghost"
@@ -228,6 +229,7 @@ loader_modernized.swap_split = function(old)
   if not new_entity then
     return
   end
+  new_entity.last_user = player
   return new_entity
 end
 

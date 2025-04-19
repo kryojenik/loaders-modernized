@@ -1,8 +1,8 @@
-local templates = require("__loaders-modernized__.prototypes.loader_templates.loader_templates")
-local entities = require("__loaders-modernized__.prototypes.entities")
-local items = require("__loaders-modernized__.prototypes.items")
-local recipes = require("__loaders-modernized__.prototypes.recipes")
-local technologies = require("__loaders-modernized__.prototypes.technologies")
+local templates = require("prototypes.loader_templates.loader_templates")
+local entities = require("prototypes.entities")
+local items = require("prototypes.items")
+local recipes = require("prototypes.recipes")
+local technologies = require("prototypes.technologies")
 
 ---@type data.Loader1x1Prototype[]
 local entity_prototypes = {}

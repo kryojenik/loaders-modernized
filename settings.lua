@@ -21,6 +21,14 @@ data:extend({
     setting_type = "startup",
     default_value = false,
   },
+  {
+    type = "string-setting",
+    name = "mdrn-unlock-technology",
+    order = "sc",
+    setting_type = "startup",
+    default_value = "separate",
+    allowed_values = { "separate", "belt" }
+  },
 })
 
 -- If the AAI Loaders mod is found, assume the player wants to use the AAI graphics
@@ -70,19 +78,21 @@ data:extend({
   },
 })
 
-if not mods["space-age"] then
-  local stacking = data.raw["string-setting"]["mdrn-enable-stacking"]
-  if feature_flags.space_travel then
-    stacking.allowed_values = { "none", "all", "stack-tier" }
-  else
-    stacking.allowed_values = { "none" }
-    stacking.default_value = "none"
-    stacking.hidden = true
+local stacking = data.raw["string-setting"]["mdrn-enable-stacking"]
+if not feature_flags.space_travel then
+  stacking.allowed_values = { "none" }
+  stacking.default_value = "none"
+  stacking.hidden = true
 
-    local cheap_stack = data.raw["bool-setting"]["mdrn-cheap-stacking"]
-    cheap_stack.forced_value = false
-    cheap_stack.hidden = true
-  end
+  local cheap_stack = data.raw["bool-setting"]["mdrn-cheap-stacking"]
+  cheap_stack.forced_value = false
+  cheap_stack.hidden = true
+  -- Mods known to provide a stack inserter
+elseif not (mods["space-age"]
+  or mods["stack-inserters"]
+  or mods["pycoalprocessing"]) then
+  stacking.allowed_values = { "none", "all" }
+  stacking.default_value = "none"
 end
 
 -- Settings if 5Dim's New Transport is loaded
@@ -108,4 +118,8 @@ if mods["5dim_transport"] then
       },
     })
   end
+  local mut = data.raw["string-setting"]["mdrn-unlock-technology"]
+  mut.default_value = "belt"
+  mut.allowed_values = { "belt" }
+  mut.hidden = true
 end

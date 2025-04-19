@@ -25,9 +25,18 @@ local function create_technology(tier, template, blacklist)
 
   local name = template.name or tier .. "mdrn-loader"
   local unlocked_by = data.raw["technology"][template.unlocked_by]
+  if not unlocked_by and startup_settings["mdrn-unlock-technology"].value == "belt" then
+    unlocked_by = data.raw["technology"][template.prerequisite_techs[1]]
+  end
+
   if unlocked_by then
     unlocked_by.effects[#unlocked_by.effects+1] = { type = "unlock-recipe", recipe = name }
     return {}
+  end
+
+  local unit = nil
+  if data.raw["technology"][template.prerequisite_techs[1]] then
+    unit = util.table.deepcopy(data.raw["technology"][template.prerequisite_techs[1]].unit)
   end
 
   ---@type data.TechnologyPrototype[]
@@ -42,7 +51,7 @@ local function create_technology(tier, template, blacklist)
     effects = {{ type = "unlock-recipe", recipe = name }},
     order = template.prerequisite_techs[1].order,
     prerequisites = template.prerequisite_techs,
-    unit = template.unit or util.table.deepcopy(data.raw["technology"][template.prerequisite_techs[1]].unit)
+    unit = unit
   }
 
   technologies[#technologies+1] = technology

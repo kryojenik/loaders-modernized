@@ -34,6 +34,9 @@ local loader_templates = {
 loader_templates["express-"] = {
   next_upgrade = "iper-mdrn-loader"
 }
+if settings.startup["mdrn-enable-stacking"].value == "stack-tier" then
+  loader_templates["iper-"].next_upgrade = "stack-mdrn-loader"
+end
 
 loader_templates.blacklist = blacklist
 return loader_templates

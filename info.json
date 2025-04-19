@@ -1,6 +1,6 @@
 {
     "name": "loaders-modernized",
-    "version": "0.8.10",
+    "version": "0.8.11",
     "title": "Loaders Modernized",
     "description": "Compact 1x1 loader requiring electricity to run.  There are options to enable or modify capabilities like stacking, disable power consumption, or recipe cost.",
     "author": "kryojenik",
@@ -19,8 +19,7 @@
         "(?) stack-inserters",
         "(?) SchallBeltConfiguration",
         "(?) pycoalprocessing",
-        "(?) ev-logistics",
-        "(?) boblogistics >= 2.0.0"
+        "(?) ev-logistics"
     ],
     "package": {
         "git_publish_branch": "main",
