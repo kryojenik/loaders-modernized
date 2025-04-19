@@ -133,6 +133,7 @@ loader_templates["express-"] = {
     tint = defines.color.purple,
     prerequisite_techs = { "logistics-4", "express-mdrn-loader" },
     recipe_data = {
+        surface_conditions = data.raw["recipe"]["bob-turbo-underground-belt"].surface_conditions,
         ingredients = {
                 standard = {
                     {type = "item", name = "bob-turbo-underground-belt", amount = 1},
@@ -147,9 +148,6 @@ loader_templates["express-"] = {
         }
     }
   }
-  if mods['space-age'] then
-    loader_templates["turbo-"].recipe_data.surface_conditions = data.raw["recipe"]["bob-turbo-underground-belt"].surface_conditions
-  end
   -- Express loader can upgrade to the turbo loader
   loader_templates["express-"].next_upgrade = "turbo-mdrn-loader"
 
