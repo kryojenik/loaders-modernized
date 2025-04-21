@@ -48,12 +48,14 @@ if settings.startup["bobmods-logistics-beltoverhaul"].value == true then
     }
   }
 
-  ---@diagnostic disable-next-line: missing-fields
-  loader_templates["chute-"] = {
-    underground_name = "bob-basic-underground-belt",
-    next_upgrade = "basic-mdrn-loader",
-    tint = util.color("000000d1")
-  }
+  if startup_settings["mdrn-enable-chute"].value then
+    ---@diagnostic disable-next-line: missing-fields
+    loader_templates["chute-"] = {
+      underground_name = "bob-basic-underground-belt",
+      next_upgrade = "basic-mdrn-loader",
+      tint = util.color("000000d1")
+    }
+  end
 
   loader_templates[""] = {
     subgroup = "bob-logistic-tier-1",
