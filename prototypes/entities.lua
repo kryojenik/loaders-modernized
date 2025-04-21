@@ -345,28 +345,6 @@ local function create_entity(tier, template, blacklist)
     entities[#entities+1] = create_split_entity(entity)
   end
 
-  --[[
-  if startup_settings["mdrn-enable-stacking"].value == "turbo-and-above"
-  and not blacklist.below_turbo[tier] then
-    local stack_name = string.gsub(name, "mdrn%-loader", "stack-mdrn-loader")
-    local stack_entity = table.deepcopy(entity)
-    stack_entity.name = stack_name
-    stack_entity.max_belt_stack_size = max_belt_stack_size
-    stack_entity.placeable_by = { item = stack_name, count = 1 }
-    stack_entity.minable = { mining_time = 0.1, result = stack_name }
-    stack_entity.next_upgrade =
-      stack_entity.next_upgrade
-      and string.gsub(stack_entity.next_upgrade, "mdrn%-loader", "stack-mdrn-loader")
-      or nil
-    if not startup_settings["mdrn-use-stack-sticker"].value then
-      stack_entity.icons = create_icons(template.stack_tint)
-      stack_entity.structure = create_structure(template.stack_tint)
-    end
-    entities[#entities+1] = stack_entity
-    entities[#entities+1] = create_split_entity(stack_entity)
-  end
-  ]]
-
   return entities
 
 end -- create_entity()
