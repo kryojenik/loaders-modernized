@@ -34,6 +34,7 @@ local function create_technology(tier, template, blacklist)
     return {}
   end
 
+  ---@type data.TechnologyUnit
   local unit = nil
   if data.raw["technology"][template.prerequisite_techs[1]] then
     unit = util.table.deepcopy(data.raw["technology"][template.prerequisite_techs[1]].unit)

@@ -32,6 +32,4 @@ and data.raw["loader-1x1"]["stack-mdrn-loader"] then
   data.raw["loader-1x1"]["stack-mdrn-loader-split"].speed = fastest_belt
 end
 
-if mods['boblogistics'] then
-  require("prototypes.boblogistics-ff")
-end
+require("prototypes.boblogistics-ff")

@@ -1,3 +1,7 @@
+if not mods["boblogistics"] then
+  return
+end
+
 if bobmods.tech and bobmods.tech.advanced_logistic_science then
   bobmods.lib.tech.replace_science_pack("turbo-mdrn-loader", "production-science-pack", "advanced-logistic-science-pack")
 
