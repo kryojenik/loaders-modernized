@@ -5,6 +5,18 @@ end
 log("\nBob Logistics found, implement additional loaders.")
 ---@type table<string, LMLoaderTemplate>
 local loader_templates = {}
+local startup_settings = settings.startup
+local blacklist = {
+  ["below_turbo"] = {
+    ["basic-"] = true
+  },
+  ["split"] = {
+    ["basic-"] = true
+  },
+  ["filter"] = {
+    ["basic-"] = true
+  }
+}
 
 if settings.startup["bobmods-logistics-beltoverhaul"].value == true then
   loader_templates["basic-"] = {
@@ -38,6 +50,7 @@ if settings.startup["bobmods-logistics-beltoverhaul"].value == true then
 
   ---@diagnostic disable-next-line: missing-fields
   loader_templates["chute-"] = {
+    underground_name = "bob-basic-underground-belt",
     next_upgrade = "basic-mdrn-loader",
     tint = util.color("000000d1")
   }
@@ -150,4 +163,11 @@ loader_templates["turbo-"] = {
 -- Express loader can upgrade to the turbo loader
 loader_templates["express-"].next_upgrade = "turbo-mdrn-loader"
 
+if startup_settings["mdrn-enable-stacking"].value =="stack-tier" then
+  loader_templates["stack-"] = {
+    underground_name = "bob-ultimate-underground-belt"
+  }
+end
+
+loader_templates.blacklist = blacklist
 return loader_templates

@@ -41,7 +41,7 @@ local function on_gui_opened(e)
     return
   end
 
-  if string.match(name, "^chute") then
+  if not storage.splits[name] then
     return
   end
 
