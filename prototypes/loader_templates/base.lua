@@ -1,6 +1,9 @@
 local startup_settings = settings.startup
 
 local blacklist = {
+  ["filter"] = {
+    ["chute-"] = true
+  },
   ["split"] = {
     ["chute-"] = true
   },

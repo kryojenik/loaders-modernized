@@ -19,7 +19,8 @@
         "(?) stack-inserters",
         "(?) SchallBeltConfiguration",
         "(?) pycoalprocessing",
-        "(?) ev-logistics"
+        "(?) ev-logistics",
+        "(?) boblogistics"
     ],
     "package": {
         "git_publish_branch": "main",

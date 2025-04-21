@@ -23,3 +23,4 @@
 ---@field localised_name? data.LocalisedString
 ---@field stack_tint? Color
 ---@field max_belt_stack_size? int
+---@field unit? data.TechnologyUnit

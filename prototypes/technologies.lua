@@ -34,6 +34,7 @@ local function create_technology(tier, template, blacklist)
     return {}
   end
 
+  ---@type data.TechnologyUnit
   local unit = nil
   if data.raw["technology"][template.prerequisite_techs[1]] then
     unit = util.table.deepcopy(data.raw["technology"][template.prerequisite_techs[1]].unit)
@@ -51,7 +52,7 @@ local function create_technology(tier, template, blacklist)
     effects = {{ type = "unlock-recipe", recipe = name }},
     order = template.prerequisite_techs[1].order,
     prerequisites = template.prerequisite_techs,
-    unit = unit
+    unit = template.unit or unit
   }
 
   technologies[#technologies+1] = technology

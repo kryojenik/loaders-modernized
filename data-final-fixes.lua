@@ -31,3 +31,5 @@ and data.raw["loader-1x1"]["stack-mdrn-loader"] then
   data.raw["loader-1x1"]["stack-mdrn-loader"].speed = fastest_belt
   data.raw["loader-1x1"]["stack-mdrn-loader-split"].speed = fastest_belt
 end
+
+require("prototypes.boblogistics-ff")
