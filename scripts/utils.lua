@@ -28,8 +28,9 @@ utils.stack =  function(tier, blacklist)
     return false
   end
 
+  -- If a loader can't filter, don't allow it to stack either.
   if startup_settings["mdrn-enable-stacking"].value == "all"
-  and blacklist.split[tier] then
+  and blacklist.filter[tier] then
     return false
   end
 

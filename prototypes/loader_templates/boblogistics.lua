@@ -10,9 +10,6 @@ local blacklist = {
   ["below_turbo"] = {
     ["basic-"] = true
   },
-  ["split"] = {
-    ["basic-"] = true
-  },
   ["filter"] = {
     ["basic-"] = true
   }

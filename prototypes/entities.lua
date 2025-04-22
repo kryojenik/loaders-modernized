@@ -238,7 +238,7 @@ local function create_entity(tier, template, blacklist)
     localised_description = {"" , { "entity-description.common" }},
     flags = {"placeable-player", "placeable-neutral", "player-creation"},
     max_health = 170,
-    filter_count = blacklist.filter[tier] and 0 or 5,
+    filter_count = 5,
     corpse = "small-remnants",
     dying_explosion = ug_entity.dying_explosion or "underground-belt-explosion",
     open_sound = { filename = "__base__/sound/open-close/inserter-open.ogg" },
@@ -254,7 +254,7 @@ local function create_entity(tier, template, blacklist)
     speed = ug_entity.speed,
     icons = create_icons(template.tint),
     structure = create_structure(template.tint),
-    circuit_wire_max_distance = transport_belt_circuit_wire_max_distance,
+    circuit_wire_max_distance = transport_belt_circuit_wire_max_distance or 0,
     circuit_connector = circuit_connector_definitions.create_vector
     (
       universal_connector_template,
@@ -319,11 +319,17 @@ local function create_entity(tier, template, blacklist)
     entity.energy_per_item = "4kJ"
   end
 
+  -- If the entity can't filter it can't do advanced things.
+  if blacklist.filter[tier] then
+    entity.filter_count = 0
+    entity.circuit_wire_max_distance = 0
+    entity.circuit_connector = nil
+  end
+
   -- Chute specific settings.
   if entity.name == "chute-mdrn-loader" then
     entity.localised_description = { "entity-description." .. entity.name }
     entity.speed = entity.speed / 2
-    entity.circuit_wire_max_distance = 0
     entity.energy_source = { type = "void" }
     entity.energy_per_item = ".0000001J"
   end
@@ -341,7 +347,7 @@ local function create_entity(tier, template, blacklist)
   end
 
   entities[#entities+1] = entity
-  if not blacklist.split[tier] then
+  if not blacklist.filter[tier] then
     entities[#entities+1] = create_split_entity(entity)
   end
 

@@ -4,9 +4,6 @@ local blacklist = {
   ["filter"] = {
     ["chute-"] = true
   },
-  ["split"] = {
-    ["chute-"] = true
-  },
   ["below_turbo"] = {
     ["chute-"] = true,
     [""] = true,
