@@ -39,5 +39,10 @@ if addon then
   meld.meld(loader_templates, addon)
 end
 
+-- wood-logistics
+addon = require("wood-logistics")
+if addon then
+  meld.meld(loader_templates, addon)
+end
 
 return loader_templates

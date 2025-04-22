@@ -13,7 +13,7 @@
 ---@field next_upgrade? string
 ---@field tint? Color
 ---@field prerequisite_techs? TechnologyID[]
----@field recipe_data LMRecipeData
+---@field recipe_data? LMRecipeData
 ---@field name? string
 ---@field underground_name? string
 ---@field unlocked_by? string

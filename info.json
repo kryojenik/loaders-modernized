@@ -20,7 +20,8 @@
         "(?) SchallBeltConfiguration",
         "(?) pycoalprocessing",
         "(?) ev-logistics",
-        "(?) boblogistics"
+        "(?) boblogistics",
+        "(?) wood-logistics"
     ],
     "package": {
         "git_publish_branch": "main",

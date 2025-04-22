@@ -3,10 +3,12 @@ Version: 0.8.11
 Date: ????
   Features:
     - Added support for Bob's Logistics
+    - Added support for Wood Logistics
   Changes:
     - Update RU locale
     - Update DE Locale
     - Make sure chutes (and basic for Bob's) can't split lanes, or filter.
+    - Add additional text to loaders configured for split lanes
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.10
 Date: 2025-03-26
