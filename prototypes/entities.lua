@@ -206,6 +206,7 @@ function create_split_entity(entity)
   split_entity.factoriopedia_alternative = entity.name
   split_entity.deconstruction_alternative = entity.name
   split_entity.next_upgrade = entity.next_upgrade and entity.next_upgrade .. "-split" or nil
+  split_entity.localised_name = { "", entity.localised_name, " ", { "strings.mdrn-split-suffix" } }
   table.insert(
     split_entity.icons,
     {
@@ -341,7 +342,7 @@ local function create_entity(tier, template, blacklist)
     entity.heating_energy = ug_entity.heating_energy
     entity.max_belt_stack_size =  template.max_belt_stack_size or utils.stack(tier, blacklist) and max_belt_stack_size or 1
     if entity.max_belt_stack_size > 1 then
-      entity.localised_description[#entity.localised_description+1] = { "entity-description.stack" }
+      entity.localised_description = { "", entity.localised_description, { "entity-description.stack" } }
       entity.adjustable_belt_stack_size = true
     end
   end
