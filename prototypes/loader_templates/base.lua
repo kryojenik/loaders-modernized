@@ -132,7 +132,7 @@ if startup_settings["mdrn-enable-stacking"].value == "stack-tier" then
       ingredients = {
         standard = {
           { type = "item", name = "processing-unit", amount = 1 },
-          { type = "item", name = "stack-inserter", amount = 4 },
+          { type = "item", name = "stack-inserter", amount = 6 },
           { type = "item", name = "fast-mdrn-loader", amount = 1 },
         }
       }

@@ -9,12 +9,12 @@ do use power.  So keep those power poles handy!
 ## Features
 
 - Works in Factorio 2.0 and supports Space Age.
-- Control circuit supported.
+- Control by circuit supported.
 - Works with cargo wagons.
 - Loaders snap to belts and away from non-belts.
 - Stack items on to the belts based on belt stacking technology level.
 - Split Lanes!!!
-- AAI Loader graphics can be used as long as AAI Loader mode is installed.
+- AAI Loader graphics can be used as long as AAI Loader mod is installed.
 - Stacked loaders can be used without Space Age!  This requires the use of the [Stack Inserters](https://mods.factorio.com/mod/stack-inserters) mod.
 - ~~Able to migrate Miniloaders.~~ Miniloader migration functionality moved to its own mod - [Miniloader migration](https://mods.factorio.com/mod/miniloader-migration).
 
@@ -24,6 +24,8 @@ do use power.  So keep those power poles handy!
 - [5Dim's New Transport](https://mods.factorio.com/mod/5dim_transport)
 - [Iper Belt](https://mods.factorio.com/mod/iper-belt)
 - [Extended Vanilla: Modular Logistics & Robotics](https://mods.factorio.com/mod/ev-logistics)
+- [Bob's Logistics](https://mods.factorio.com/mod/boblogistics)
+- [Wooden Logistics](https://mods.factorio.com/mod/wood-logistics)
 
 ## TODO
 

@@ -9,6 +9,8 @@ Date: ????
     - Update DE Locale
     - Make sure chutes (and basic for Bob's) can't split lanes, or filter.
     - Add additional text to loaders configured for split lanes
+    - Increase cost of Stack loaders to balance cost against turbo loaders (requires more stack inserters).
+      Will introduce more granular options for stack loaders in a future release.
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.10
 Date: 2025-03-26
