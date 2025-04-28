@@ -47,15 +47,20 @@ if mods["aai-loaders"] then
 end
 
 if mods["aai-industry"] then
-  data:extend({
-    {
+  local aai_industry = {
       type = "bool-setting",
       name = "mdrn-use-aai-recipes",
       order = "sy",
       setting_type = "startup",
       default_value = true,
-    },
-  })
+  }
+
+  if mods["boblogistics"] then
+    aai_industry.hidden = true
+    aai_industry.forced_value = false
+  end
+
+  data:extend({aai_industry})
 end
 
 -- If space-age is enabled we can do belt_stacking
