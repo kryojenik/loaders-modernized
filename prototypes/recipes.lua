@@ -10,6 +10,10 @@ local function create_recipe(tier, t, blacklist)
   local rd = t.recipe_data
   local ug_name = t.underground_name or tier .. "underground-belt"
 
+  if not rd then
+    return {}
+  end
+
   -- Determine which recipe to set for the tiers loader
   local base_recipe = "standard"
   if utils.stack(tier, blacklist) and not startup_settings["mdrn-cheap-stacking"].value then
