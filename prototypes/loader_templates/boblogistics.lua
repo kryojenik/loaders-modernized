@@ -27,7 +27,7 @@ if settings.startup["bobmods-logistics-beltoverhaul"].value == true then
       count = 10,
       ingredients = {
         { "automation-science-pack", 1 },
-        { "logistic-science-pack", 1 },
+        --{ "logistic-science-pack", 1 },
       },
       time = 20,
     },
