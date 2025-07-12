@@ -1,6 +1,8 @@
 local startup_settings = settings.startup
 
-local blacklist = {
+local templates = {}
+
+templates.blacklist = {
   ["filter"] = {
     ["chute-"] = true
   },
@@ -12,7 +14,7 @@ local blacklist = {
   }
 }
 ---@type table<string, LMLoaderTemplate>
-local loader_templates = {
+templates.loaders = {
   [""] = {
     next_upgrade = "fast-mdrn-loader",
     order = "b",
@@ -76,14 +78,17 @@ local loader_templates = {
 
 -- Chute
 if startup_settings["mdrn-enable-chute"].value then
-  loader_templates["chute-"] = {
+  templates.loaders["chute-"] = {
+    no_stack = true,
+    no_filter = true,
+    no_wire = true,
     next_upgrade = "mdrn-loader",
     order = "a",
     underground_name = "underground-belt",
     tint = util.color("808080d1"),
     recipe_data = {
+      enabled = true,
       ingredients = {
-        -- This mod will not enable belt_stacking for chutes
         standard = {
           { type = "item", name = "iron-plate", amount = 4 },
         }
@@ -95,7 +100,7 @@ end
 local space_age = mods["space-age"]
 -- Space Age!
 if space_age then
-  loader_templates["turbo-"] = {
+  templates.loaders["turbo-"] = {
     order = "e",
     tint = util.color("9bb600d1"),
     prerequisite_techs = { "turbo-transport-belt", "express-mdrn-loader" },
@@ -117,12 +122,12 @@ if space_age then
   }
 
   -- Express loader can upgrade to the turbo loader
-  loader_templates["express-"].next_upgrade = "turbo-mdrn-loader"
+  templates.loaders["express-"].next_upgrade = "turbo-mdrn-loader"
 end
 
 -- Separate stack tier
 if startup_settings["mdrn-enable-stacking"].value == "stack-tier" then
-  loader_templates["stack-"] = {
+  templates.loaders["stack-"] = {
     order = "z",
     tint = util.color("f5f5f5d1"),
     underground_name = "turbo-underground-belt",
@@ -140,12 +145,11 @@ if startup_settings["mdrn-enable-stacking"].value == "stack-tier" then
   }
 
   if space_age then
-    loader_templates["turbo-"].next_upgrade = "stack-mdrn-loader"
+    templates.loaders["turbo-"].next_upgrade = "stack-mdrn-loader"
   else
-    loader_templates["stack-"].underground_name = "express-underground-belt"
-    loader_templates["express-"].next_upgrade = "stack-mdrn-loader"
+    templates.loaders["stack-"].underground_name = "express-underground-belt"
+    templates.loaders["express-"].next_upgrade = "stack-mdrn-loader"
   end
 end
 
-loader_templates.blacklist = blacklist
-return loader_templates
+MdrnLoaders.make_modern_loaders(templates)

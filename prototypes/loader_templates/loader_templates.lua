@@ -1,6 +1,6 @@
 local meld = require("meld")
 
-local loader_templates = require("base")
+local loader_templates = require("prototypes.loader_templates.base")
 
 -- AAI-Industry
 local addon = require("aai-industry")

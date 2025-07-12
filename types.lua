@@ -8,6 +8,7 @@
 ---@field ingredients? table<string, Ingredient[]>
 ---@field energy_required? double
 ---@field category? string
+---@field enabled? boolean
 
 ---@class LMLoaderTemplate
 ---@field next_upgrade? string
