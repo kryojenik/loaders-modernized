@@ -2,17 +2,6 @@ local startup_settings = settings.startup
 
 local templates = {}
 
-templates.blacklist = {
-  ["filter"] = {
-    ["chute-"] = true
-  },
-  ["below_turbo"] = {
-    ["chute-"] = true,
-    [""] = true,
-    ["fast-"] = true,
-    ["express-"] = true
-  }
-}
 ---@type table<string, LMLoaderTemplate>
 templates.loaders = {
   [""] = {
@@ -20,19 +9,13 @@ templates.loaders = {
     order = "b",
     tint = util.color("ffd955d1"),
     prerequisite_techs = { "logistics" },
+    below_turbo = true,
     recipe_data = {
       ingredients = {
-        standard = {
-          { type = "item", name = "underground-belt", amount = 1 },
-          { type = "item", name = "inserter", amount = 8 },
-          { type = "item", name = "steel-plate", amount = 6 },
-        },
-        stack = {
-          { type = "item", name = "underground-belt", amount = 1 },
-          { type = "item", name = "inserter", amount = 12 },
-          { type = "item", name = "steel-plate", amount = 6 },
-        }
-      }
+        { type = "item", name = "underground-belt", amount = 1 },
+        { type = "item", name = "inserter", amount = 8 },
+        { type = "item", name = "steel-plate", amount = 6 },
+      },
     }
   },
   ["fast-"] = {
@@ -40,38 +23,26 @@ templates.loaders = {
     order = "c",
     tint = util.color("ff1838d1"),
     prerequisite_techs = { "logistics-2", "mdrn-loader" },
+    below_turbo = true,
     recipe_data = {
       ingredients = {
-        standard = {
-          { type = "item", name = "fast-underground-belt", amount = 1 },
-          { type = "item", name = "fast-inserter", amount = 4 },
-          { type = "item", name = "mdrn-loader", amount = 1 },
-        },
-        stack = {
-          { type = "item", name = "fast-underground-belt", amount = 1 },
-          { type = "item", name = "fast-inserter", amount = 6 },
-          { type = "item", name = "mdrn-loader", amount = 1 },
-        }
-      }
+        { type = "item", name = "fast-underground-belt", amount = 1 },
+        { type = "item", name = "fast-inserter", amount = 4 },
+        { type = "item", name = "mdrn-loader", amount = 1 },
+      },
     }
   },
   ["express-"] = {
     order = "d",
     tint = util.color("5abeffd1"),
     prerequisite_techs = { "logistics-3", "fast-mdrn-loader" },
+    below_turbo = true,
     recipe_data = {
       ingredients = {
-        standard = {
-          { type = "item", name = "express-underground-belt", amount = 1 },
-          { type = "item", name = "bulk-inserter", amount = 2 },
-          { type = "item", name = "fast-mdrn-loader", amount = 1 },
-        },
-        stack = {
-          { type = "item", name = "express-underground-belt", amount = 1 },
-          { type = "item", name = "bulk-inserter", amount = 4 },
-          { type = "item", name = "fast-mdrn-loader", amount = 1 },
-        }
-      }
+        { type = "item", name = "express-underground-belt", amount = 1 },
+        { type = "item", name = "bulk-inserter", amount = 2 },
+        { type = "item", name = "fast-mdrn-loader", amount = 1 },
+      },
     }
   }
 }
@@ -82,6 +53,7 @@ if startup_settings["mdrn-enable-chute"].value then
     no_stack = true,
     no_filter = true,
     no_wire = true,
+    no_tech = true,
     next_upgrade = "mdrn-loader",
     order = "a",
     underground_name = "underground-belt",
@@ -89,9 +61,7 @@ if startup_settings["mdrn-enable-chute"].value then
     recipe_data = {
       enabled = true,
       ingredients = {
-        standard = {
-          { type = "item", name = "iron-plate", amount = 4 },
-        }
+        { type = "item", name = "iron-plate", amount = 4 },
       }
     }
   }
@@ -107,17 +77,10 @@ if space_age then
     recipe_data = {
       surface_conditions = data.raw["recipe"]["turbo-underground-belt"].surface_conditions,
       ingredients = {
-        standard = {
-          { type = "item", name = "turbo-underground-belt", amount = 1 },
-          { type = "item", name = "bulk-inserter", amount = 6 },
-          { type = "item", name = "express-mdrn-loader", amount = 1 },
-        },
-        stack = {
-          { type = "item", name = "turbo-underground-belt", amount = 1 },
-          { type = "item", name = "bulk-inserter", amount = 8 },
-          { type = "item", name = "express-mdrn-loader", amount = 1 },
-        },
-      }
+        { type = "item", name = "turbo-underground-belt", amount = 1 },
+        { type = "item", name = "bulk-inserter", amount = 6 },
+        { type = "item", name = "express-mdrn-loader", amount = 1 },
+      },
     }
   }
 
@@ -135,11 +98,9 @@ if startup_settings["mdrn-enable-stacking"].value == "stack-tier" then
     max_belt_stack_size = data.raw["utility-constants"].default.max_belt_stack_size,
     recipe_data = {
       ingredients = {
-        standard = {
-          { type = "item", name = "processing-unit", amount = 1 },
-          { type = "item", name = "stack-inserter", amount = 6 },
-          { type = "item", name = "fast-mdrn-loader", amount = 1 },
-        }
+        { type = "item", name = "processing-unit", amount = 1 },
+        { type = "item", name = "stack-inserter", amount = 6 },
+        { type = "item", name = "fast-mdrn-loader", amount = 1 },
       }
     }
   }

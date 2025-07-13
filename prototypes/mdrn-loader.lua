@@ -251,10 +251,8 @@
   end
 
   ---Create recipe prototypes
-  ---@param tier string
   ---@param template LMLoaderTemplate
-  ---@param blacklist table
-  local function create_recipe(tier, template, blacklist)
+  local function create_recipe(template)
     local rd = template.recipe_data
 
     if not rd then
@@ -262,9 +260,23 @@
     end
 
     -- Determine which recipe to set for the tiers loader
-    local base_recipe = "standard"
-    if utils.stack(tier, blacklist) and not startup_settings["mdrn-cheap-stacking"].value then
-      base_recipe = "stack"
+    local ingredients = rd.ingredients
+    if not ingredients then
+      return {}
+    end
+
+    if startup_settings["mdrn-cheap-stacking"].value == false
+    and utils.stack(template) then
+      if rd.stack_ingredients then
+        ingredients = rd.stack_ingredients
+      else
+        for i, ingredient in ipairs(ingredients) do
+          if ingredient.type == "item" and data.raw["inserter"][ingredient.name] then
+            -- TODO: Make this a setting
+            ingredients[i].amount = ingredients[i].amount + 2
+          end
+        end
+      end
     end
 
     ---@type data.RecipePrototype
@@ -273,7 +285,7 @@
       name = template.name,
       enabled = rd.enabled or false,
       energy_required = rd.energy_required or 1,
-      ingredients = rd.ingredients[base_recipe] or rd.ingredients["standard"],
+      ingredients = ingredients,
       results = {{type = "item", name = template.name, amount = 1}},
       category = rd.category or data.raw["recipe"][template.underground_name].category
     }
@@ -297,13 +309,13 @@
   end
 
   ---Create technology prototype for loaders
-  ---@param tier string Loader tier prefix
   ---@param template LMLoaderTemplate Loader tier template
-  local function create_technology(tier, template)
-    if tier == "chute-" then
+  local function create_technology(template)
+    if template.no_tech then
       return {}
     end
 
+    --- Are we going to unlock by an existing technology?
     local unlocked_by = data.raw["technology"][template.unlocked_by]
     if not unlocked_by and startup_settings["mdrn-unlock-technology"].value == "belt" then
       unlocked_by = data.raw["technology"][template.prerequisite_techs[1]]
@@ -314,6 +326,8 @@
       return {}
     end
 
+    --- Existing wasn't found.  Create one by duplicating the first pre-req tech.  Should usually
+    --- be the belt / logistics tech.
     ---@type data.TechnologyUnit
     local unit = nil
     if data.raw["technology"][template.prerequisite_techs[1]] then
@@ -360,9 +374,8 @@
   end
 
   ---Create the loader entities
-  ---@param tier string Tier name
   ---@param template LMLoaderTemplate Template for the loader
-  local function create_entity(tier, template, blacklist)
+  local function create_entity(template)
     local ug_entity = data.raw["underground-belt"][template.underground_name]
 
     ---@type data.Loader1x1Prototype
@@ -461,7 +474,7 @@
     end
 
     -- If the entity can't filter it can't do advanced things.
-    if blacklist.filter[tier] then
+    if template.no_filter then
       entity.filter_count = 0
       entity.circuit_wire_max_distance = 0
       entity.circuit_connector = nil
@@ -480,7 +493,7 @@
     -- https://forums.factorio.com/viewtopic.php?f=65&t=117803
     if feature_flags.space_travel then
       entity.heating_energy = ug_entity.heating_energy
-      entity.max_belt_stack_size =  template.max_belt_stack_size or utils.stack(tier, blacklist) and max_belt_stack_size or 1
+      entity.max_belt_stack_size =  template.max_belt_stack_size or utils.stack(template) and max_belt_stack_size or 1
       if entity.max_belt_stack_size > 1 then
         entity.localised_description = { "", entity.localised_description, { "entity-description.stack" } }
         entity.adjustable_belt_stack_size = true
@@ -489,7 +502,7 @@
 
     data:extend{entity}
 
-    if not blacklist.filter[tier] then
+    if not template.no_filter then
       data:extend{create_split_entity(entity)}
     end
 
@@ -506,8 +519,8 @@
       template.underground_name = template.underground_name or tier .. "underground-belt"
 
       create_item(template)
-      create_recipe(tier, template, blacklist)
-      create_entity(tier, template, blacklist)
-      create_technology(tier, template)
+      create_recipe(template)
+      create_entity(template)
+      create_technology(template)
   end
 end

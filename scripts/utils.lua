@@ -17,20 +17,19 @@ utils.remove_recipe_from_effects = function(effects, recipe)
   end
 end
 
-utils.stack =  function(tier, blacklist)
+utils.stack =  function(template)
+  -- If a loader can't filter, don't allow it to stack either.
+  if template.no_stack or template.no_filter then
+    return false
+  end
+
   if startup_settings["mdrn-enable-stacking"].value == "none"
   or startup_settings["mdrn-enable-stacking"].value == "stack-tier" then
     return false
   end
 
   if startup_settings["mdrn-enable-stacking"].value == "turbo-and-above"
-  and blacklist.below_turbo[tier] then
-    return false
-  end
-
-  -- If a loader can't filter, don't allow it to stack either.
-  if startup_settings["mdrn-enable-stacking"].value == "all"
-  and blacklist.filter[tier] then
+  and template.below_turbo then
     return false
   end
 

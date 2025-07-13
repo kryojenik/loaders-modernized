@@ -5,7 +5,8 @@
 
 ---@class LMRecipeData
 ---@field surface_conditions? SurfaceCondition[]
----@field ingredients? table<string, Ingredient[]>
+---@field ingredients? Ingredient[]
+---@field stack_ingredients? Ingredient[]
 ---@field energy_required? double
 ---@field category? string
 ---@field enabled? boolean
@@ -25,3 +26,6 @@
 ---@field stack_tint? Color
 ---@field max_belt_stack_size? int
 ---@field unit? data.TechnologyUnit
+---@field no_tech? boolean
+---@field no_filter? boolean
+---@field no_stack? boolean
