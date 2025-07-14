@@ -52,7 +52,6 @@ if startup_settings["mdrn-enable-chute"].value then
   templates.loaders["chute-"] = {
     no_stack = true,
     no_filter = true,
-    no_wire = true,
     no_tech = true,
     next_upgrade = "mdrn-loader",
     order = "a",

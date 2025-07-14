@@ -11,17 +11,7 @@
     "dependencies": [
         "base >= 2.0.35",
         "flib >= 0.16.2",
-        "? space-age >= 2.0.35",
-        "(?) UltimateBeltsSpaceAge",
-        "(?) 5dim_transport",
-        "(?) aai-industry",
-        "(?) iper-belt",
-        "(?) stack-inserters",
-        "(?) SchallBeltConfiguration",
-        "(?) pycoalprocessing",
-        "(?) ev-logistics",
-        "(?) boblogistics",
-        "(?) wood-logistics"
+        "? space-age >= 2.0.35"
     ],
     "package": {
         "git_publish_branch": "main",

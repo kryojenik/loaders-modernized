@@ -383,7 +383,7 @@
       type = "loader-1x1",
       name = template.name,
       localised_name = template.localised_name or { "entity-name." .. template.name },
-      localised_description = {"" , { "entity-description.common" }},
+      localised_description = template.localised_description or {"" , { "entity-description.common" }},
       next_upgrade = template.next_upgrade,
 
       speed = ug_entity.speed,
@@ -502,6 +502,14 @@
 
     data:extend{entity}
 
+    if template.previous_prefix then
+      local prev_name = template.previous_prefix .. "mdrn-loader"
+      local prev_ldr = data.raw["loader-1x1"][prev_name]
+      if prev_ldr then
+        prev_ldr.next_upgrade = entity.name
+      end
+    end
+
     if not template.no_filter then
       data:extend{create_split_entity(entity)}
     end
@@ -512,8 +520,6 @@
   ---Make tier of loaders
   ---@param templates table
   function MdrnLoaders.make_modern_loaders(templates)
-    local blacklist = templates.blacklist
-
     for tier, template in pairs(templates.loaders) do
       template.name = template.name or tier .. "mdrn-loader"
       template.underground_name = template.underground_name or tier .. "underground-belt"
