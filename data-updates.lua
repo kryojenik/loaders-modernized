@@ -1,9 +1,3 @@
--- Ultimate Belts Space Age adjusts logistics-3 tech cost in data-updates.
--- Adjust to unlock at same science tier
-if mods["UltimateBeltsSpaceAge"] and settings.startup["mdrn-unlock-technology"].value == "separate" then
-  data.raw["technology"]["express-mdrn-loader"].unit = data.raw["technology"]["logistics-3"].unit
-end
-
 -- Schall Belt Configuration makes belt speed changes in data_updates
 if mods["SchallBeltConfiguration"] then
   local tiers = {"","fast-","express-"}
