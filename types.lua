@@ -12,22 +12,25 @@
 ---@field enabled? boolean
 
 ---@class LMLoaderTemplate
----@field next_upgrade? string
----@field previous_prefix? string
----@field tint? Color
----@field prerequisite_techs? TechnologyID[]
----@field recipe_data? LMRecipeData
 ---@field name? string
----@field underground_name? string
----@field unlocked_by? string
----@field group? string
----@field subgroup? string
 ---@field order? string
 ---@field localised_name? data.LocalisedString
 ---@field localised_description? data.LocalisedString
----@field stack_tint? Color
+---@field group? string
+---@field subgroup? string
+---@field next_upgrade? string
+---@field previous_prefix? string
+---@field underground_name? string
 ---@field max_belt_stack_size? int
+---@field tint? Color
+---@field recipe_data? LMRecipeData
+---@field prerequisite_techs? TechnologyID[]
+---@field unlocked_by? string
 ---@field unit? data.TechnologyUnit
+---@field speed_multiplier? double
+---@field energy_type? string
+---@field energy_drain? string
+---@field energy_per_item? string
 ---@field no_tech? boolean
 ---@field no_filter? boolean
 ---@field no_stack? boolean
