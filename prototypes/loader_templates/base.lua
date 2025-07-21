@@ -55,7 +55,7 @@ if startup_settings["mdrn-enable-chute"].value then
     no_tech = true,
     localised_description = { "entity-description.chute-mdrn-loader" },
     energy_type = "void",
-    energy_drain = "0kw",
+    energy_drain = "0kW",
     energy_per_item = ".0000001J",
     next_upgrade = "mdrn-loader",
     order = "a",

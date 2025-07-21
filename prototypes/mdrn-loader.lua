@@ -15,28 +15,41 @@ data:extend{
 
 ---Create the Item prototypes
 ---@param template LMLoaderTemplate Template for loader tier
-local function create_item(template)
-  local ug_item = data.raw["item"][template.underground_name]
-
+local function update_or_create_item(template)
   ---@type data.ItemPrototype
-  local item = {
-    type = "item",
-    name = template.name,
-    icons = utils.create_icons(template.tint),
-    --group = template.group or "logistics",
-    subgroup = template.subgroup or "belt-loader",
-    color_hint = ug_item.color_hint,
-    order = template.order or string.gsub(ug_item.order, "^b%[underground%-belt%]", "e[mdrn-loader]"),
-    inventory_move_sound = ug_item.inventory_move_sound,
-    pick_sound = ug_item.pick_sound,
-    drop_sound = ug_item.pick_sound,
-    place_result = template.name,
-    stack_size = 50,
+  local item = data.raw["item"][template.name]
+  if not item then
+    item = {
+      type = "item",
+      stack_size = 50,
+
+      name = template.name,
+      place_result = template.name,
+
+      icons = utils.create_icons(template.tint),
+      group = "logistics",
+      subgroup = "belt-loader",
+    }
+  end
+
+  item.group = template.group or item.group
+  item.subgroup = template.subgroup or item.subgroup
+  if template.tint then
+    item.icons = utils.create_icons(template.tint)
+  end
+
+  local ug_item = data.raw["item"][template.underground_name]
+  if ug_item then
+    item.order = template.order or string.gsub(ug_item.order, "^b%[underground%-belt%]", "e[mdrn-loader]")
+    item.color_hint = ug_item.color_hint
+    item.inventory_move_sound = ug_item.inventory_move_sound
+    item.pick_sound = ug_item.pick_sound
+    item.drop_sound = ug_item.pick_sound
 
     -- space-age
-    weight = ug_item.weight or (20*kg),
-    default_import_location = ug_item.default_import_location or nil
-  }
+    item.weight = ug_item.weight or (20*kg)
+    item.default_import_location = ug_item.default_import_location or nil
+  end
 
   data:extend{item}
 end
@@ -171,133 +184,157 @@ function create_split_entity(entity)
 end
 
 ---Create the loader entities
----@param template LMLoaderTemplate Template for the loader
-local function create_entity(template)
-  local ug_entity = data.raw["underground-belt"][template.underground_name]
-
+---@param template LMLoaderTemplate
+local function update_or_create_entity(template)
   ---@type data.Loader1x1Prototype
-  local entity = {
-    type = "loader-1x1",
-    name = template.name,
-    localised_name = template.localised_name or { "entity-name." .. template.name },
-    localised_description = template.localised_description or {"" , { "entity-description.common" }},
-    next_upgrade = template.next_upgrade,
+  local entity = data.raw["loader-1x1"][template.name]
+  if not entity then
+    ---@diagnostic disable-next-line:missing-fields
+    entity = {
+      type = "loader-1x1",
+      flags = {"placeable-player", "placeable-neutral", "player-creation"},
+      filter_count = 5,
+      open_sound = { filename = "__base__/sound/open-close/inserter-open.ogg" },
+      close_sound = { filename = "__base__/sound/open-close/inserter-close.ogg" },
+      fast_replaceable_group = "loader-1x1",
+      container_distance = 1;
+      max_health = 170,
+      corpse = "small-remnants",
+      damaged_trigger_effect = hit_effects.entity(),
+      animation_speed_coefficient = 32,
+      circuit_wire_max_distance = transport_belt_circuit_wire_max_distance or 0,
+      circuit_connector = circuit_connector_definitions.create_vector(
+        universal_connector_template,
+        {
+          -- Output
+          { -- North
+            variation = 0,
+            main_offset = util.by_pixel(11, -1),
+            shadow_offset = util.by_pixel(10, -0.5),
+            show_shadow = false
+          },
+          { -- East
+            variation = 6,
+            main_offset = util.by_pixel(-5, 3),
+            shadow_offset = util.by_pixel(7.5, 7.5),
+            show_shadow = false
+          },
+          { -- South
+            variation = 4,
+            main_offset = util.by_pixel(-11, -8),
+            shadow_offset = util.by_pixel(7.5, 7.5),
+            show_shadow = false
+          },
+          { -- West
+            variation = 2,
+            main_offset = util.by_pixel(5, -17),
+            shadow_offset = util.by_pixel(7.5, 7.5),
+            show_shadow = false
+          },
 
-    speed = ug_entity.speed,
-    placeable_by = { item = template.name, count = 1 },
-    minable = { mining_time = 0.1, result = template.name },
-    flags = {"placeable-player", "placeable-neutral", "player-creation"},
-    fast_replaceable_group = "loader-1x1",
-    container_distance = 1;
-    collision_box = ug_entity.collision_box,
-    selection_box = ug_entity.selection_box,
-    filter_count = 5,
-    open_sound = { filename = "__base__/sound/open-close/inserter-open.ogg" },
-    close_sound = { filename = "__base__/sound/open-close/inserter-close.ogg" },
+          -- Input
+          { -- North
+            variation = 4,
+            main_offset = util.by_pixel(-11, -8),
+            shadow_offset = util.by_pixel(7.5, 7.5),
+            show_shadow = false
+          },
+          { -- East
+            variation = 2,
+            main_offset = util.by_pixel(5, -17),
+            shadow_offset = util.by_pixel(7.5, 7.5),
+            show_shadow = false
+          },
+          { -- South
+            variation = 0,
+            main_offset = util.by_pixel(11, -1),
+            shadow_offset = util.by_pixel(10, -0.5),
+            show_shadow = false
+          },
+          { -- West
+            variation = 6,
+            main_offset = util.by_pixel(-5, 3),
+            shadow_offset = util.by_pixel(7.5, 7.5),
+            show_shadow = false
+          },
+        }
+      ),
 
-    resistances = ug_entity.resistances,
-    max_health = 170,
-    corpse = "small-remnants",
-    dying_explosion = ug_entity.dying_explosion or "underground-belt-explosion",
-    damaged_trigger_effect = hit_effects.entity(),
+      name = template.name,
+      placeable_by = { item = template.name, count = 1 },
+      minable = { mining_time = 0.1, result = template.name },
+      icons = utils.create_icons(template.tint),
+      structure = utils.create_entity_structure(template.tint),
+    }
 
-    icons = utils.create_icons(template.tint),
-    structure = utils.create_entity_structure(template.tint),
-    animation_speed_coefficient = 32,
-    belt_animation_set = ug_entity.belt_animation_set,
-
-    circuit_wire_max_distance = transport_belt_circuit_wire_max_distance or 0,
-    circuit_connector = circuit_connector_definitions.create_vector(
-      universal_connector_template,
-      {
-        -- Output
-        { -- North
-          variation = 0,
-          main_offset = util.by_pixel(11, -1),
-          shadow_offset = util.by_pixel(10, -0.5),
-          show_shadow = false
-        },
-        { -- East
-          variation = 6,
-          main_offset = util.by_pixel(-5, 3),
-          shadow_offset = util.by_pixel(7.5, 7.5),
-          show_shadow = false
-        },
-        { -- South
-          variation = 4,
-          main_offset = util.by_pixel(-11, -8),
-          shadow_offset = util.by_pixel(7.5, 7.5),
-          show_shadow = false
-        },
-        { -- West
-          variation = 2,
-          main_offset = util.by_pixel(5, -17),
-          shadow_offset = util.by_pixel(7.5, 7.5),
-          show_shadow = false
-        },
-
-        -- Input
-        { -- North
-          variation = 4,
-          main_offset = util.by_pixel(-11, -8),
-          shadow_offset = util.by_pixel(7.5, 7.5),
-          show_shadow = false
-        },
-        { -- East
-          variation = 2,
-          main_offset = util.by_pixel(5, -17),
-          shadow_offset = util.by_pixel(7.5, 7.5),
-          show_shadow = false
-        },
-        { -- South
-          variation = 0,
-          main_offset = util.by_pixel(11, -1),
-          shadow_offset = util.by_pixel(10, -0.5),
-          show_shadow = false
-        },
-        { -- West
-          variation = 6,
-          main_offset = util.by_pixel(-5, 3),
-          shadow_offset = util.by_pixel(7.5, 7.5),
-          show_shadow = false
-        },
-      }
-    ),
-  }
-
-  if startup_settings["mdrn-use-electricity"].value then
-    entity.energy_source = {type = "electric", usage_priority = "secondary-input", drain = "2kW"}
-    entity.energy_per_item = "4kJ"
+    -- Stacking
+    if feature_flags.space_travel then
+      entity.max_belt_stack_size =  template.max_belt_stack_size or utils.stack(template) and max_belt_stack_size or 1
+      if entity.max_belt_stack_size > 1 then
+        entity.localised_description = { "", entity.localised_description, { "entity-description.stack" } }
+        entity.adjustable_belt_stack_size = true
+      end
+    end
   end
 
-  -- If the entity can't filter it can't do advanced things.
+  entity.localised_name = template.localised_name or { "entity-name." .. template.name }
+  entity.localised_description = template.localised_description or {"" , { "entity-description.common" }}
+  entity.next_upgrade = template.next_upgrade or entity.next_upgrade
+  entity.max_belt_stack_size = template.max_belt_stack_size or entity.max_belt_stack_size
+
+  if template.tint then
+    entity.icons = utils.create_icons(template.tint)
+    entity.structure = utils.create_entity_structure(template.tint)
+  end
+
+  local ug_entity = data.raw["underground-belt"][template.underground_name]
+  if ug_entity then
+    entity.speed = ug_entity.speed * (template.speed_multiplier or 1)
+    entity.collision_box = ug_entity.collision_box
+    entity.selection_box = ug_entity.selection_box
+    entity.resistances = ug_entity.resistances
+    entity.dying_explosion = ug_entity.dying_explosion or "underground-belt-explosion"
+    entity.belt_animation_set = ug_entity.belt_animation_set
+  end
+
+  if feature_flags.space_travel then
+    entity.max_belt_stack_size = template.max_belt_stack_size or entity.max_belt_stack_size
+    if entity.max_belt_stack_size > 1 then
+      entity.adjustable_belt_stack_size = true
+    end
+
+    if ug_entity then
+      entity.heating_energy = ug_entity.heating_energy or entity.heating_energy
+    end
+  end
+
+  if startup_settings["mdrn-use-electricity"].value then
+    if not entity.energy_source then
+      entity.energy_source = {
+        type = template.energy_type or "electric",
+        drain = template.energy_drain or "2kW",
+        usage_priority = "secondary-input"
+      }
+      entity.energy_per_item = template.energy_per_item or "4kW"
+    else
+      entity.energy_source.type = template.energy_type or entity.energy_source.type
+      entity.energy_source.drain = template.energy_drain or entity.energy_source.drain
+      entity.energy_per_item = template.energy_per_item or entity.energy_per_item
+    end
+  end
+
+  -- If the entity can't filter it can't do other advanced things.
   if template.no_filter then
     entity.filter_count = 0
     entity.circuit_wire_max_distance = 0
     entity.circuit_connector = nil
   end
 
-  -- Chute specific settings.
-  if entity.name == "chute-mdrn-loader" then
-    entity.localised_description = { "entity-description." .. entity.name }
-    entity.speed = entity.speed / 2
-    entity.energy_source = { type = "void" }
-    entity.energy_per_item = ".0000001J"
-  end
-
-  -- space-age
-  -- May not exactly be working correctly
-  -- https://forums.factorio.com/viewtopic.php?f=65&t=117803
-  if feature_flags.space_travel then
-    entity.heating_energy = ug_entity.heating_energy
-    entity.max_belt_stack_size =  template.max_belt_stack_size or utils.stack(template) and max_belt_stack_size or 1
-    if entity.max_belt_stack_size > 1 then
-      entity.localised_description = { "", entity.localised_description, { "entity-description.stack" } }
-      entity.adjustable_belt_stack_size = true
-    end
-  end
 
   data:extend{entity}
+  if not template.no_filter then
+    data:extend{create_split_entity(entity)}
+  end
 
   if template.previous_prefix then
     local prev_name = template.previous_prefix .. "mdrn-loader"
@@ -305,13 +342,13 @@ local function create_entity(template)
     if prev_ldr then
       prev_ldr.next_upgrade = entity.name
     end
-  end
 
-  if not template.no_filter then
-    data:extend{create_split_entity(entity)}
+    local prev_ldr_split = data.raw["loader-1x1"][prev_name .. "-split"]
+    if prev_ldr_split then
+      prev_ldr_split.next_upgrade = entity.name .. "-split"
+    end
   end
-
-end -- create_entity()
+end
 
 MdrnLoaders = MdrnLoaders or {}
 ---Make tier of loaders
@@ -321,9 +358,9 @@ function MdrnLoaders.make_modern_loaders(templates)
     template.name = template.name or tier .. "mdrn-loader"
     template.underground_name = template.underground_name or tier .. "underground-belt"
 
-    create_item(template)
+    update_or_create_item(template)
     create_recipe(template)
-    create_entity(template)
+    update_or_create_entity(template)
     create_technology(template)
   end
 end
