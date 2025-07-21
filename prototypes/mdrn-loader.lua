@@ -13,215 +13,6 @@ data:extend{
   }
 }
 
----Loader icons
----@param tint Color
----@return table
-local function create_icons(tint)
-  if startup_settings["mdrn-use-aai-graphics"] and startup_settings["mdrn-use-aai-graphics"].value then
-    return {
-      { icon = "__aai-loaders__/graphics/icons/loader.png" },
-      { icon = "__aai-loaders__/graphics/icons/loader_mask.png", tint = tint }
-    }
-  end
-
-  return {
-    { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-base.png" },
-    { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-mask.png", tint = tint }
-  }
-end
-
-local function create_tech_icons(tint)
-  if startup_settings["mdrn-use-aai-graphics"] and startup_settings["mdrn-use-aai-graphics"].value then
-    return {
-      { icon = "__aai-loaders__/graphics/technology/loader-tech-icon.png", icon_size = 256 },
-      { icon = "__aai-loaders__/graphics/technology/loader-tech-icon_mask.png", icon_size = 256, tint = tint }
-    }
-  end
-
-  return {
-    { icon = "__loaders-modernized__/graphics/technology/mdrn-loader-technology-base.png", icon_size = 128 },
-    { icon = "__loaders-modernized__/graphics/technology/mdrn-loader-technology-mask.png", icon_size = 128, tint = tint }
-  }
-end
-
----Loader structure sprite sheets
----@param tint Color
----@return data.LoaderStructure
-local function create_entity_structure(tint)
-  if startup_settings["mdrn-use-aai-graphics"] and startup_settings["mdrn-use-aai-graphics"].value then
-    local shadow_shift = { 0.4, 0.15 }
-    local sprite_shift = { 0, -0.15 }
-    return {
-      direction_in = {
-        sheets = {
-          {
-            filename = "__aai-loaders__/graphics/entity/loader/loader_shadows.png",
-            priority = "extra-high",
-            shift = shadow_shift,
-            width = 138,
-            height = 79,
-            scale = 0.5,
-            draw_as_shadow = true
-          },
-          {
-            filename = "__aai-loaders__/graphics/entity/loader/loader.png",
-            priority = "extra-high",
-            shift = sprite_shift,
-            width = 99,
-            height = 117,
-            scale = 0.5,
-          },
-          {
-            filename = "__aai-loaders__/graphics/entity/loader/loader_tint.png",
-            priority = "extra-high",
-            shift = sprite_shift,
-            width = 99,
-            height = 117,
-            scale = 0.5,
-            tint = tint
-          }
-        }
-      },
-      direction_out = {
-        sheets = {
-          {
-            filename = "__aai-loaders__/graphics/entity/loader/loader_shadows.png",
-            priority = "extra-high",
-            shift = shadow_shift,
-            width = 138,
-            height = 79,
-            y = 79,
-            scale = 0.5,
-            draw_as_shadow = true
-          },
-          {
-            filename = "__aai-loaders__/graphics/entity/loader/loader.png",
-            priority = "extra-high",
-            shift = sprite_shift,
-            width = 99,
-            height = 117,
-            y = 117,
-            scale = 0.5,
-          },
-          {
-            filename = "__aai-loaders__/graphics/entity/loader/loader_tint.png",
-            priority = "extra-high",
-            shift = sprite_shift,
-            width = 99,
-            height = 117,
-            scale = 0.5,
-            y = 117,
-            tint = tint
-          }
-        }
-      },
-      frozen_patch_in = {
-        sheet = {
-          filename = "__aai-loaders__/graphics/entity/loader/frozen/loader.png",
-          priority = "extra-high",
-          shift = sprite_shift,
-          width = 99,
-          height = 117,
-          scale = 0.5
-        }
-      },
-      frozen_patch_out = {
-        sheet = {
-          filename = "__aai-loaders__/graphics/entity/loader/frozen/loader.png",
-          priority = "extra-high",
-          shift = sprite_shift,
-          width = 99,
-          height = 117,
-          y = 117,
-          scale = 0.5
-        }
-      }
-    }
-  end
-
-  return {
-    direction_in = {
-      sheets = {
-        {
-          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
-          priority = "extra-high",
-          width = 192,
-          height = 192,
-          scale = 0.5,
-        },
-        {
-          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-mask.png",
-          priority = "extra-high",
-          width = 192,
-          height = 192,
-          scale = 0.5,
-          tint = tint
-        },
-        {
-          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-shadow.png",
-          draw_as_shadow = true,
-          priority = "extra-high",
-          width = 192,
-          height = 192,
-          scale = 0.5,
-        }
-      }
-    },
-    direction_out = {
-      sheets = {
-        {
-          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
-          priority = "extra-high",
-          width = 192,
-          height = 192,
-          scale = 0.5,
-          y = 192
-        },
-        {
-          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-mask.png",
-          priority = "extra-high",
-          width = 192,
-          height = 192,
-          scale = 0.5,
-          y = 192,
-          tint = tint
-        },
-        {
-          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-shadow.png",
-          draw_as_shadow = true,
-          priority = "extra-high",
-          width = 192,
-          height = 192,
-          scale = 0.5,
-          y = 192
-        },
-      }
-    },
-    back_patch =
-    {
-      sheet =
-      {
-        filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-back-patch.png",
-        priority = "extra-high",
-        width = 192,
-        height = 192,
-        scale = 0.5
-      }
-    },
-    front_patch =
-    {
-      sheet =
-      {
-        filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-front-patch.png",
-        priority = "extra-high",
-        width = 192,
-        height = 192,
-        scale = 0.5
-      }
-    }
-  }
-end
-
 ---Create the Item prototypes
 ---@param template LMLoaderTemplate Template for loader tier
 local function create_item(template)
@@ -231,7 +22,7 @@ local function create_item(template)
   local item = {
     type = "item",
     name = template.name,
-    icons = create_icons(template.tint),
+    icons = utils.create_icons(template.tint),
     --group = template.group or "logistics",
     subgroup = template.subgroup or "belt-loader",
     color_hint = ug_item.color_hint,
@@ -322,6 +113,12 @@ local function create_technology(template)
   end
 
   if unlocked_by then
+    for _, e in pairs(unlocked_by.effects) do
+      if e.type == "unlock-recipe" and e.recipe == template.name then
+        return {}
+      end
+    end
+
     unlocked_by.effects[#unlocked_by.effects+1] = { type = "unlock-recipe", recipe = template.name }
     return {}
   end
@@ -339,7 +136,7 @@ local function create_technology(template)
     type = "technology",
     name = template.name,
     localised_description = { "technology-description.common" },
-    icons = create_tech_icons(template.tint),
+    icons = utils.create_tech_icons(template.tint),
     effects = {{ type = "unlock-recipe", recipe = template.name }},
     order = template.prerequisite_techs[1].order,
     prerequisites = template.prerequisite_techs,
@@ -390,7 +187,7 @@ local function create_entity(template)
     placeable_by = { item = template.name, count = 1 },
     minable = { mining_time = 0.1, result = template.name },
     flags = {"placeable-player", "placeable-neutral", "player-creation"},
-    fast_replaceable_group = "loader",
+    fast_replaceable_group = "loader-1x1",
     container_distance = 1;
     collision_box = ug_entity.collision_box,
     selection_box = ug_entity.selection_box,
@@ -404,8 +201,8 @@ local function create_entity(template)
     dying_explosion = ug_entity.dying_explosion or "underground-belt-explosion",
     damaged_trigger_effect = hit_effects.entity(),
 
-    icons = create_icons(template.tint),
-    structure = create_entity_structure(template.tint),
+    icons = utils.create_icons(template.tint),
+    structure = utils.create_entity_structure(template.tint),
     animation_speed_coefficient = 32,
     belt_animation_set = ug_entity.belt_animation_set,
 

@@ -1,6 +1,215 @@
 utils = {}
 local startup_settings = settings.startup
 
+---Loader icons
+---@param tint Color
+---@return table
+function utils.create_icons(tint)
+  if startup_settings["mdrn-use-aai-graphics"] and startup_settings["mdrn-use-aai-graphics"].value then
+    return {
+      { icon = "__aai-loaders__/graphics/icons/loader.png" },
+      { icon = "__aai-loaders__/graphics/icons/loader_mask.png", tint = tint }
+    }
+  end
+
+  return {
+    { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-base.png" },
+    { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-mask.png", tint = tint }
+  }
+end
+
+function utils.create_tech_icons(tint)
+  if startup_settings["mdrn-use-aai-graphics"] and startup_settings["mdrn-use-aai-graphics"].value then
+    return {
+      { icon = "__aai-loaders__/graphics/technology/loader-tech-icon.png", icon_size = 256 },
+      { icon = "__aai-loaders__/graphics/technology/loader-tech-icon_mask.png", icon_size = 256, tint = tint }
+    }
+  end
+
+  return {
+    { icon = "__loaders-modernized__/graphics/technology/mdrn-loader-technology-base.png", icon_size = 128 },
+    { icon = "__loaders-modernized__/graphics/technology/mdrn-loader-technology-mask.png", icon_size = 128, tint = tint }
+  }
+end
+
+---Loader structure sprite sheets
+---@param tint Color
+---@return data.LoaderStructure
+function utils.create_entity_structure(tint)
+  if startup_settings["mdrn-use-aai-graphics"] and startup_settings["mdrn-use-aai-graphics"].value then
+    local shadow_shift = { 0.4, 0.15 }
+    local sprite_shift = { 0, -0.15 }
+    return {
+      direction_in = {
+        sheets = {
+          {
+            filename = "__aai-loaders__/graphics/entity/loader/loader_shadows.png",
+            priority = "extra-high",
+            shift = shadow_shift,
+            width = 138,
+            height = 79,
+            scale = 0.5,
+            draw_as_shadow = true
+          },
+          {
+            filename = "__aai-loaders__/graphics/entity/loader/loader.png",
+            priority = "extra-high",
+            shift = sprite_shift,
+            width = 99,
+            height = 117,
+            scale = 0.5,
+          },
+          {
+            filename = "__aai-loaders__/graphics/entity/loader/loader_tint.png",
+            priority = "extra-high",
+            shift = sprite_shift,
+            width = 99,
+            height = 117,
+            scale = 0.5,
+            tint = tint
+          }
+        }
+      },
+      direction_out = {
+        sheets = {
+          {
+            filename = "__aai-loaders__/graphics/entity/loader/loader_shadows.png",
+            priority = "extra-high",
+            shift = shadow_shift,
+            width = 138,
+            height = 79,
+            y = 79,
+            scale = 0.5,
+            draw_as_shadow = true
+          },
+          {
+            filename = "__aai-loaders__/graphics/entity/loader/loader.png",
+            priority = "extra-high",
+            shift = sprite_shift,
+            width = 99,
+            height = 117,
+            y = 117,
+            scale = 0.5,
+          },
+          {
+            filename = "__aai-loaders__/graphics/entity/loader/loader_tint.png",
+            priority = "extra-high",
+            shift = sprite_shift,
+            width = 99,
+            height = 117,
+            scale = 0.5,
+            y = 117,
+            tint = tint
+          }
+        }
+      },
+      frozen_patch_in = {
+        sheet = {
+          filename = "__aai-loaders__/graphics/entity/loader/frozen/loader.png",
+          priority = "extra-high",
+          shift = sprite_shift,
+          width = 99,
+          height = 117,
+          scale = 0.5
+        }
+      },
+      frozen_patch_out = {
+        sheet = {
+          filename = "__aai-loaders__/graphics/entity/loader/frozen/loader.png",
+          priority = "extra-high",
+          shift = sprite_shift,
+          width = 99,
+          height = 117,
+          y = 117,
+          scale = 0.5
+        }
+      }
+    }
+  end
+
+  return {
+    direction_in = {
+      sheets = {
+        {
+          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
+          priority = "extra-high",
+          width = 192,
+          height = 192,
+          scale = 0.5,
+        },
+        {
+          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-mask.png",
+          priority = "extra-high",
+          width = 192,
+          height = 192,
+          scale = 0.5,
+          tint = tint
+        },
+        {
+          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-shadow.png",
+          draw_as_shadow = true,
+          priority = "extra-high",
+          width = 192,
+          height = 192,
+          scale = 0.5,
+        }
+      }
+    },
+    direction_out = {
+      sheets = {
+        {
+          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
+          priority = "extra-high",
+          width = 192,
+          height = 192,
+          scale = 0.5,
+          y = 192
+        },
+        {
+          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-mask.png",
+          priority = "extra-high",
+          width = 192,
+          height = 192,
+          scale = 0.5,
+          y = 192,
+          tint = tint
+        },
+        {
+          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-shadow.png",
+          draw_as_shadow = true,
+          priority = "extra-high",
+          width = 192,
+          height = 192,
+          scale = 0.5,
+          y = 192
+        },
+      }
+    },
+    back_patch =
+    {
+      sheet =
+      {
+        filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-back-patch.png",
+        priority = "extra-high",
+        width = 192,
+        height = 192,
+        scale = 0.5
+      }
+    },
+    front_patch =
+    {
+      sheet =
+      {
+        filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-front-patch.png",
+        priority = "extra-high",
+        width = 192,
+        height = 192,
+        scale = 0.5
+      }
+    }
+  }
+end
+
 utils.remove_recipe_from_effects = function(effects, recipe)
   local j = 1
   for i=1, #effects do
