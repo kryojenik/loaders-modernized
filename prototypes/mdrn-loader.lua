@@ -32,15 +32,9 @@ local function update_or_create_item(template)
     }
   end
 
-  item.group = template.group or item.group
-  item.subgroup = template.subgroup or item.subgroup
-  if template.tint then
-    item.icons = utils.create_icons(template.tint)
-  end
-
   local ug_item = data.raw["item"][template.underground_name]
   if ug_item then
-    item.order = template.order or string.gsub(ug_item.order, "^b%[underground%-belt%]", "e[mdrn-loader]")
+    item.order = string.gsub(ug_item.order, "^b%[underground%-belt%]", "e[mdrn-loader]")
     item.color_hint = ug_item.color_hint
     item.inventory_move_sound = ug_item.inventory_move_sound
     item.pick_sound = ug_item.pick_sound
@@ -51,62 +45,84 @@ local function update_or_create_item(template)
     item.default_import_location = ug_item.default_import_location or nil
   end
 
+  item.order = template.order or item.order
+  item.group = template.group or item.group
+  item.subgroup = template.subgroup or item.subgroup
+  if template.tint then
+    item.icons = utils.create_icons(template.tint)
+  end
+
+
   data:extend{item}
 end
 
 ---Create recipe prototypes
 ---@param template LMLoaderTemplate
-local function create_recipe(template)
+local function update_or_create_recipe(template)
   local rd = template.recipe_data
 
   if not rd then
     return {}
   end
 
-  -- Determine which recipe to set for the tiers loader
-  local ingredients = rd.ingredients
-  if not ingredients then
-    return {}
+  ---@type data.RecipePrototype
+  local recipe = data.raw["recipe"][template.name]
+  local new = false
+  if not recipe then
+    new = true
+    recipe = {
+      type = "recipe",
+      name = template.name,
+      enabled = false,
+      energy_required = 1,
+      results = {{type = "item", name = template.name, amount = 1}},
+      category = data.raw["recipe"][template.underground_name].category
+    }
   end
 
-  if startup_settings["mdrn-cheap-stacking"].value == false
-  and utils.stack(template) then
-    if rd.stack_ingredients then
-      ingredients = rd.stack_ingredients
-    else
-      for i, ingredient in ipairs(ingredients) do
-        if ingredient.type == "item" and data.raw["inserter"][ingredient.name] then
-          -- TODO: Make this a setting
-          ingredients[i].amount = ingredients[i].amount + 2
+  recipe.energy_required = rd.energy_required or recipe.energy_required
+  recipe.category = rd.category or recipe.category
+  recipe.results = rd.results or recipe.results
+
+  if not (rd.enabled == nil) then
+    recipe.enabled = rd.enabled
+  end
+
+  if feature_flags.space_travel then
+    recipe.surface_conditions = rd.surface_conditions or recipe.surface_conditions
+  end
+
+
+  local ingredients = rd.ingredients
+  if ingredients then
+    if not startup_settings["mdrn-cheap-stacking"].value == true
+    and utils.stack(template) then
+      if rd.stack_ingredients then
+        ingredients = rd.stack_ingredients
+      else
+        for i, ingredient in ipairs(ingredients) do
+          if ingredient.type == "item" and data.raw["inserter"][ingredient.name] then
+            -- TODO: Make this a setting
+            ingredients[i].amount = ingredients[i].amount + 2
+          end
+        end
+      end
+
+      -- Double recipe to consume undergrounds evenly
+      if startup_settings["mdrn-double-recipe"].value then
+        for _, i in ipairs(ingredients) do
+          i.amount = i.amount * 2
+        end
+
+        if new then
+          for _, r in ipairs(recipe.results) do
+            r.amount = r.amount * 2
+          end
         end
       end
     end
-  end
 
-  ---@type data.RecipePrototype
-  local recipe = {
-    type = "recipe",
-    name = template.name,
-    enabled = rd.enabled or false,
-    energy_required = rd.energy_required or 1,
-    ingredients = ingredients,
-    results = {{type = "item", name = template.name, amount = 1}},
-    category = rd.category or data.raw["recipe"][template.underground_name].category
-  }
-
-  if feature_flags.space_travel then
-    recipe.surface_conditions = rd.surface_conditions
-  end
-
-  -- Double recipe to consume undergrounds evenly
-  if startup_settings["mdrn-double-recipe"].value then
-    for _, i in pairs(recipe.ingredients) do
-      i.amount = i.amount * 2
-    end
-
-    for _, r in pairs(recipe.results) do
-      r.amount = r.amount * 2
-    end
+    recipe.ingredients = ingredients
   end
 
   data:extend{recipe}
@@ -115,7 +131,8 @@ end
 ---Create technology prototype for loaders
 ---@param template LMLoaderTemplate Loader tier template
 local function create_technology(template)
-  if template.no_tech then
+  if template.no_tech
+  or not (template.unlocked_by or template.prerequisite_techs) then
     return {}
   end
 
@@ -359,7 +376,7 @@ function MdrnLoaders.make_modern_loaders(templates)
     template.underground_name = template.underground_name or tier .. "underground-belt"
 
     update_or_create_item(template)
-    create_recipe(template)
+    update_or_create_recipe(template)
     update_or_create_entity(template)
     create_technology(template)
   end

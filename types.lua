@@ -6,6 +6,7 @@
 ---@class LMRecipeData
 ---@field surface_conditions? SurfaceCondition[]
 ---@field ingredients? Ingredient[]
+---@field results? Product[]
 ---@field stack_ingredients? Ingredient[]
 ---@field energy_required? double
 ---@field category? string
