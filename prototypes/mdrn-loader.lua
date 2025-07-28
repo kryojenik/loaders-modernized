@@ -211,6 +211,8 @@ local function update_or_create_entity(template)
       type = "loader-1x1",
       flags = {"placeable-player", "placeable-neutral", "player-creation"},
       filter_count = 5,
+      localised_name = template.localised_name or { "entity-name." .. template.name },
+      localised_description = template.localised_description or { "", { "entity-description.common" }},
       open_sound = { filename = "__base__/sound/open-close/inserter-open.ogg" },
       close_sound = { filename = "__base__/sound/open-close/inserter-close.ogg" },
       fast_replaceable_group = "loader-1x1",
@@ -283,21 +285,23 @@ local function update_or_create_entity(template)
       icons = utils.create_icons(template.tint),
       structure = utils.create_entity_structure(template.tint),
     }
-
-    -- Stacking
-    if feature_flags.space_travel then
-      entity.max_belt_stack_size =  template.max_belt_stack_size or utils.stack(template) and max_belt_stack_size or 1
-      if entity.max_belt_stack_size > 1 then
-        entity.localised_description = { "", entity.localised_description, { "entity-description.stack" } }
-        entity.adjustable_belt_stack_size = true
-      end
-    end
   end
 
-  entity.localised_name = template.localised_name or { "entity-name." .. template.name }
-  entity.localised_description = template.localised_description or {"" , { "entity-description.common" }}
+  entity.localised_name = template.localised_name or entity.localised_name
   entity.next_upgrade = template.next_upgrade or entity.next_upgrade
   entity.max_belt_stack_size = template.max_belt_stack_size or entity.max_belt_stack_size
+
+  -- Stacking
+  if feature_flags.space_travel then
+    entity.max_belt_stack_size =  template.max_belt_stack_size or utils.stack(template) and max_belt_stack_size or 1
+    if entity.max_belt_stack_size > 1 then
+      entity.localised_description = {
+        "",
+        template.localised_description or { "entity-description.common" },
+        { "entity-description.stack" } }
+      entity.adjustable_belt_stack_size = true
+    end
+  end
 
   if template.tint then
     entity.icons = utils.create_icons(template.tint)
