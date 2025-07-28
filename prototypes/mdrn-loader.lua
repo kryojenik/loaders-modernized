@@ -290,19 +290,6 @@ local function update_or_create_entity(template)
 
   entity.localised_name = template.localised_name or entity.localised_name
   entity.next_upgrade = template.next_upgrade or entity.next_upgrade
-  entity.max_belt_stack_size = template.max_belt_stack_size or entity.max_belt_stack_size
-
-  -- Stacking
-  if feature_flags.space_travel then
-    entity.max_belt_stack_size =  template.max_belt_stack_size or utils.stack(template) and max_belt_stack_size or 1
-    if entity.max_belt_stack_size > 1 then
-      entity.localised_description = {
-        "",
-        template.localised_description or { "entity-description.common" },
-        { "entity-description.stack" } }
-      entity.adjustable_belt_stack_size = true
-    end
-  end
 
   if template.tint then
     entity.icons = utils.create_icons(template.tint)
@@ -319,9 +306,15 @@ local function update_or_create_entity(template)
     entity.belt_animation_set = ug_entity.belt_animation_set
   end
 
+  -- Stacking
   if feature_flags.space_travel then
-    entity.max_belt_stack_size = template.max_belt_stack_size or entity.max_belt_stack_size
+    entity.max_belt_stack_size =  template.max_belt_stack_size or entity.max_belt_stack_size or (utils.stack(template) and max_belt_stack_size) or 1
     if entity.max_belt_stack_size > 1 then
+      entity.localised_description = {
+        "",
+        template.localised_description or { "entity-description.common" },
+        { "entity-description.stack" }
+      }
       entity.adjustable_belt_stack_size = true
     end
 
