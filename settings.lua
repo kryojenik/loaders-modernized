@@ -55,11 +55,6 @@ if mods["aai-industry"] then
       default_value = true,
   }
 
-  if mods["boblogistics"] then
-    aai_industry.hidden = true
-    aai_industry.forced_value = false
-  end
-
   data:extend({aai_industry})
 end
 
