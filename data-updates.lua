@@ -13,7 +13,6 @@ end
 
 -- PyMods doesn't create the belt-stacking technology until data-updates.  Need to apply tech requirements
 -- to the stack tier if enabled.
---[[
 if mods["pycoalprocessing"] and settings.startup["mdrn-enable-stacking"].value == "stack-tier" then
   data.raw["recipe"]["stack-mdrn-loader"].ingredients[2].name = "py-stack-inserter"
   if settings.startup["mdrn-unlock-technology"].value == "separate" then
@@ -22,4 +21,3 @@ if mods["pycoalprocessing"] and settings.startup["mdrn-enable-stacking"].value =
     t.unit = data.raw["technology"]["py-transport-belt-capacity-1"].unit
   end
 end
-]]

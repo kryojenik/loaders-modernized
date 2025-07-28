@@ -12,7 +12,8 @@
         "base >= 2.0.60",
         "flib >= 0.16.2",
         "? space-age >= 2.0.60",
-        "(?) stack-inserters"
+        "(?) stack-inserters",
+        "(?) pycoalprocessing"
     ],
     "package": {
         "git_publish_branch": "main",
