@@ -20,16 +20,13 @@ do use power.  So keep those power poles handy!
 
 ## Alternate belt sets supported
 
-- [Ultimate Belts Space Age](https://mods.factorio.com/mod/UltimateBeltsSpaceAge)
-- [5Dim's New Transport](https://mods.factorio.com/mod/5dim_transport)
-- [Iper Belt](https://mods.factorio.com/mod/iper-belt)
-- [Extended Vanilla: Modular Logistics & Robotics](https://mods.factorio.com/mod/ev-logistics)
-- [Bob's Logistics](https://mods.factorio.com/mod/boblogistics)
-- [Wooden Logistics](https://mods.factorio.com/mod/wood-logistics)
-
-## TODO
-
-- Support belts from additional overhaul mods as they are requested.
+Alternate belt mods are supported directly by that mod, or by an addon mod.  Addon mods for the following belt mods are currently available and maintained by me.
+- [Ultimate Belts Space Age](https://mods.factorio.com/mod/loaders-modernized-ubsa)
+- [5Dim's New Transport](https://mods.factorio.com/mod/loaders-modernized-5dim)
+- [Iper Belt](https://mods.factorio.com/mod/loaders-modernized-iper)
+- [Extended Vanilla: Modular Logistics & Robotics](https://mods.factorio.com/mod/loaders-modernized-ev)
+- [Bob's Logistics](https://mods.factorio.com/mod/loaders-modernized-bobs)
+- [Wooden Logistics](https://mods.factorio.com/mod/loaders-modernized-wood)
 
 ## Acknowledgements
 
