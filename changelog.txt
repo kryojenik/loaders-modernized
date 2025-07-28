@@ -1,7 +1,20 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.8.15
+Version: 1.0.0
 Date: ????
+  Bugfixes:
+    - Stacking loaders will now be able to fully fill a belt when they need to pull from multiple
+      inventory slots.  This was a factorio fix in 2.0.56 https://forums.factorio.com/123836
   Changes:
+    - New thumbnail graphic for the mod portal.
+    - There are significant changes to how support for other mods is provided.  This is intended to
+      accomplish a few things:
+      1. Improve dependency management supporting various mods.
+      2. Provide API for mod authors to add loaders directly and set balance / recipes to fit theme.
+      3. Simplify adding new features and compatibilities.
+
+      Since other mods are now supported outside of the base mod, the additional mods will need to
+      be installed to provide the additional loaders.  These changes have also likely introduced
+      some new bugs.  Please report and I'll address as quickly as I can. 
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.14
 Date: 2025-05-12

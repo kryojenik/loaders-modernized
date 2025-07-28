@@ -28,13 +28,25 @@ local version_migrations = {
         name = player.name
       }
     end
+  end,
+  ["1.0.0"] = function(migrations)
+    local removed_loader = false
+    for old, new in pairs(migrations.entity) do
+      if string.find(old,"mdrn%-loader") and new == "" then
+        removed_loader = true
+      end
+    end
+    game.print{"strings.mdrn-compatibility-change"}
+    if removed_loader then
+      game.print{"strings.mdrn-compatibility-removed"}
+    end
   end
 }
 
 local migrations = {}
 
 migrations.on_configuration_changed = function(e)
-  flib_migration.on_config_changed(e, version_migrations)
+  flib_migration.on_config_changed(e, version_migrations, nil, e.migrations)
 end
 
 return migrations

@@ -6,5 +6,5 @@ handler.add_libraries({
 
   require("scripts.migrations"),
   require("scripts.loaders-modernized"),
-  require("scripts.loader-gui")
+  require("scripts.loader-gui"),
 })
