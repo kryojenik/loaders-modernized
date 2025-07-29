@@ -107,18 +107,18 @@ local function update_or_create_recipe(template)
           end
         end
       end
+    end
 
-      -- Double recipe to consume undergrounds evenly
-      ---@cast ingredients -?
-      if startup_settings["mdrn-double-recipe"].value then
-        for _, i in ipairs(ingredients) do
-          i.amount = i.amount * 2
-        end
+    -- Double recipe to consume undergrounds evenly
+    ---@cast ingredients -?
+    if startup_settings["mdrn-double-recipe"].value then
+      for _, i in ipairs(ingredients) do
+        i.amount = i.amount * 2
+      end
 
-        if new then
-          for _, r in ipairs(recipe.results) do
-            r.amount = r.amount * 2
-          end
+      if new then
+        for _, r in ipairs(recipe.results) do
+          r.amount = r.amount * 2
         end
       end
     end
