@@ -143,7 +143,18 @@ end -- on_entity_built()
 local function on_player_joined(e)
   local players = storage.players or {}
   players[e.player_index] = players[e.player_index] or {}
-end
+end -- on_player_joined()
+
+---@param e EventData.on_pre_entity_settings_pasted
+local function on_settings_pasted(e)
+  local source_split = string.find(e.source.name, "%-split$") and true or false
+  local dest_split = string.find(e.destination.name, "%-split$") and true or false
+
+  if not (source_split == dest_split) then
+    loader_modernized.swap_split(e.destination, e.player_index)
+  end
+
+end -- on_settings_pasted()
 
 ---@param e EventData.on_pre_build
 local function on_pre_build(e)
@@ -186,7 +197,7 @@ local function on_pre_build(e)
     surface_data[entity.position.x .. "," .. entity.position.y] = true
     storage.fast_replace_split[surface.name] = surface_data
   end
-end
+end -- on_pre_build()
 
 ---When switching state, replace the existing entity with the alternate entity.
 ---(tier-)mdrn-loader <-> (tier-)mdrn-loader-split
@@ -274,6 +285,7 @@ loader_modernized.events = {
   [defines.events.script_raised_revive] = on_entity_built,
   [defines.events.on_player_joined_game] = on_player_joined,
   [defines.events.on_pre_build] = on_pre_build,
+  [defines.events.on_pre_entity_settings_pasted] = on_settings_pasted,
 }
 
 return loader_modernized

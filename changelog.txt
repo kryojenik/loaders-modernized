@@ -2,7 +2,8 @@
 Version: 1.0.2
 Date: ????
   Bugfixes:
-    - Fix missing prerequisite technologies when creating explicit loader technologies.
+    - Missing prerequisite technologies when creating explicit loader technologies.
+    - Split lane setting not being copy-pasted between loaders.
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.1
 Date: 2025-07-29
