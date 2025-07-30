@@ -1,7 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.2
 Date: ????
-  Changes:
+  Bugfixes:
+    - Fix missing prerequisite technologies when creating explicit loader technologies.
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.1
 Date: 2025-07-29
