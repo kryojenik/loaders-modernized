@@ -369,6 +369,10 @@ MdrnLoaders = MdrnLoaders or {}
 ---Make tier of loaders
 ---@param templates table
 function MdrnLoaders.make_modern_loaders(templates)
+  if not next(templates) then
+    return
+  end
+
   for tier, template in pairs(templates.loaders) do
     template.name = template.name or tier .. "mdrn-loader"
     template.underground_name = template.underground_name or tier .. "underground-belt"

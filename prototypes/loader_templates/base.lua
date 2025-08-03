@@ -93,7 +93,8 @@ if space_age then
 end
 
 -- Separate stack tier
-if startup_settings["mdrn-enable-stacking"].value == "stack-tier" then
+if startup_settings["mdrn-enable-stacking"].value == "stack-tier"
+and data.raw["inserter"]["stack-inserter"] then
   templates.loaders["stack-"] = {
     order = "z",
     tint = util.color("f5f5f5d1"),

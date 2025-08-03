@@ -13,7 +13,6 @@
         "flib >= 0.16.2",
         "? space-age >= 2.0.60",
         "(?) stack-inserters",
-        "(?) pycoalprocessing",
         "(?) SchallBeltConfiguration"
     ],
     "package": {

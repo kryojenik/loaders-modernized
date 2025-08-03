@@ -4,6 +4,8 @@ Date: ????
   Bugfixes:
     - Missing prerequisite technologies when creating explicit loader technologies.
     - Split lane setting not being copy-pasted between loaders.
+  Changes:
+    - Move pY specific code to separate add-on mod.
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.1
 Date: 2025-07-29
