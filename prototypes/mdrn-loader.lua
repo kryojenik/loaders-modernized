@@ -338,6 +338,10 @@ local function update_or_create_entity(template)
     end
   end
 
+  if startup_settings["mdrn-respect-insert-limits"].value then
+    entity.respect_insert_limits = true
+  end
+
   -- If the entity can't filter it can't do other advanced things.
   if template.no_filter then
     entity.filter_count = 0

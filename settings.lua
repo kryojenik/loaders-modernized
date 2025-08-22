@@ -29,7 +29,19 @@ data:extend({
     default_value = "separate",
     allowed_values = { "separate", "belt" }
   },
+  {
+    type = "bool-setting",
+    name = "mdrn-respect-insert-limits",
+    order = "se",
+    setting_type = "startup",
+    default_value = false,
+  }
 })
+
+if helpers.compare_versions(mods["base"], "2.0.65") < 0 then
+  local insert_limits = data.raw["bool-setting"]["mdrn-respect-insert-limits"]
+  insert_limits.hidden = true
+end
 
 -- If the AAI Loaders mod is found, assume the player wants to use the AAI graphics
 -- with this mod providing the entities.  This can be disabled to allow both mods to provide
