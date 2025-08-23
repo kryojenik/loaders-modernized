@@ -1,5 +1,6 @@
 local flib_direction = require("__flib__.direction")
 local flib_position = require("__flib__.position")
+local flib_table = require("__flib__.table")
 
 local transport_belt_connectables = {
   "transport-belt",
@@ -10,6 +11,9 @@ local transport_belt_connectables = {
   "linked-belt",
   "lane-splitter",
 }
+
+local belts_and_corpses = flib_table.array_copy(transport_belt_connectables)
+belts_and_corpses[#belts_and_corpses+1] = "corpse"
 
 local loader_modernized = {}
 
@@ -78,7 +82,7 @@ local function snap_away_from_non_belt(entity)
   local back_position = flib_position.add(entity.position, flib_direction.to_vector(back_direction))
   local non_belt = entity.surface.find_entities_filtered({
     position = back_position,
-    type = transport_belt_connectables,
+    type = belts_and_corpses,
     ghost_type = transport_belt_connectables,
     invert = true
   })[1]
@@ -89,7 +93,7 @@ local function snap_away_from_non_belt(entity)
 
   non_belt = entity.surface.find_entities_filtered({
     position = front_position,
-    type = transport_belt_connectables,
+    type = belts_and_corpses,
     ghost_type = transport_belt_connectables,
     invert = true
   })[1]

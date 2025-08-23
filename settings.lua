@@ -37,11 +37,12 @@ data:extend({
     default_value = false,
   },
   {
-    type = "bool-setting",
+    type = "string-setting",
     name = "mdrn-embiggen-assemblers",
     order = "sg",
     setting_type = "startup",
-    default_value = false,
+    default_value = "zero",
+    allowed_values = { "zero", "eight", "sixteen" },
   }
 })
 

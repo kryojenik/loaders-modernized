@@ -4,6 +4,7 @@ Date: ????
   Features:
     - Add setting to respect machine input limits. (Requires Factorio 2.0.65 or later).  Defaults to false.
     - Add setting to embiggen assembly machines so loaders on the corners don't appear to stick out as much.  Defaults to false.
+    - Loaders will no longer do the hokey-pokey and turn themselves around when placing on tree stumps (and near other corpses). 
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.2
 Date: 2025-08-04
