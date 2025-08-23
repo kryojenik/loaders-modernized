@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.3
-Date: ????
+Date: 2025-08-23
   Features:
     - Add setting to respect machine input limits. (Requires Factorio 2.0.65 or later).  Defaults to false.
     - Add setting to embiggen assembly machines so loaders on the corners don't appear to stick out as much.  Defaults to false.
