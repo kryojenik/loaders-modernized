@@ -32,7 +32,14 @@ data:extend({
   {
     type = "bool-setting",
     name = "mdrn-respect-insert-limits",
-    order = "se",
+    order = "sf",
+    setting_type = "startup",
+    default_value = false,
+  },
+  {
+    type = "bool-setting",
+    name = "mdrn-embiggen-assemblers",
+    order = "sg",
     setting_type = "startup",
     default_value = false,
   }
