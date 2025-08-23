@@ -22,7 +22,7 @@
             "types.lua",
             "screenshots/*"
         ],
-        "sync_portal_details": false,
+        "sync_portal_details": true,
         "no_git_push": true
     }
 }
