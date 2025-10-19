@@ -1,7 +1,9 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.4
 Date: ????
-  Changes:
+  Bugfixes:
+    - Fix crash when pasting settings from split lane Loaders Modernized to other non-Loaders Modernized.
+      Note: Split lane behavior will depend on destination loaders mod capabilities and implementation.
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.3
 Date: 2025-08-23

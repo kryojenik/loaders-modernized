@@ -151,6 +151,10 @@ end -- on_player_joined()
 
 ---@param e EventData.on_pre_entity_settings_pasted
 local function on_settings_pasted(e)
+  if not string.find(e.destination.name, "mdrn%-loader") then
+    return
+  end
+
   local source_split = string.find(e.source.name, "%-split$") and true or false
   local dest_split = string.find(e.destination.name, "%-split$") and true or false
 
