@@ -199,8 +199,12 @@ local function on_pre_build(e)
   end
 
   local entity = surface.find_entities_filtered{position = e.position, type = {"loader-1x1", "entity-ghost"}}[1]
-  local entity_name = string.match(entity.name, "mdrn%-loader") and entity.name or entity.ghost_name
-  if string.match(entity_name, "-split") then
+  if not (entity) then
+    return
+  end
+
+  local entity_prototype = entity.prototype.type == "loader-1x1" and entity.prototype or entity.ghost_prototype
+  if entity_prototype.per_lane_filters then
     local surface_data = storage.fast_replace_split[surface.name] or {}
     surface_data[entity.position.x .. "," .. entity.position.y] = true
     storage.fast_replace_split[surface.name] = surface_data

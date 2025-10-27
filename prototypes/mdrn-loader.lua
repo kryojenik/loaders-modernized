@@ -210,13 +210,13 @@ local function update_or_create_entity(template)
     ---@diagnostic disable-next-line:missing-fields
     entity = {
       type = "loader-1x1",
-      flags = {"placeable-player", "placeable-neutral", "player-creation"},
+      flags = {"placeable-neutral", "player-creation"},
       filter_count = 5,
       localised_name = template.localised_name or { "entity-name." .. template.name },
       localised_description = template.localised_description or { "", { "entity-description.common" }},
       open_sound = { filename = "__base__/sound/open-close/inserter-open.ogg" },
       close_sound = { filename = "__base__/sound/open-close/inserter-close.ogg" },
-      fast_replaceable_group = "loader-1x1",
+      fast_replaceable_group = "transport-belt",
       container_distance = 1;
       max_health = 170,
       corpse = "small-remnants",
@@ -284,7 +284,9 @@ local function update_or_create_entity(template)
       placeable_by = { item = template.name, count = 1 },
       minable = { mining_time = 0.1, result = template.name },
       icons = utils.create_icons(template.tint),
+      collision_box = { {-0.4, -0.45}	, {0.4, 0.45} },
       structure = utils.create_entity_structure(template.tint),
+      structure_render_layer = "object",
     }
   end
 
@@ -299,7 +301,6 @@ local function update_or_create_entity(template)
   local ug_entity = data.raw["underground-belt"][template.underground_name]
   if ug_entity then
     entity.speed = ug_entity.speed * (template.speed_multiplier or 1)
-    entity.collision_box = ug_entity.collision_box
     entity.selection_box = ug_entity.selection_box
     entity.resistances = ug_entity.resistances
     entity.dying_explosion = ug_entity.dying_explosion or "underground-belt-explosion"
