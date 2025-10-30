@@ -40,6 +40,9 @@ local version_migrations = {
     if removed_loader then
       game.print{"strings.mdrn-compatibility-removed"}
     end
+  end,
+  ["1.0.4"] = function(migration)
+    game.print{"strings.mdrn-power-change"}
   end
 }
 

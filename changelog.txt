@@ -5,6 +5,9 @@ Date: ????
     - Loaders now show up in the upgrade planner as options with K2 and AAI loaders.
     - Fix crash when pasting settings from split lane Loaders Modernized to other non-Loaders Modernized.
       Note: Split lane behavior will depend on destination loaders mod capabilities and implementation.
+    - Fix typo in energy_per_item that resulted in drastically reduced energy cost.  Loaders will not use
+      at least one order of magnitude more power (sorry) when actively transferring items.
+      There is a setting to use the (OP) lower power setting.
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.3
 Date: 2025-08-23

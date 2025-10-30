@@ -2,6 +2,11 @@ local utils = require("scripts.utils")
 local hit_effects = require("__base__.prototypes.entity.hit-effects")
 local max_belt_stack_size = data.raw["utility-constants"].default.max_belt_stack_size
 local startup_settings = settings.startup
+-- energy_per_item should be in Joules, not Watts.  I initially typo'd the kJ to kW in the initial
+-- version and it was that way for a long time.  Leaving it as a non-default option for those that
+-- wish to keep the original power consumption value.
+local energy_per_item = startup_settings["mdrn-oplp"].value and "4kW" or "4kJ"
+
 
 ---Make a loader subgroup
 data:extend{
@@ -331,7 +336,7 @@ local function update_or_create_entity(template)
         drain = template.energy_drain or "2kW",
         usage_priority = "secondary-input"
       }
-      entity.energy_per_item = template.energy_per_item or "4kW"
+      entity.energy_per_item = template.energy_per_item or energy_per_item
     else
       entity.energy_source.type = template.energy_type or entity.energy_source.type
       entity.energy_source.drain = template.energy_drain or entity.energy_source.drain

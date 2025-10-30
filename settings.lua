@@ -9,6 +9,13 @@ data:extend({
   },
   {
     type = "bool-setting",
+    name = "mdrn-oplp",
+    order = "saa",
+    setting_type = "startup",
+    default_value = false,
+  },
+  {
+    type = "bool-setting",
     name = "mdrn-enable-chute",
     order = "sb",
     setting_type = "startup",
@@ -43,7 +50,7 @@ data:extend({
     setting_type = "startup",
     default_value = "zero",
     allowed_values = { "zero", "eight", "sixteen" },
-  }
+  },
 })
 
 if helpers.compare_versions(mods["base"], "2.0.65") < 0 then
