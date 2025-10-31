@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.4
-Date: ????
+Date: 2025-10-30
   Bugfixes:
     - Loaders now show up in the upgrade planner as options with K2 and AAI loaders.
     - Fix crash when pasting settings from split lane Loaders Modernized to other non-Loaders Modernized.
