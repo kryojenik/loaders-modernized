@@ -13,6 +13,7 @@
 ---@field enabled? boolean
 
 ---@class LMLoaderTemplate
+---@field dark_frame? boolean
 ---@field no_tech? boolean
 ---@field no_filter? boolean
 ---@field no_stack? boolean

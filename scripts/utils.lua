@@ -3,39 +3,72 @@ local startup_settings = settings.startup
 
 ---Loader icons
 ---@param tint Color
+---@param dark boolean?
 ---@return table
-function utils.create_icons(tint)
+function utils.create_icons(tint, dark)
   if startup_settings["mdrn-use-aai-graphics"] and startup_settings["mdrn-use-aai-graphics"].value then
     return {
-      { icon = "__aai-loaders__/graphics/icons/loader.png" },
-      { icon = "__aai-loaders__/graphics/icons/loader_mask.png", tint = tint }
+      {
+        icon = "__aai-loaders__/graphics/icons/loader.png"
+      },
+      {
+        icon = "__aai-loaders__/graphics/icons/loader_mask.png",
+        tint = tint
+      }
     }
   end
 
   return {
-    { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-base.png" },
-    { icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-mask.png", tint = tint }
+    { icon = dark
+      and "__loaders-modernized__/graphics/item/mdrn-loader-icon-base-dark.png"
+      or "__loaders-modernized__/graphics/item/mdrn-loader-icon-base.png"
+    },
+    {
+      icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-mask.png",
+      tint = tint
+    }
   }
 end
 
-function utils.create_tech_icons(tint)
+---Technology icon
+---@param tint Color
+---@param dark boolean?
+---@return table
+function utils.create_tech_icons(tint, dark)
   if startup_settings["mdrn-use-aai-graphics"] and startup_settings["mdrn-use-aai-graphics"].value then
     return {
-      { icon = "__aai-loaders__/graphics/technology/loader-tech-icon.png", icon_size = 256 },
-      { icon = "__aai-loaders__/graphics/technology/loader-tech-icon_mask.png", icon_size = 256, tint = tint }
+      {
+        icon = "__aai-loaders__/graphics/technology/loader-tech-icon.png",
+        icon_size = 256
+      },
+      {
+        icon = "__aai-loaders__/graphics/technology/loader-tech-icon_mask.png",
+        icon_size = 256,
+        tint = tint
+      }
     }
   end
 
   return {
-    { icon = "__loaders-modernized__/graphics/technology/mdrn-loader-technology-base.png", icon_size = 128 },
-    { icon = "__loaders-modernized__/graphics/technology/mdrn-loader-technology-mask.png", icon_size = 128, tint = tint }
+    {
+      icon = dark
+        and "__loaders-modernized__/graphics/technology/mdrn-loader-technology-base-dark.png"
+        or "__loaders-modernized__/graphics/technology/mdrn-loader-technology-base.png",
+      icon_size = 128
+    },
+    {
+      icon = "__loaders-modernized__/graphics/technology/mdrn-loader-technology-mask.png",
+      icon_size = 128,
+      tint = tint
+    }
   }
 end
 
 ---Loader structure sprite sheets
 ---@param tint Color
+---@param dark boolean?
 ---@return data.LoaderStructure
-function utils.create_entity_structure(tint)
+function utils.create_entity_structure(tint, dark)
   if startup_settings["mdrn-use-aai-graphics"] and startup_settings["mdrn-use-aai-graphics"].value then
     local shadow_shift = { 0.4, 0.15 }
     local sprite_shift = { 0, -0.15 }
@@ -131,7 +164,9 @@ function utils.create_entity_structure(tint)
     direction_in = {
       sheets = {
         {
-          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
+          filename = dark
+            and "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base-dark.png"
+            or "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
           priority = "extra-high",
           width = 192,
           height = 192,
@@ -158,7 +193,9 @@ function utils.create_entity_structure(tint)
     direction_out = {
       sheets = {
         {
-          filename = "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
+          filename = dark
+            and "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base-dark.png"
+            or "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
           priority = "extra-high",
           width = 192,
           height = 192,

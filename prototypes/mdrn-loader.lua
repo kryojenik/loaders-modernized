@@ -31,7 +31,7 @@ local function update_or_create_item(template)
       name = template.name,
       place_result = template.name,
 
-      icons = utils.create_icons(template.tint),
+      icons = utils.create_icons(template.tint, template.dark_frame),
       group = "logistics",
       subgroup = "belt-loader",
     }
@@ -54,7 +54,7 @@ local function update_or_create_item(template)
   item.group = template.group or item.group
   item.subgroup = template.subgroup or item.subgroup
   if template.tint then
-    item.icons = utils.create_icons(template.tint)
+    item.icons = utils.create_icons(template.tint, template.dark_frame)
   end
 
 
@@ -172,7 +172,7 @@ local function create_technology(template)
     type = "technology",
     name = template.name,
     localised_description = { "technology-description.common" },
-    icons = utils.create_tech_icons(template.tint),
+    icons = utils.create_tech_icons(template.tint, template.dark_frame),
     effects = {{ type = "unlock-recipe", recipe = template.name }},
     order = template.prerequisite_techs[1].order,
     prerequisites = template.prerequisite_techs,
@@ -288,9 +288,9 @@ local function update_or_create_entity(template)
       name = template.name,
       placeable_by = { item = template.name, count = 1 },
       minable = { mining_time = 0.1, result = template.name },
-      icons = utils.create_icons(template.tint),
+      icons = utils.create_icons(template.tint, template.dark_frame),
       collision_box = { {-0.4, -0.45}	, {0.4, 0.45} },
-      structure = utils.create_entity_structure(template.tint),
+      structure = utils.create_entity_structure(template.tint, template.dark_frame),
       structure_render_layer = "object",
     }
   end
@@ -300,7 +300,7 @@ local function update_or_create_entity(template)
 
   if template.tint then
     entity.icons = utils.create_icons(template.tint)
-    entity.structure = utils.create_entity_structure(template.tint)
+    entity.structure = utils.create_entity_structure(template.tint, template.dark_frame)
   end
 
   local ug_entity = data.raw["underground-belt"][template.underground_name]
