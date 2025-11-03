@@ -6,7 +6,7 @@ local templates = {}
 templates.loaders = {
   [""] = {
     next_upgrade = "fast-mdrn-loader",
-    order = "b",
+    order = "01",
     tint = util.color("ffd955d1"),
     prerequisite_techs = { "logistics", },
     below_turbo = true,
@@ -20,7 +20,7 @@ templates.loaders = {
   },
   ["fast-"] = {
     next_upgrade = "express-mdrn-loader",
-    order = "c",
+    order = "02",
     tint = util.color("ff1838d1"),
     prerequisite_techs = { "logistics-2", "mdrn-loader", "fast-inserter" },
     below_turbo = true,
@@ -33,7 +33,7 @@ templates.loaders = {
     }
   },
   ["express-"] = {
-    order = "d",
+    order = "04",
     tint = util.color("5abeffd1"),
     prerequisite_techs = { "logistics-3", "fast-mdrn-loader", "bulk-inserter" },
     below_turbo = true,
@@ -58,7 +58,7 @@ if startup_settings["mdrn-enable-chute"].value then
     energy_drain = "0kW",
     energy_per_item = ".0000001J",
     next_upgrade = "mdrn-loader",
-    order = "a",
+    order = "00",
     underground_name = "underground-belt",
     speed_multiplier = .5,
     tint = util.color("808080d1"),
@@ -75,7 +75,7 @@ local space_age = mods["space-age"]
 -- Space Age!
 if space_age then
   templates.loaders["turbo-"] = {
-    order = "e",
+    order = "04",
     tint = util.color("9bb600d1"),
     prerequisite_techs = { "turbo-transport-belt", "express-mdrn-loader" },
     recipe_data = {
@@ -96,7 +96,7 @@ end
 if startup_settings["mdrn-enable-stacking"].value == "stack-tier"
 and data.raw["inserter"]["stack-inserter"] then
   templates.loaders["stack-"] = {
-    order = "z",
+    order = "99",
     tint = util.color("f5f5f5d1"),
     underground_name = "turbo-underground-belt",
     prerequisite_techs = { "stack-inserter", "fast-mdrn-loader" },

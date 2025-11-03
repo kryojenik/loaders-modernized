@@ -14,7 +14,7 @@ data:extend{
       type = "item-subgroup",
       name = "belt-loader",
       group = "logistics",
-      order = "b-loader"
+      order = "b[belt-loader]"
   }
 }
 
@@ -34,12 +34,12 @@ local function update_or_create_item(template)
       icons = utils.create_icons(template.tint, template.dark_frame),
       group = "logistics",
       subgroup = "belt-loader",
+      order = string.format("e[mdrn-loader]-%s[%s]", template.order, template.name),
     }
   end
 
   local ug_item = data.raw["item"][template.underground_name]
   if ug_item then
-    item.order = string.gsub(ug_item.order, "^b%[underground%-belt%]", "e[mdrn-loader]")
     item.color_hint = ug_item.color_hint
     item.inventory_move_sound = ug_item.inventory_move_sound
     item.pick_sound = ug_item.pick_sound
@@ -50,7 +50,9 @@ local function update_or_create_item(template)
     item.default_import_location = ug_item.default_import_location or nil
   end
 
-  item.order = template.order or item.order
+  item.order = template.order
+    and string.format("e[mdrn-loader]-%s[%s]", template.order, template.name)
+    or item.order
   item.group = template.group or item.group
   item.subgroup = template.subgroup or item.subgroup
   if template.tint then
