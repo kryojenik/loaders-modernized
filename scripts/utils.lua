@@ -9,10 +9,14 @@ function utils.create_icons(tint, dark)
   if startup_settings["mdrn-use-aai-graphics"] and startup_settings["mdrn-use-aai-graphics"].value then
     return {
       {
-        icon = "__aai-loaders__/graphics/icons/loader.png"
+        icon = dark
+          and "__aai-loaders__/graphics/icons/loader_dark.png"
+          or "__aai-loaders__/graphics/icons/loader.png"
       },
       {
-        icon = "__aai-loaders__/graphics/icons/loader_mask.png",
+        icon = dark
+          and "__aai-loaders__/graphics/icons/loader_mask_dark.png"
+          or "__aai-loaders__/graphics/icons/loader_mask.png",
         tint = tint
       }
     }
@@ -38,11 +42,15 @@ function utils.create_tech_icons(tint, dark)
   if startup_settings["mdrn-use-aai-graphics"] and startup_settings["mdrn-use-aai-graphics"].value then
     return {
       {
-        icon = "__aai-loaders__/graphics/technology/loader-tech-icon.png",
+        icon = dark
+          and "__aai-loaders__/graphics/technology/loader-tech-icon_dark.png"
+          or "__aai-loaders__/graphics/technology/loader-tech-icon.png",
         icon_size = 256
       },
       {
-        icon = "__aai-loaders__/graphics/technology/loader-tech-icon_mask.png",
+        icon = dark
+          and "__aai-loaders__/graphics/technology/loader-tech-icon_mask_dark.png"
+          or "__aai-loaders__/graphics/technology/loader-tech-icon_mask.png",
         icon_size = 256,
         tint = tint
       }
@@ -85,7 +93,9 @@ function utils.create_entity_structure(tint, dark)
             draw_as_shadow = true
           },
           {
-            filename = "__aai-loaders__/graphics/entity/loader/loader.png",
+            filename = dark 
+              and "__aai-loaders__/graphics/entity/loader/loader_dark.png"
+              or "__aai-loaders__/graphics/entity/loader/loader.png",
             priority = "extra-high",
             shift = sprite_shift,
             width = 99,
@@ -93,7 +103,9 @@ function utils.create_entity_structure(tint, dark)
             scale = 0.5,
           },
           {
-            filename = "__aai-loaders__/graphics/entity/loader/loader_tint.png",
+            filename = dark
+              and "__aai-loaders__/graphics/entity/loader/loader_tint_dark.png"
+              or "__aai-loaders__/graphics/entity/loader/loader_tint.png",
             priority = "extra-high",
             shift = sprite_shift,
             width = 99,
@@ -116,7 +128,9 @@ function utils.create_entity_structure(tint, dark)
             draw_as_shadow = true
           },
           {
-            filename = "__aai-loaders__/graphics/entity/loader/loader.png",
+            filename = dark
+              and "__aai-loaders__/graphics/entity/loader/loader_dark.png"
+              or "__aai-loaders__/graphics/entity/loader/loader.png",
             priority = "extra-high",
             shift = sprite_shift,
             width = 99,
@@ -125,7 +139,9 @@ function utils.create_entity_structure(tint, dark)
             scale = 0.5,
           },
           {
-            filename = "__aai-loaders__/graphics/entity/loader/loader_tint.png",
+            filename = dark
+              and "__aai-loaders__/graphics/entity/loader/loader_tint_dark.png"
+              or "__aai-loaders__/graphics/entity/loader/loader_tint.png",
             priority = "extra-high",
             shift = sprite_shift,
             width = 99,
