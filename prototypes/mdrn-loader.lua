@@ -172,7 +172,7 @@ local function create_technology(template)
   ---@type data.TechnologyPrototype
   local technology = {
     type = "technology",
-    name = template.name,
+    name = template.unlocked_by or template.name --[[@as string]],
     localised_description = { "technology-description.common" },
     icons = utils.create_tech_icons(template.tint, template.dark_frame),
     effects = {{ type = "unlock-recipe", recipe = template.name }},

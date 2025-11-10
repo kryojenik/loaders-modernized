@@ -33,7 +33,7 @@ templates.loaders = {
     }
   },
   ["express-"] = {
-    order = "04",
+    order = "03",
     tint = util.color("5abeffd1"),
     prerequisite_techs = { "logistics-3", "fast-mdrn-loader", "bulk-inserter" },
     below_turbo = true,

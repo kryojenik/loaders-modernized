@@ -1,8 +1,13 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.5
 Date: ????
+  Bugfixes:
+    - Fix recipe choice setting text when AAI Industry is detected.
   Features:
-    - Add dark frames for the loaders.
+    - Add dark frames for some higher tier loaders.
+  Changes:
+    - Default changed to respect insertion limits on assemblers.
+    - Update dependency on base to 2.0.65.
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.4
 Date: 2025-10-30
