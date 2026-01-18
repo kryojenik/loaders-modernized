@@ -144,16 +144,28 @@ end
 ---@param hint (string|data.TechnologyPrototype)? --A "known" technology that may already exist.
 ---@return data.TechnologyPrototype? --Technology that already has this recipe in an unlock effect.
 local function find_existing_unlock(recipe, hint)
-  local tech = type(hint) == "string" and data.raw["technology"][hint] or hint --[[@as data.TechnologyPrototype?]]
-  if tech and flib_table.find(tech.effects, recipe) then
-    return tech
-  end
-
-  for _, t in pairs(data.raw["technology"]) do
-    if t.effects and flib_table.find(t.effects, recipe) then
-      return t
+  local function compare(t, r)
+    if t and t.effects then
+      for _, effect in pairs(t.effects) do
+        if effect.type == "unlock-recipe" and effect.recipe == r then
+          return t
+        end
+      end
     end
   end
+
+  local tech = compare(type(hint) == "string" and data.raw["technology"][hint] or hint, recipe)
+
+  if not tech then
+    for _, t in pairs(data.raw["technology"]) do
+      tech = compare(t, recipe)
+      if tech then
+        break
+      end
+    end
+  end
+
+  return tech
 end -- find_existing_unlock()
 
 ---Add an unlock recipe effect to the supplied technology
@@ -187,7 +199,7 @@ end -- remove_unlock_effect()
 local function update_or_create_technology(template)
   local specified_unlock_tech = data.raw["technology"][template.unlocked_by]
   if startup_settings["mdrn-unlock-technology"].value == "belt" then
-    specified_unlock_tech = data.raw["technology"][template.prerequisite_techs[1]]
+    specified_unlock_tech = template.prerequisite_techs and data.raw["technology"][template.prerequisite_techs[1]] or nil
   elseif mods["aai-loaders"] then
     ---  If not belts, should we unlock with aai-loaders
     local aai_tech = "aai-" .. string.gsub(template.name, "mdrn%-", "")
