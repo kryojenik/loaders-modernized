@@ -254,7 +254,28 @@ function utils.create_entity_structure(tint, dark)
   }
 end
 
-utils.remove_recipe_from_effects = function(effects, recipe)
+---Add an unlock recipe effect to the supplied technology
+---@param tech data.TechnologyPrototype
+---@param recipe string
+utils.add_recipe_to_effects = function(tech, recipe)
+  for _, effect in ipairs(tech.effects) do
+    if effect.type == "unlock-recipe" and effect.recipe == recipe then
+      return
+    end
+  end
+
+  tech.effects[#tech.effects+1] = { type = "unlock-recipe", recipe = recipe }
+end -- add_unlock_effect()
+
+---Removes the unlock recipe effect from the supplied technology
+---@param tech data.TechnologyPrototype
+---@param recipe string
+utils.remove_recipe_from_effects = function(tech, recipe)
+  local effects = tech and tech.effects
+  if not effects then
+    return
+  end
+  
   local j = 1
   for i=1, #effects do
     if effects[i].type == "unlock-recipe" and effects[i].recipe == recipe then
@@ -268,7 +289,7 @@ utils.remove_recipe_from_effects = function(effects, recipe)
     end
     i = i + 1
   end
-end
+end -- remove_recipe_from_effects()
 
 utils.stack =  function(template)
   -- If a loader can't filter, don't allow it to stack either.

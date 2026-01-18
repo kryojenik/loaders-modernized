@@ -1,4 +1,4 @@
-local utils = require("scripts.utils")
+local utils = require("__loaders-modernized__.scripts.utils")
 local hit_effects = require("__base__.prototypes.entity.hit-effects")
 local max_belt_stack_size = data.raw["utility-constants"].default.max_belt_stack_size
 local startup_settings = settings.startup
@@ -164,32 +164,6 @@ local function find_existing_unlock(recipe, hint)
   return tech
 end -- find_existing_unlock()
 
----Add an unlock recipe effect to the supplied technology
----@param tech data.TechnologyPrototype
----@param recipe string
-local function add_unlock_effect(tech, recipe)
-  for _, effect in pairs(tech.effects) do
-    if effect.type == "unlock-recipe" and effect.recipe == recipe then
-      return {}
-    end
-  end
-
-  tech.effects[#tech.effects+1] = { type = "unlock-recipe", recipe = recipe }
-  return {}
-end -- add_unlock_effect()
-
----Removes the unlock recipe effect from the supplied technology
----@param tech data.TechnologyPrototype
----@param recipe string
-local function remove_unlock_effect(tech, recipe)
-  for key, effect in pairs(tech.effects) do
-    if effect.type == "unlock-recipe" and effect.recipe == recipe then
-      tech.effects[key] = nil
-      return {}
-    end
-  end
-end -- remove_unlock_effect()
-
 ---Create technology prototype for loaders
 ---@param template LMLoaderTemplate Loader tier template
 local function update_or_create_technology(template)
@@ -198,7 +172,7 @@ local function update_or_create_technology(template)
   if startup_settings["mdrn-unlock-technology"].value == "belt" then
     specified_unlock_tech = template.prerequisite_techs and data.raw["technology"][template.prerequisite_techs[1]] or nil
     modify_tech = false
-  elseif mods["aai-loaders"] then
+  elseif mods["aai-loaders"] and not mods["Krastorio2"] and startup_settings["aai-loaders-mode"] ~= "graphics-only" then
     ---  If we have aai-loaders and are not unlocking with belts, use the aai-loader technologies.
     local tech_name = template.unlocked_by or template.name --[[@as string]]
     local aai_tech_name = "aai-" .. string.gsub(tech_name, "mdrn%-", "")
@@ -212,7 +186,7 @@ local function update_or_create_technology(template)
   local existing_unlock_tech = find_existing_unlock(template.name, specified_unlock_tech)
   if template.no_tech then
     if existing_unlock_tech then
-      remove_unlock_effect(existing_unlock_tech, template.name)
+      utils.remove_recipe_from_effects(existing_unlock_tech, template.name)
     end
 
     return {}
@@ -221,9 +195,9 @@ local function update_or_create_technology(template)
   local tech = specified_unlock_tech
   if existing_unlock_tech then
     if tech then
-      if not tech.name == existing_unlock_tech.name then
-        remove_unlock_effect(existing_unlock_tech, template.name)
-        add_unlock_effect(tech, template.name)
+      if tech.name ~= existing_unlock_tech.name then
+        utils.remove_recipe_from_effects(existing_unlock_tech, template.name)
+        utils.add_recipe_to_effects(tech, template.name)
       end
     else
       tech = existing_unlock_tech
@@ -231,14 +205,14 @@ local function update_or_create_technology(template)
   else
     tech = tech or data.raw["technology"][template.unlocked_by]
     if tech then
-      add_unlock_effect(tech, template.name)
+      utils.add_recipe_to_effects(tech, template.name)
     else
       --- Existing technology wasn't found.  Create one by duplicating the first pre-req tech.
       --- Should usually be the belt / logistics tech.
       local unit
-      local prerequisite_techs = data.raw["technology"][template.prerequisite_techs[1]]
-      if prerequisite_techs then
-        unit = util.table.deepcopy(prerequisite_techs.unit)
+      local first_prereq_tech = data.raw["technology"][template.prerequisite_techs[1]]
+      if first_prereq_tech then
+        unit = util.table.deepcopy(first_prereq_tech.unit)
       end
 
       tech = {
@@ -247,7 +221,7 @@ local function update_or_create_technology(template)
         localised_description = { "technology-description.common" },
         icons = utils.create_tech_icons(template.tint, template.dark_frame),
         effects = {{ type = "unlock-recipe", recipe = template.name }},
-        order = prerequisite_techs.order,
+        order = first_prereq_tech.order,
         prerequisites = template.prerequisite_techs,
         unit = template.unit or unit
       }
