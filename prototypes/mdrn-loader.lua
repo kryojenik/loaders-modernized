@@ -201,9 +201,13 @@ local function update_or_create_technology(template)
   if startup_settings["mdrn-unlock-technology"].value == "belt" then
     specified_unlock_tech = template.prerequisite_techs and data.raw["technology"][template.prerequisite_techs[1]] or nil
   elseif mods["aai-loaders"] then
-    ---  If not belts, should we unlock with aai-loaders
-    local aai_tech = "aai-" .. string.gsub(template.name, "mdrn%-", "")
-    specified_unlock_tech = data.raw["technology"][aai_tech]
+    ---  If we have aai-loaders and are not unlocking with belts, use the aai-loader technologies.
+    local tech_name = template.unlocked_by or template.name --[[@as string]]
+    local aai_tech_name = "aai-" .. string.gsub(tech_name, "mdrn%-", "")
+    local aai_tech = data.raw["technology"][aai_tech_name]
+    if aai_tech then
+      specified_unlock_tech = aai_tech
+    end
   end
 
   local existing_unlock_tech = find_existing_unlock(template.name, specified_unlock_tech)
@@ -226,15 +230,16 @@ local function update_or_create_technology(template)
       tech = existing_unlock_tech
     end
   else
-    tech = tech or data.raw["technology"][template.name]
+    tech = tech or data.raw["technology"][template.unlocked_by]
     if tech then
       add_unlock_effect(tech, template.name)
     else
       --- Existing technology wasn't found.  Create one by duplicating the first pre-req tech.
       --- Should usually be the belt / logistics tech.
       local unit
-      if data.raw["technology"][template.prerequisite_techs[1]] then
-        unit = util.table.deepcopy(data.raw["technology"][template.prerequisite_techs[1]].unit)
+      local prerequisite_techs = data.raw["technology"][template.prerequisite_techs[1]]
+      if prerequisite_techs then
+        unit = util.table.deepcopy(prerequisite_techs.unit)
       end
 
       tech = {
@@ -243,12 +248,14 @@ local function update_or_create_technology(template)
         localised_description = { "technology-description.common" },
         icons = utils.create_tech_icons(template.tint, template.dark_frame),
         effects = {{ type = "unlock-recipe", recipe = template.name }},
-        order = template.prerequisite_techs[1].order,
+        order = prerequisite_techs.order,
         prerequisites = template.prerequisite_techs,
         unit = template.unit or unit
       }
     end
   end
+
+  
 
   data:extend{tech}
 end

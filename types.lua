@@ -33,6 +33,6 @@
 ---@field group? string
 ---@field subgroup? string
 ---@field recipe_data? LMRecipeData
----@field prerequisite_techs? table<data.TechnologyPrototype|string>
+---@field prerequisite_techs? string[]
 ---@field unlocked_by? string
 ---@field unit? data.TechnologyUnit
