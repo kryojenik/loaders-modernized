@@ -9,23 +9,20 @@ function utils.create_icons(tint, dark)
   if startup_settings["mdrn-use-aai-graphics"] and startup_settings["mdrn-use-aai-graphics"].value then
     return {
       {
-        icon = dark
-          and "__aai-loaders__/graphics/icons/loader_dark.png"
-          or "__aai-loaders__/graphics/icons/loader.png"
+        icon = dark and "__aai-loaders__/graphics/icons/loader_dark.png"
+                    or "__aai-loaders__/graphics/icons/loader.png"
       },
       {
-        icon = dark
-          and "__aai-loaders__/graphics/icons/loader_mask_dark.png"
-          or "__aai-loaders__/graphics/icons/loader_mask.png",
+        icon = dark and "__aai-loaders__/graphics/icons/loader_mask_dark.png"
+                    or "__aai-loaders__/graphics/icons/loader_mask.png",
         tint = tint
       }
     }
   end
 
   return {
-    { icon = dark
-      and "__loaders-modernized__/graphics/item/mdrn-loader-icon-base-dark.png"
-      or "__loaders-modernized__/graphics/item/mdrn-loader-icon-base.png"
+    { icon = dark and "__loaders-modernized__/graphics/item/mdrn-loader-icon-base-dark.png"
+                  or "__loaders-modernized__/graphics/item/mdrn-loader-icon-base.png"
     },
     {
       icon = "__loaders-modernized__/graphics/item/mdrn-loader-icon-mask.png",
@@ -93,9 +90,8 @@ function utils.create_entity_structure(tint, dark)
             draw_as_shadow = true
           },
           {
-            filename = dark 
-              and "__aai-loaders__/graphics/entity/loader/loader_dark.png"
-              or "__aai-loaders__/graphics/entity/loader/loader.png",
+            filename = dark and "__aai-loaders__/graphics/entity/loader/loader_dark.png"
+                            or "__aai-loaders__/graphics/entity/loader/loader.png",
             priority = "extra-high",
             shift = sprite_shift,
             width = 99,
@@ -103,9 +99,8 @@ function utils.create_entity_structure(tint, dark)
             scale = 0.5,
           },
           {
-            filename = dark
-              and "__aai-loaders__/graphics/entity/loader/loader_tint_dark.png"
-              or "__aai-loaders__/graphics/entity/loader/loader_tint.png",
+            filename = dark and "__aai-loaders__/graphics/entity/loader/loader_tint_dark.png"
+                            or "__aai-loaders__/graphics/entity/loader/loader_tint.png",
             priority = "extra-high",
             shift = sprite_shift,
             width = 99,
@@ -128,9 +123,8 @@ function utils.create_entity_structure(tint, dark)
             draw_as_shadow = true
           },
           {
-            filename = dark
-              and "__aai-loaders__/graphics/entity/loader/loader_dark.png"
-              or "__aai-loaders__/graphics/entity/loader/loader.png",
+            filename = dark and "__aai-loaders__/graphics/entity/loader/loader_dark.png"
+                            or "__aai-loaders__/graphics/entity/loader/loader.png",
             priority = "extra-high",
             shift = sprite_shift,
             width = 99,
@@ -139,9 +133,8 @@ function utils.create_entity_structure(tint, dark)
             scale = 0.5,
           },
           {
-            filename = dark
-              and "__aai-loaders__/graphics/entity/loader/loader_tint_dark.png"
-              or "__aai-loaders__/graphics/entity/loader/loader_tint.png",
+            filename = dark and "__aai-loaders__/graphics/entity/loader/loader_tint_dark.png"
+                            or "__aai-loaders__/graphics/entity/loader/loader_tint.png",
             priority = "extra-high",
             shift = sprite_shift,
             width = 99,
@@ -180,9 +173,8 @@ function utils.create_entity_structure(tint, dark)
     direction_in = {
       sheets = {
         {
-          filename = dark
-            and "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base-dark.png"
-            or "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
+          filename = dark and "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base-dark.png"
+                          or "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
           priority = "extra-high",
           width = 192,
           height = 192,
@@ -209,9 +201,8 @@ function utils.create_entity_structure(tint, dark)
     direction_out = {
       sheets = {
         {
-          filename = dark
-            and "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base-dark.png"
-            or "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
+          filename = dark and "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base-dark.png"
+                          or "__loaders-modernized__/graphics/entity/mdrn-loader-structure-base.png",
           priority = "extra-high",
           width = 192,
           height = 192,

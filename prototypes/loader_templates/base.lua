@@ -95,11 +95,12 @@ end
 -- Separate stack tier
 if startup_settings["mdrn-enable-stacking"].value == "stack-tier"
 and data.raw["inserter"]["stack-inserter"] then
+  local fast_loader_tech = data.raw["technology"]["aai-fast-loader"] and "aai-fast-loader" or "fast-mdrn-loader"
   templates.loaders["stack-"] = {
     order = "99",
     tint = util.color("f5f5f5d1"),
     underground_name = "turbo-underground-belt",
-    prerequisite_techs = { "stack-inserter", "fast-mdrn-loader" },
+    prerequisite_techs = { "stack-inserter", fast_loader_tech },
     max_belt_stack_size = data.raw["utility-constants"].default.max_belt_stack_size,
     recipe_data = {
       ingredients = {

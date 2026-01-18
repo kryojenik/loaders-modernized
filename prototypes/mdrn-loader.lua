@@ -2,6 +2,7 @@ local utils = require("scripts.utils")
 local hit_effects = require("__base__.prototypes.entity.hit-effects")
 local max_belt_stack_size = data.raw["utility-constants"].default.max_belt_stack_size
 local startup_settings = settings.startup
+local flib_table = require("__flib__.table")
 -- energy_per_item should be in Joules, not Watts.  I initially typo'd the kJ to kW in the initial
 -- version and it was that way for a long time.  Leaving it as a non-default option for those that
 -- wish to keep the original power consumption value.
@@ -136,52 +137,108 @@ local function update_or_create_recipe(template)
   data:extend{recipe}
 end
 
+---Find an existing technology that unlocks the specified recipe.  If a hint is provided it will
+---first see if that technology exists and unlocks the recipe.  If not, the full technology table will
+---be walked for the first matching technology that unlocks the recipe.
+---@param recipe string
+---@param hint (string|data.TechnologyPrototype)? --A "known" technology that may already exist.
+---@return data.TechnologyPrototype? --Technology that already has this recipe in an unlock effect.
+local function find_existing_unlock(recipe, hint)
+  local tech = type(hint) == "string" and data.raw["technology"][hint] or hint --[[@as data.TechnologyPrototype?]]
+  if tech and flib_table.find(tech.effects, recipe) then
+    return tech
+  end
+
+  for _, t in pairs(data.raw["technology"]) do
+    if t.effects and flib_table.find(t.effects, recipe) then
+      return t
+    end
+  end
+end -- find_existing_unlock()
+
+---Add an unlock recipe effect to the supplied technology
+---@param tech data.TechnologyPrototype
+---@param recipe string
+local function add_unlock_effect(tech, recipe)
+  for _, effect in pairs(tech.effects) do
+    if effect.type == "unlock-recipe" and effect.recipe == recipe then
+      return {}
+    end
+  end
+
+  tech.effects[#tech.effects+1] = { type = "unlock-recipe", recipe = recipe }
+  return {}
+end -- add_unlock_effect()
+
+---Removes the unlock recipe effect from the supplied technology
+---@param tech data.TechnologyPrototype
+---@param recipe string
+local function remove_unlock_effect(tech, recipe)
+  for key, effect in pairs(tech.effects) do
+    if effect.type == "unlock-recipe" and effect.recipe == recipe then
+      tech.effects[key] = nil
+      return {}
+    end
+  end
+end -- remove_unlock_effect()
+
 ---Create technology prototype for loaders
 ---@param template LMLoaderTemplate Loader tier template
-local function create_technology(template)
-  if template.no_tech
-  or not (template.unlocked_by or template.prerequisite_techs) then
-    return {}
+local function update_or_create_technology(template)
+  local specified_unlock_tech = data.raw["technology"][template.unlocked_by]
+  if startup_settings["mdrn-unlock-technology"].value == "belt" then
+    specified_unlock_tech = data.raw["technology"][template.prerequisite_techs[1]]
+  elseif mods["aai-loaders"] then
+    ---  If not belts, should we unlock with aai-loaders
+    local aai_tech = "aai-" .. string.gsub(template.name, "mdrn%-", "")
+    specified_unlock_tech = data.raw["technology"][aai_tech]
   end
 
-  --- Are we going to unlock by an existing technology?
-  local unlocked_by = data.raw["technology"][template.unlocked_by]
-  if not unlocked_by and startup_settings["mdrn-unlock-technology"].value == "belt" then
-    unlocked_by = data.raw["technology"][template.prerequisite_techs[1]]
-  end
-
-  if unlocked_by then
-    for _, e in pairs(unlocked_by.effects) do
-      if e.type == "unlock-recipe" and e.recipe == template.name then
-        return {}
-      end
+  local existing_unlock_tech = find_existing_unlock(template.name, specified_unlock_tech)
+  if template.no_tech then
+    if existing_unlock_tech then
+      remove_unlock_effect(existing_unlock_tech, template.name)
     end
 
-    unlocked_by.effects[#unlocked_by.effects+1] = { type = "unlock-recipe", recipe = template.name }
     return {}
   end
 
-  --- Existing wasn't found.  Create one by duplicating the first pre-req tech.  Should usually
-  --- be the belt / logistics tech.
-  ---@type data.TechnologyUnit
-  local unit = nil
-  if data.raw["technology"][template.prerequisite_techs[1]] then
-    unit = util.table.deepcopy(data.raw["technology"][template.prerequisite_techs[1]].unit)
+  local tech = specified_unlock_tech
+  if existing_unlock_tech then
+    if tech then
+      if not tech.name == existing_unlock_tech.name then
+        remove_unlock_effect(existing_unlock_tech, template.name)
+        add_unlock_effect(tech, template.name)
+      end
+    else
+      tech = existing_unlock_tech
+    end
+  else
+    tech = tech or data.raw["technology"][template.name]
+    if tech then
+      add_unlock_effect(tech, template.name)
+    else
+      --- Existing technology wasn't found.  Create one by duplicating the first pre-req tech.
+      --- Should usually be the belt / logistics tech.
+      local unit
+      if data.raw["technology"][template.prerequisite_techs[1]] then
+        unit = util.table.deepcopy(data.raw["technology"][template.prerequisite_techs[1]].unit)
+      end
+
+      tech = {
+        type = "technology",
+        name = template.unlocked_by or template.name --[[@as string]],
+        localised_description = { "technology-description.common" },
+        icons = utils.create_tech_icons(template.tint, template.dark_frame),
+        effects = {{ type = "unlock-recipe", recipe = template.name }},
+        order = template.prerequisite_techs[1].order,
+        prerequisites = template.prerequisite_techs,
+        unit = template.unit or unit
+      }
+    end
   end
 
-  ---@type data.TechnologyPrototype
-  local technology = {
-    type = "technology",
-    name = template.unlocked_by or template.name --[[@as string]],
-    localised_description = { "technology-description.common" },
-    icons = utils.create_tech_icons(template.tint, template.dark_frame),
-    effects = {{ type = "unlock-recipe", recipe = template.name }},
-    order = template.prerequisite_techs[1].order,
-    prerequisites = template.prerequisite_techs,
-    unit = template.unit or unit
-  }
-
-  data:extend{technology}
+  data:extend{tech}
 end
 
 ---Create a copy of the loader that only has two filter slots and set them to operate per_lane
@@ -301,7 +358,7 @@ local function update_or_create_entity(template)
   entity.next_upgrade = template.next_upgrade or entity.next_upgrade
 
   if template.tint then
-    entity.icons = utils.create_icons(template.tint)
+    entity.icons = utils.create_icons(template.tint, template.dark_frame)
     entity.structure = utils.create_entity_structure(template.tint, template.dark_frame)
   end
 
@@ -392,6 +449,6 @@ function MdrnLoaders.make_modern_loaders(templates)
     update_or_create_item(template)
     update_or_create_recipe(template)
     update_or_create_entity(template)
-    create_technology(template)
+    update_or_create_technology(template)
   end
 end
