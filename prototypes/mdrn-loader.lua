@@ -2,10 +2,6 @@ local utils = require("scripts.utils")
 local hit_effects = require("__base__.prototypes.entity.hit-effects")
 local max_belt_stack_size = data.raw["utility-constants"].default.max_belt_stack_size
 local startup_settings = settings.startup
-local flib_table = require("__flib__.table")
--- energy_per_item should be in Joules, not Watts.  I initially typo'd the kJ to kW in the initial
--- version and it was that way for a long time.  Leaving it as a non-default option for those that
--- wish to keep the original power consumption value.
 local energy_per_item = startup_settings["mdrn-oplp"].value and "4kW" or "4kJ"
 
 
@@ -198,8 +194,10 @@ end -- remove_unlock_effect()
 ---@param template LMLoaderTemplate Loader tier template
 local function update_or_create_technology(template)
   local specified_unlock_tech = data.raw["technology"][template.unlocked_by]
+  local modify_tech = true
   if startup_settings["mdrn-unlock-technology"].value == "belt" then
     specified_unlock_tech = template.prerequisite_techs and data.raw["technology"][template.prerequisite_techs[1]] or nil
+    modify_tech = false
   elseif mods["aai-loaders"] then
     ---  If we have aai-loaders and are not unlocking with belts, use the aai-loader technologies.
     local tech_name = template.unlocked_by or template.name --[[@as string]]
@@ -207,6 +205,7 @@ local function update_or_create_technology(template)
     local aai_tech = data.raw["technology"][aai_tech_name]
     if aai_tech then
       specified_unlock_tech = aai_tech
+      modify_tech = false
     end
   end
 
@@ -255,7 +254,15 @@ local function update_or_create_technology(template)
     end
   end
 
-  
+  if modify_tech then
+    if template.tint then
+      tech.icons = utils.create_tech_icons(template.tint, template.dark_frame)
+    end
+
+    tech.order = template.order or tech.order
+    tech.prerequisites = template.prerequisite_techs or tech.prerequisites
+    tech.unit = template.unit or tech.unit
+  end
 
   data:extend{tech}
 end
