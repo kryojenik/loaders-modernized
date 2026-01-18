@@ -8,6 +8,7 @@ Date: ????
   Changes:
     - Default changed to respect insertion limits on assemblers.
     - Update dependency on base to 2.0.65.
+    - Framework changes to support more complex overhaul mods (i.e. Space Exploration)
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.4
 Date: 2025-10-30
