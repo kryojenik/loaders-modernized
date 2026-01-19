@@ -258,6 +258,10 @@ end
 ---@param tech data.TechnologyPrototype
 ---@param recipe string
 utils.add_recipe_to_effects = function(tech, recipe)
+  if not tech then
+    return
+  end
+
   for _, effect in ipairs(tech.effects) do
     if effect.type == "unlock-recipe" and effect.recipe == recipe then
       return
@@ -275,7 +279,7 @@ utils.remove_recipe_from_effects = function(tech, recipe)
   if not effects then
     return
   end
-  
+
   local j = 1
   for i=1, #effects do
     if effects[i].type == "unlock-recipe" and effects[i].recipe == recipe then
@@ -288,6 +292,10 @@ utils.remove_recipe_from_effects = function(tech, recipe)
       j = j + 1
     end
     i = i + 1
+  end
+
+  if #effects == 0 then
+    data.raw["technology"][tech.name] = nil
   end
 end -- remove_recipe_from_effects()
 

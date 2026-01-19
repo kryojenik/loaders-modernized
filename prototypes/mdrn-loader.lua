@@ -172,15 +172,6 @@ local function update_or_create_technology(template)
   if startup_settings["mdrn-unlock-technology"].value == "belt" then
     specified_unlock_tech = template.prerequisite_techs and data.raw["technology"][template.prerequisite_techs[1]] or nil
     modify_tech = false
-  elseif mods["aai-loaders"] and not mods["Krastorio2"] and startup_settings["aai-loaders-mode"] ~= "graphics-only" then
-    ---  If we have aai-loaders and are not unlocking with belts, use the aai-loader technologies.
-    local tech_name = template.unlocked_by or template.name --[[@as string]]
-    local aai_tech_name = "aai-" .. string.gsub(tech_name, "mdrn%-", "")
-    local aai_tech = data.raw["technology"][aai_tech_name]
-    if aai_tech then
-      specified_unlock_tech = aai_tech
-      modify_tech = false
-    end
   end
 
   local existing_unlock_tech = find_existing_unlock(template.name, specified_unlock_tech)
