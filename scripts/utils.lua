@@ -294,7 +294,7 @@ utils.remove_recipe_from_effects = function(tech, recipe)
     i = i + 1
   end
 
-  if #effects == 0 then
+  if #effects == 0 and string.find(tech.name, "mdrn") then
     data.raw["technology"][tech.name] = nil
   end
 end -- remove_recipe_from_effects()

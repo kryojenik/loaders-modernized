@@ -220,7 +220,7 @@ local function update_or_create_technology(template)
   end
 
   if modify_tech then
-    if template.tint then
+    if template.tint and not template.no_tech_tint then
       tech.icons = utils.create_tech_icons(template.tint, template.dark_frame)
     end
 
@@ -261,6 +261,10 @@ end
 local function update_or_create_entity(template)
   ---@type data.Loader1x1Prototype
   local entity = data.raw["loader-1x1"][template.name]
+  if entity and entity.filter_count < 1 then
+    template.no_filter = true
+  end
+
   if not entity then
     ---@diagnostic disable-next-line:missing-fields
     entity = {

@@ -36,3 +36,4 @@
 ---@field prerequisite_techs? string[]
 ---@field unlocked_by? string
 ---@field unit? data.TechnologyUnit
+---@field no_tech_tint? boolean
