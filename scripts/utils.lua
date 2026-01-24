@@ -258,6 +258,10 @@ end
 ---@param tech data.TechnologyPrototype
 ---@param recipe string
 utils.add_recipe_to_effects = function(tech, recipe)
+  if type(tech) == "string" then
+    tech = data.raw.technology[tech]
+  end
+
   if not tech then
     return
   end
@@ -272,30 +276,34 @@ utils.add_recipe_to_effects = function(tech, recipe)
 end -- add_unlock_effect()
 
 ---Removes the unlock recipe effect from the supplied technology
----@param tech data.TechnologyPrototype
+---@param tech_names (string|string[])?
 ---@param recipe string
-utils.remove_recipe_from_effects = function(tech, recipe)
-  local effects = tech and tech.effects
-  if not effects then
-    return
+utils.remove_recipe_from_effects = function(recipe, tech_names)
+  if type(tech_names) == "string" then
+    tech_names = { tech_names }
   end
 
-  local j = 1
-  for i=1, #effects do
-    if effects[i].type == "unlock-recipe" and effects[i].recipe == recipe then
-      effects[i] = nil
-    else
-      if i ~= j then
-        effects[j] = effects[i]
-        effects[i] = nil
-      end
-      j = j + 1
+  local techs = {}
+  if tech_names then
+    for _, tech in pairs(tech_names) do
+      techs[tech] = data.raw["technology"][tech]
     end
-    i = i + 1
+  else
+    techs = data.raw["technology"]
   end
 
-  if #effects == 0 and string.find(tech.name, "mdrn") then
-    data.raw["technology"][tech.name] = nil
+  for _, tech in pairs(techs) do
+    if tech.effects then
+      for i = #tech.effects, 1, -1 do
+        if tech.effects[i].type == "unlock-recipe" and tech.effects[i].recipe == recipe then
+          table.remove(tech.effects, i)
+        end
+      end
+
+      if #tech.effects == 0 and string.find(tech.name, "mdrn") then
+        data.raw["technology"][tech.name] = nil
+      end
+    end
   end
 end -- remove_recipe_from_effects()
 

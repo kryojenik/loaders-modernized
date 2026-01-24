@@ -177,7 +177,7 @@ local function update_or_create_technology(template)
   local existing_unlock_tech = find_existing_unlock(template.name, specified_unlock_tech)
   if template.no_tech then
     if existing_unlock_tech then
-      utils.remove_recipe_from_effects(existing_unlock_tech, template.name)
+      utils.remove_recipe_from_effects(template.name, existing_unlock_tech.name)
     end
 
     return {}
@@ -187,7 +187,7 @@ local function update_or_create_technology(template)
   if existing_unlock_tech then
     if tech then
       if tech.name ~= existing_unlock_tech.name then
-        utils.remove_recipe_from_effects(existing_unlock_tech, template.name)
+        utils.remove_recipe_from_effects(template.name, existing_unlock_tech.name)
         utils.add_recipe_to_effects(tech, template.name)
       end
     else
