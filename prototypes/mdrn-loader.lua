@@ -402,6 +402,10 @@ local function update_or_create_entity(template)
     entity.respect_insert_limits = true
   end
 
+  if startup_settings["mdrn-wait-for-full-stack"].value and startup_settings["mdrn-enable-stacking"].value == "stack-tier" then
+    entity.wait_for_full_stack = true
+  end
+
   -- If the entity can't filter it can't do other advanced things.
   if template.no_filter then
     entity.filter_count = 0

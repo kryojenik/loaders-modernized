@@ -98,6 +98,13 @@ data:extend({
     setting_type = "startup",
     default_value = false
   },
+  {
+    type = "bool-setting",
+    name = "mdrn-wait-for-full-stack",
+    order = "seb",
+    setting_type = "startup",
+    default_value = true
+  }
 })
 
 local stacking = data.raw["string-setting"]["mdrn-enable-stacking"]
