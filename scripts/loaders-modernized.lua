@@ -122,11 +122,11 @@ local function on_entity_built(e)
     return
   end
 
-  if not string.find(entity.name, ".*mdrn%-loader") and not (entity.type == "entity-ghost") then
-    return
-  end
-
-  if entity.type == "entity-ghost" and not string.find(entity.ghost_name, ".*mdrn%-loader") then
+  if entity.type == "entity-ghost" then
+    if (not string.find(entity.ghost_type, "loader") or not string.find(entity.ghost_name, ".*mdrn%-loader")) then
+      return
+    end
+  elseif not string.find(entity.type, "loader") or not string.find(entity.name, ".*mdrn%-loader") then
     return
   end
 

@@ -3,6 +3,8 @@ Version: 1.0.6
 Date: ????
   Changes:
     - Added setting to make stack-only loaders wait for full belt stacks before output.
+  Bugfixes:
+    - Fix crash with blueprints / copy-paste while a loader is directly connected to a Factorissimo building.
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.5
 Date: 2026-01-23
