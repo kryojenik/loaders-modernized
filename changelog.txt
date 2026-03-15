@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.6
-Date: ????
+Date: 2026-03-14
   Changes:
     - Added setting to make stack-only loaders wait for full belt stacks before output.
   Bugfixes:
