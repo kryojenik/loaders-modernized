@@ -226,6 +226,9 @@ loader_modernized.swap_split = function(old, player_index)
   -- If it is not a split entity, make a new from the prototype name
   local base_name = string.match(proto.name, "^(.*)-split")
   local new_name = base_name or proto.name .. "-split"
+  if not storage.splits[new_name] then
+    return
+  end
 
   -- Retain quality when switching between split and non-split configurations
   local quality = old.quality

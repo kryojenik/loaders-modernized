@@ -1,7 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.7
 Date: ????
-  Changes:
+  Bugfixes:
+    - Fix crash when copy/pasting a loader filter from a split-lane loader to a loader that does not support split-lanes. (#38)
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.6
 Date: 2026-03-14
