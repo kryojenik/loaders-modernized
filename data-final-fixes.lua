@@ -1,15 +1,17 @@
-local startup_settings = settings.startup
+local C   = require("__loaders-modernized__.constants")
+local cfg = require("__loaders-modernized__.prototypes.settings-cache")
 
--- Make sure the stack loader tier is at the fastest belt speed
-if startup_settings["mdrn-enable-stacking"].value == "stack-tier"
-and data.raw["loader-1x1"]["stack-mdrn-loader"] then
+-- Make sure the stack loader tier runs at the fastest belt speed
+local stack_name = C.LOADER_PREFIX .. "stack-" .. C.LOADER_BASE
+if cfg.stacking == C.STACKING.STACK_TIER
+and data.raw["loader-1x1"][stack_name] then
   local fastest_belt = 0
   for _, ug in pairs(data.raw["underground-belt"]) do
-    if ug.speed > fastest_belt then
-      fastest_belt = ug.speed
-    end
+    if ug.speed > fastest_belt then fastest_belt = ug.speed end
   end
 
-  data.raw["loader-1x1"]["stack-mdrn-loader"].speed = fastest_belt
-  data.raw["loader-1x1"]["stack-mdrn-loader-split"].speed = fastest_belt
+  for _, sfx in ipairs(C.VARIANT_SUFFIXES) do
+    local e = data.raw["loader-1x1"][stack_name .. sfx]
+    if e then e.speed = fastest_belt end
+  end
 end

@@ -1,4 +1,6 @@
-local flib_migration = require("__flib__.migration")
+local flib_migration    = require("__flib__.migration")
+local loader_modernized = require("scripts.loaders-modernized")
+local C                 = require("__loaders-modernized__.constants")
 
 local version_migrations = {
   ["0.6.4"] = function()
@@ -19,19 +21,13 @@ local version_migrations = {
     end
   end,
   ["0.7.11"] = function()
-    -- Nuke storage and reset
     storage.loader_modernized = nil
-    storage.fast_replace_split = {}
-    storage.players = {}
-    for i, player in pairs(game.players) do
-      storage.players[i] = {
-        name = player.name
-      }
-    end
+    loader_modernized.init_storage()
   end,
   ["1.0.0"] = function(migrations)
     local removed_loader = false
     for old, new in pairs(migrations.entity) do
+      ---Don't use C.LOADER_PATTERN here.  Entity names followed this pattern before 2.0.0
       if string.find(old,"mdrn%-loader") and new == "" then
         removed_loader = true
       end
@@ -41,15 +37,78 @@ local version_migrations = {
       game.print{"strings.mdrn-compatibility-removed"}
     end
   end,
-  ["1.0.4"] = function(migration)
+  ["1.0.4"] = function()
     game.print{"strings.mdrn-power-change"}
-  end
+  end,
+  ["2.0.0"] = function()
+    local had_wfs = settings.startup[C.SETTINGS.WAIT_FOR_FULL_STACK].value
+    local had_fill = not settings.startup[C.SETTINGS.RESPECT_INSERT_LIMITS].value
+    settings.global[C.SETTINGS.DEFAULT_WAIT_FOR_FULL_STACK] = { value = had_wfs }
+    settings.global[C.SETTINGS.DEFAULT_RESPECT_INSERT_LIMITS] = { value = not had_fill }
+    storage.splits   = nil
+    loader_modernized.on_configuration_changed()
+    -- Rename storage.fast_replace_split → storage.fast_replace_variant.
+    -- Convert stored `true` values to LMVariantFlags with split=true (all prior
+    -- entries came from the split-lane fast-replace path).
+    -- Convert surface key to surface_index from surface_name.
+    if storage.fast_replace_split then
+      local frs = storage.fast_replace_split
+      local frv = {}
+      for surface_key, surface_data in pairs(frs) do
+        local surface_index = game.get_surface(surface_key).index
+        local new_surface_data = {}
+        for loader_key, _ in pairs(surface_data) do
+          new_surface_data[loader_key] = { split = true, wfs = had_wfs, fill = had_fill }
+        end
+        frv[surface_index] = new_surface_data
+      end
+      storage.fast_replace_variant = frv
+      storage.fast_replace_split   = nil
+    end
+
+    local existing_slow_loaders = false
+    local loader_names = {}
+    for l, _ in pairs(storage.variants) do
+      loader_names[#loader_names + 1] = l
+    end
+
+    ---@param loaders LuaEntity[]
+    local function swap_loaders(loaders)
+      for _, loader in pairs(loaders) do
+        local entity_name = loader.name == "entity-ghost" and loader.ghost_name or loader.name
+        local base        = loader_modernized.variant_base(entity_name)
+        local variant_flags = {
+          split = string.find(entity_name, C.SPLIT_PATTERN) and true or false,
+          wfs   = had_wfs and storage.variants[base .. C.WFS_SUFFIX] ~= nil,
+          fill  = had_fill,
+        }
+
+        if loader.loader_type == "output"
+        and storage.slow_loaders[base] then
+          existing_slow_loaders = true
+        end
+
+        loader_modernized.swap_variant(loader, variant_flags)
+      end
+    end
+
+    for _, surface in pairs(game.surfaces) do
+      local loaders = surface.find_entities_filtered{name = loader_names}
+      local ghosts  = surface.find_entities_filtered{type = "entity-ghost", ghost_name = loader_names}
+      swap_loaders(loaders)
+      swap_loaders(ghosts)
+    end
+    if existing_slow_loaders then
+      settings.global[C.SETTINGS.CHUTE_DIRECTION] = { value = "input-output" }
+      game.print{"strings.mdrn-chute-direction-change"}
+    end
+  end,
 }
 
 local migrations = {}
 
 migrations.on_configuration_changed = function(e)
   flib_migration.on_config_changed(e, version_migrations, nil, e.migrations)
-end
+end -- migrations.on_configuration_changed()
 
 return migrations

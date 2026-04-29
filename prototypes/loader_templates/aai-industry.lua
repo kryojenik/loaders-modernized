@@ -1,15 +1,11 @@
-if not mods["aai-industry"] then
+local cfg = require("__loaders-modernized__.prototypes.settings-cache")
+
+if not cfg.has_aai_industry or not cfg.use_aai_recipes then
   return
 end
-
-if settings.startup["mdrn-use-aai-recipes"].value == false then
-  return
-end
-
-local templates = {}
 
 ---@type table<string, LMLoaderTemplate>
-templates.loaders = {
+local loaders = {
   [""] = {
     recipe_data = {
       ingredients = {
@@ -41,13 +37,13 @@ templates.loaders = {
   ["express-"] = {
     recipe_data = {
       ingredients = {
-        {type = "item", name = "fast-mdrn-loader", amount = 1},
+        {type = "item", name = "mdrn-fast-loader", amount = 1},
         {type = "item", name = "electric-engine-unit", amount = 5},
         {type = "item", name = "processing-unit", amount = 5},
         {type = "fluid", name = "lubricant", amount = 50}
       },
       stack_ingredients = {
-        {type = "item", name = "fast-mdrn-loader", amount = 1},
+        {type = "item", name = "mdrn-fast-loader", amount = 1},
         {type = "item", name = "electric-engine-unit", amount = 10},
         {type = "item", name = "processing-unit", amount = 10},
         {type = "fluid", name = "lubricant", amount = 100}
@@ -56,17 +52,17 @@ templates.loaders = {
   },
 }
 
-if mods["space-age"] then
-  templates.loaders["turbo-"] = {
+if cfg.has_space_age then
+  loaders["turbo-"] = {
     recipe_data = {
       ingredients = {
-        {type = "item", name = "express-mdrn-loader", amount = 1},
+        {type = "item", name = "mdrn-express-loader", amount = 1},
         {type = "item", name = "tungsten-plate", amount = 30},
         {type = "item", name = "processing-unit", amount = 5},
         {type = "fluid", name = "lubricant", amount = 50}
       },
       stack_ingredients = {
-        {type = "item", name = "express-mdrn-loader", amount = 1},
+        {type = "item", name = "mdrn-express-loader", amount = 1},
         {type = "item", name = "tungsten-plate", amount = 60},
         {type = "item", name = "processing-unit", amount = 10},
         {type = "fluid", name = "lubricant", amount = 100}
@@ -75,4 +71,4 @@ if mods["space-age"] then
   }
 end
 
-MdrnLoaders.make_modern_loaders(templates)
+MdrnLoaders.add_loaders(loaders)

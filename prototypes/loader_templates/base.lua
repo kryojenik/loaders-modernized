@@ -1,15 +1,13 @@
-local startup_settings = settings.startup
-
-local templates = {}
+local C   = require("__loaders-modernized__.constants")
+local cfg = require("__loaders-modernized__.prototypes.settings-cache")
 
 ---@type table<string, LMLoaderTemplate>
-templates.loaders = {
+local loaders = {
   [""] = {
-    next_upgrade = "fast-mdrn-loader",
+    next_upgrade = "mdrn-fast-loader",
     order = "01",
     tint = util.color("ffd955d1"),
-    prerequisite_techs = { "logistics", },
-    below_turbo = true,
+    prerequisite_techs = { "logistics" },
     recipe_data = {
       ingredients = {
         { type = "item", name = "underground-belt", amount = 1 },
@@ -19,11 +17,10 @@ templates.loaders = {
     }
   },
   ["fast-"] = {
-    next_upgrade = "express-mdrn-loader",
+    next_upgrade = "mdrn-express-loader",
     order = "02",
     tint = util.color("ff1838d1"),
     prerequisite_techs = { "logistics-2", "mdrn-loader", "fast-inserter" },
-    below_turbo = true,
     recipe_data = {
       ingredients = {
         { type = "item", name = "fast-underground-belt", amount = 1 },
@@ -35,25 +32,24 @@ templates.loaders = {
   ["express-"] = {
     order = "03",
     tint = util.color("5abeffd1"),
-    prerequisite_techs = { "logistics-3", "fast-mdrn-loader", "bulk-inserter" },
-    below_turbo = true,
+    prerequisite_techs = { "logistics-3", "mdrn-fast-loader", "bulk-inserter" },
     recipe_data = {
       ingredients = {
         { type = "item", name = "express-underground-belt", amount = 1 },
         { type = "item", name = "bulk-inserter", amount = 2 },
-        { type = "item", name = "fast-mdrn-loader", amount = 1 },
+        { type = "item", name = "mdrn-fast-loader", amount = 1 },
       },
     }
   }
 }
 
 -- Chute
-if startup_settings["mdrn-enable-chute"].value then
-  templates.loaders["chute-"] = {
-    no_stack = true,
-    no_filter = true,
-    no_tech = true,
-    localised_description = { "entity-description.chute-mdrn-loader" },
+if cfg.chute_mode ~= C.CHUTE.NONE then
+  loaders["chute-"] = {
+    stacking = false,
+    filter = cfg.chute_mode == C.CHUTE.FILTERED,
+    tech_data = false,
+    localised_description = { "entity-description.mdrn-chute-loader" },
     energy_type = "void",
     energy_drain = "0kW",
     energy_per_item = ".0000001J",
@@ -71,32 +67,29 @@ if startup_settings["mdrn-enable-chute"].value then
   }
 end
 
-local space_age = mods["space-age"]
 -- Space Age!
-if space_age then
-  templates.loaders["turbo-"] = {
+if cfg.has_space_age then
+  loaders["turbo-"] = {
     order = "04",
     tint = util.color("9bb600d1"),
-    prerequisite_techs = { "turbo-transport-belt", "express-mdrn-loader" },
+    upgrade_from_tier = "express-",
+    prerequisite_techs = { "turbo-transport-belt", "mdrn-express-loader" },
     recipe_data = {
       surface_conditions = data.raw["recipe"]["turbo-underground-belt"].surface_conditions,
       ingredients = {
         { type = "item", name = "turbo-underground-belt", amount = 1 },
         { type = "item", name = "bulk-inserter", amount = 6 },
-        { type = "item", name = "express-mdrn-loader", amount = 1 },
+        { type = "item", name = "mdrn-express-loader", amount = 1 },
       },
     }
   }
-
-  -- Express loader can upgrade to the turbo loader
-  templates.loaders["express-"].next_upgrade = "turbo-mdrn-loader"
 end
 
 -- Separate stack tier
-if startup_settings["mdrn-enable-stacking"].value == "stack-tier"
+if cfg.stacking == C.STACKING.STACK_TIER
 and data.raw["inserter"]["stack-inserter"] then
-  local fast_loader_tech = data.raw["technology"]["aai-fast-loader"] and "aai-fast-loader" or "fast-mdrn-loader"
-  templates.loaders["stack-"] = {
+  local fast_loader_tech = data.raw["technology"]["aai-fast-loader"] and "aai-fast-loader" or "mdrn-fast-loader"
+  loaders["stack-"] = {
     order = "99",
     tint = util.color("f5f5f5d1"),
     underground_name = "turbo-underground-belt",
@@ -106,17 +99,19 @@ and data.raw["inserter"]["stack-inserter"] then
       ingredients = {
         { type = "item", name = "processing-unit", amount = 1 },
         { type = "item", name = "stack-inserter", amount = 6 },
-        { type = "item", name = "fast-mdrn-loader", amount = 1 },
+        { type = "item", name = "mdrn-fast-loader", amount = 1 },
       }
     }
   }
 
-  if space_age then
-    templates.loaders["turbo-"].next_upgrade = "stack-mdrn-loader"
+  -- Wire the stack tier into the upgrade chain. Space Age: turbo → stack.
+  -- Without Space Age, turbo-underground-belt may not exist, so express → stack.
+  if cfg.has_space_age then
+    loaders["turbo-"].next_upgrade = "mdrn-stack-loader"
   else
-    templates.loaders["stack-"].underground_name = "express-underground-belt"
-    templates.loaders["express-"].next_upgrade = "stack-mdrn-loader"
+    loaders["stack-"].underground_name = "express-underground-belt"
+    loaders["express-"].next_upgrade = "mdrn-stack-loader"
   end
 end
 
-MdrnLoaders.make_modern_loaders(templates)
+MdrnLoaders.add_loaders(loaders)

@@ -1,7 +1,18 @@
 ---------------------------------------------------------------------------------------------------
-Version: 1.0.8
+Version: 2.0.0
 Date: ????
   Changes:
+    - Full refactor
+  Features:
+    - Added ability to toggle "respect insert limits", and "wait for full stack" on a per loader basis.
+      Existing loaders should migrate to the state as the previous versions startup settings were configured.
+    - Mod setting to choose default behaviors for newly placed loaders as a runtime map setting.
+    - Tool buttons to add / remove loader variants to upgrade planner is displayed when picking up a planner with loaders.
+    - New icons added to entities in the upgrade planner to indicate which flags exist for each of the loader variants.
+    - Chute default is now restricted to an input only entity.  There is a setting to allow for output and filters.
+      If you already have chutes in your game configured to output, the mod setting should be set accordingly.
+    - Added remote call for other mods to disable snapping logic in this mod if they  wish to apply their own snapping logic.
+      remote.call("loaders-modernized", "disable_snapping")
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.7
 Date: 2026-04-12
@@ -41,7 +52,7 @@ Date: 2025-08-23
   Features:
     - Add setting to respect machine input limits. (Requires Factorio 2.0.65 or later).  Defaults to false.
     - Add setting to embiggen assembly machines so loaders on the corners don't appear to stick out as much.  Defaults to false.
-    - Loaders will no longer do the hokey-pokey and turn themselves around when placing on tree stumps (and near other corpses). 
+    - Loaders will no longer do the hokey-pokey and turn themselves around when placing on tree stumps (and near other corpses).
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.2
 Date: 2025-08-04
@@ -71,7 +82,7 @@ Date: 2025-07-28
 
       Since other mods are now supported outside of the base mod, the additional mods will need to
       be installed to provide the additional loaders.  These changes have also likely introduced
-      some new bugs.  Please report and I'll address as quickly as I can. 
+      some new bugs.  Please report and I'll address as quickly as I can.
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.14
 Date: 2025-05-12
@@ -81,7 +92,7 @@ Date: 2025-05-12
 Version: 0.8.13
 Date: 2025-04-28
   Bugfixes:
-    - Improve Bob's Logistics compatibility when AAI Industry is also installed. 
+    - Improve Bob's Logistics compatibility when AAI Industry is also installed.
 ---------------------------------------------------------------------------------------------------
 Version: 0.8.12
 Date: 2025-04-23

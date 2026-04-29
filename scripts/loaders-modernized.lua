@@ -1,306 +1,301 @@
-local flib_direction = require("__flib__.direction")
-local flib_position = require("__flib__.position")
-local flib_table = require("__flib__.table")
-
-local transport_belt_connectables = {
-  "transport-belt",
-  "underground-belt",
-  "splitter",
-  "loader",
-  "loader-1x1",
-  "linked-belt",
-  "lane-splitter",
-}
-
-local belts_and_corpses = flib_table.array_copy(transport_belt_connectables)
-belts_and_corpses[#belts_and_corpses+1] = "corpse"
+local C = require("__loaders-modernized__.constants")
+local snapping = require("scripts.snapping")
 
 local loader_modernized = {}
 
----Look for adjacent belt and snap the loader to connect to the belt
----@param entity LuaEntity
----@return boolean
-local function snap_to_belt(entity)
-  -- front_direction is the belt side
-  -- back_direction is the inventory side
-  local front_direction = entity.direction
-  local back_direction = flib_direction.opposite(front_direction)
-  if entity.loader_type == "input" then
-    back_direction = front_direction
-    front_direction = flib_direction.opposite(entity.direction)
-  end
+-- ─── Snapping API ────────────────────────────────────────────────────────────
 
-  local front_position = flib_position.add(entity.position, flib_direction.to_vector(front_direction))
-  local back_position = flib_position.add(entity.position, flib_direction.to_vector(back_direction))
-  local front = true
-  local belt =
-    entity.surface.find_entities_filtered({ position = front_position, type = transport_belt_connectables })[1]
-  if not belt then
-    belt =
-      entity.surface.find_entities_filtered({ position = front_position, ghost_type = transport_belt_connectables })[1]
-  end
+-- Another mod can disable snapping by calling remote.call("loaders-modernized", "disable_snapping")
+-- from its on_load and on_init handlers.
+local snapping_enabled = true
 
-  if not belt then
-    front = false
-    belt =
-      entity.surface.find_entities_filtered({ position = back_position, type = transport_belt_connectables })[1]
-  end
+-- ─── Private helpers ──────────────────────────────────────────────────────────
 
-  if not belt then
-    belt =
-      entity.surface.find_entities_filtered({ position = back_position, ghost_type = transport_belt_connectables })[1]
-  end
+---Encode an entity position as a string key for the fast_replace_variant table.
+---@param pos MapPosition
+---@return string
+local function pos_key(pos)
+  return pos.x .. "," .. pos.y
+end -- pos_key()
 
-  if not belt then
-    return false
-  end
+-- ─── Public helpers ───────────────────────────────────────────────────────────
 
-  if not front then
-    entity.direction = flib_direction.opposite(entity.direction)
-  end
+---Strip all known variant suffixes from `name` to recover the base entity name.
+---Strips in reverse canonical order: -fill → -wfs → -split.
+---@param name string
+---@return string
+function loader_modernized.variant_base(name)
+  name = string.gsub(name, C.FILL_PATTERN,  "")
+  name = string.gsub(name, C.WFS_PATTERN,   "")
+  name = string.gsub(name, C.SPLIT_PATTERN, "")
+  return name
+end -- loader_modernized.variant_base()
 
-  if belt.direction == flib_direction.opposite(entity.direction) then
-    entity.loader_type = entity.loader_type == "output" and "input" or "output"
-  elseif belt.direction ~= entity.direction then
-    entity.loader_type = "output"
-  end
+-- ─── Event handlers ───────────────────────────────────────────────────────────
 
-  return true
-end -- snap_to_belt()
-
----If we're not yet adjacent to a belt, find an entity to snap away from
----@param entity LuaEntity
-local function snap_away_from_non_belt(entity)
-  local front_direction = entity.direction
-  local back_direction = flib_direction.opposite(front_direction)
-  if entity.loader_type == "input" then
-    back_direction = front_direction
-    front_direction = flib_direction.opposite(entity.direction)
-  end
-
-  local front_position = flib_position.add(entity.position, flib_direction.to_vector(front_direction))
-  local back_position = flib_position.add(entity.position, flib_direction.to_vector(back_direction))
-  local non_belt = entity.surface.find_entities_filtered({
-    position = back_position,
-    type = belts_and_corpses,
-    ghost_type = transport_belt_connectables,
-    invert = true
-  })[1]
-
-  if non_belt then
-    return
-  end
-
-  non_belt = entity.surface.find_entities_filtered({
-    position = front_position,
-    type = belts_and_corpses,
-    ghost_type = transport_belt_connectables,
-    invert = true
-  })[1]
-
-  if non_belt then
-    entity.direction = flib_direction.opposite(entity.direction)
-    entity.loader_type = entity.loader_type == "output" and "input" or "output"
-    return
-  end
-
-end -- snap_away_from_non_belt()
-
----Entry into the snapping logic
----@param entity LuaEntity
-local function snap(entity)
-  if not snap_to_belt(entity) then
-    snap_away_from_non_belt(entity)
-  end
-end -- snap()
-
----Handle on_entity_built
 ---@param e BuiltEvent
 local function on_entity_built(e)
   local entity = e.entity or e.destination
-  if not entity.valid then
-    return
+  if not entity.valid then return end
+
+  -- Event filters narrow to loader types; still guard against other mods' loaders
+  local name = entity.type == "entity-ghost" and entity.ghost_name or entity.name
+  if not string.find(name, C.LOADER_PATTERN) then return end
+
+  if snapping_enabled then snapping.snap(entity) end
+
+  if storage.slow_loaders[loader_modernized.variant_base(name)]
+  and settings.startup[C.SETTINGS.CHUTE_MODE].value ~= C.CHUTE.FILTERED
+  and settings.global[C.SETTINGS.CHUTE_DIRECTION].value == "input" then
+    entity.loader_type = "input"
   end
 
-  if entity.type == "entity-ghost" then
-    if (not string.find(entity.ghost_type, "loader") or not string.find(entity.ghost_name, ".*mdrn%-loader")) then
-      return
+  local surface_data = storage.fast_replace_variant[entity.surface.index]
+  local key          = pos_key(entity.position)
+  local flags        = surface_data and surface_data[key]
+  if flags then
+    loader_modernized.swap_variant(entity, flags)
+    surface_data[key] = nil
+  elseif e.player_index ~= nil and loader_modernized.variant_base(name) == name then
+    local player = game.get_player(e.player_index)
+    if not player then return end
+    local from_item = false
+    if entity.type ~= "entity-ghost" then
+      from_item = true
+    elseif player.cursor_stack and player.cursor_stack.valid_for_read
+    and string.find(player.cursor_stack.name, C.LOADER_PATTERN) then
+      from_item = true
+    elseif player.cursor_ghost
+    and string.find(player.cursor_ghost.name.name, C.LOADER_PATTERN) then
+      from_item = true
     end
-  elseif not string.find(entity.type, "loader") or not string.find(entity.name, ".*mdrn%-loader") then
-    return
-  end
 
-  snap(entity)
-
-  local position = entity.position.x .. "," .. entity.position.y
-  local surface_name = entity.surface.name
-  local surface_data = storage.fast_replace_split[surface_name] or {}
-  if surface_data[position] then
-    loader_modernized.swap_split(entity)
-    surface_data[position] = nil
-    storage.fast_replace_split[surface_name] = surface_data
+    if from_item then
+      local default_flags = {
+        split = false,
+        wfs   = settings.global[C.SETTINGS.DEFAULT_WAIT_FOR_FULL_STACK].value
+                and storage.variants[name .. C.WFS_SUFFIX] ~= nil,
+        fill  = not settings.global[C.SETTINGS.DEFAULT_RESPECT_INSERT_LIMITS].value,
+      }
+      if default_flags.wfs or default_flags.fill then
+        loader_modernized.swap_variant(entity, default_flags)
+      end
+    end
   end
 end -- on_entity_built()
 
----Handle on_player_joined
 ---@param e EventData.on_player_joined_game
 local function on_player_joined(e)
-  local players = storage.players or {}
-  players[e.player_index] = players[e.player_index] or {}
+  storage.players[e.player_index] = storage.players[e.player_index]
+    or { name = game.get_player(e.player_index).name }
 end -- on_player_joined()
 
 ---@param e EventData.on_pre_entity_settings_pasted
 local function on_settings_pasted(e)
-  if not string.find(e.destination.name, "mdrn%-loader") then
-    return
+  if not string.find(e.destination.name, C.LOADER_PATTERN) then return end
+
+  local src_proto = e.source.prototype
+  local dst_proto = e.destination.prototype
+
+  ---@type LMVariantFlags
+  local src_flags = {
+    split = src_proto.per_lane_filters             and true or false,
+    wfs   = src_proto.loader_wait_for_full_stack   and true or false,
+    fill  = not src_proto.loader_respect_insert_limits,
+  }
+  ---@type LMVariantFlags
+  local dst_flags = {
+    split = dst_proto.per_lane_filters             and true or false,
+    wfs   = dst_proto.loader_wait_for_full_stack   and true or false,
+    fill  = not dst_proto.loader_respect_insert_limits,
+  }
+
+  if src_flags.split ~= dst_flags.split
+  or src_flags.wfs   ~= dst_flags.wfs
+  or src_flags.fill  ~= dst_flags.fill then
+    loader_modernized.swap_variant(e.destination, src_flags)
   end
-
-  local source_split = string.find(e.source.name, "%-split$") and true or false
-  local dest_split = string.find(e.destination.name, "%-split$") and true or false
-
-  if not (source_split == dest_split) then
-    loader_modernized.swap_split(e.destination, e.player_index)
-  end
-
 end -- on_settings_pasted()
 
 ---@param e EventData.on_pre_build
 local function on_pre_build(e)
   local player = game.get_player(e.player_index)
-  if not player then
-    return
-  end
+  if not player then return end
+  if player.is_cursor_empty() or player.is_cursor_blueprint() then return end
 
-  if player.is_cursor_empty() or player.is_cursor_blueprint() then
-    return
-  end
+  local item_name = player.cursor_stack.valid_for_read
+    and player.cursor_stack.name
+    or player.cursor_ghost.name.name
 
-  local item_name
-  if player.cursor_stack.valid_for_read then
-    item_name = player.cursor_stack.name
-  else
-    item_name = player.cursor_ghost.name.name
-  end
-
-  if not string.match(item_name, "mdrn%-loader") then
-    return
-  end
+  if not string.match(item_name, C.LOADER_PATTERN) then return end
 
   local surface = player.surface
-  local fast_replace = surface.can_fast_replace{
-      position = e.position,
-      direction = e.direction,
-      force = player.force,
-      name = item_name
+  if not surface.can_fast_replace{
+    position  = e.position,
+    direction = e.direction,
+    force     = player.force,
+    name      = item_name,
+  } then return end
+
+  local entity = surface.find_entities_filtered{
+    position = e.position,
+    type     = {"loader-1x1", "entity-ghost"},
+  }[1]
+  if not entity then return end
+
+  local proto = entity.prototype.type == "loader-1x1"
+    and entity.prototype
+    or entity.ghost_prototype
+
+  ---@type LMVariantFlags
+  local flags = {
+    split = proto.per_lane_filters             and true or false,
+    wfs   = proto.loader_wait_for_full_stack   and true or false,
+    fill  = not proto.loader_respect_insert_limits,
   }
-
-  if not fast_replace then
-    return
-  end
-
-  local entity = surface.find_entities_filtered{position = e.position, type = {"loader-1x1", "entity-ghost"}}[1]
-  if not (entity) then
-    return
-  end
-
-  local entity_prototype = entity.prototype.type == "loader-1x1" and entity.prototype or entity.ghost_prototype
-  if entity_prototype.per_lane_filters then
-    local surface_data = storage.fast_replace_split[surface.name] or {}
-    surface_data[entity.position.x .. "," .. entity.position.y] = true
-    storage.fast_replace_split[surface.name] = surface_data
+  -- Only persist if the entity being replaced has at least one variant flag set;
+  -- a base-entity replacement needs no swap after placement.
+  if flags.split or flags.wfs or flags.fill then
+    local surface_data = storage.fast_replace_variant[surface.index] or {}
+    surface_data[pos_key(entity.position)] = flags
+    storage.fast_replace_variant[surface.index] = surface_data
   end
 end -- on_pre_build()
 
----When switching state, replace the existing entity with the alternate entity.
----(tier-)mdrn-loader <-> (tier-)mdrn-loader-split
----The -split version has filter_count == 2 and filter configured per lane
+---@param e EventData.on_player_rotated_entity
+local function on_entity_rotated(e)
+  local entity = e.entity
+  if not entity.valid then return end
+
+  local name = entity.type == "entity-ghost" and entity.ghost_name or entity.name
+  if string.find(name, C.LOADER_PATTERN)
+  and storage.slow_loaders[loader_modernized.variant_base(name)]
+  and settings.startup[C.SETTINGS.CHUTE_MODE].value ~= C.CHUTE.FILTERED
+  and settings.global[C.SETTINGS.CHUTE_DIRECTION].value == "input" then
+    entity.loader_type = "input"
+  end
+end -- on_entity_rotated()
+
+---@param e EventData.on_surface_deleted
+local function on_surface_deleted(e)
+  storage.fast_replace_variant[e.surface_index] = nil
+end -- on_surface_deleted()
+
+-- ─── Public API ───────────────────────────────────────────────────────────────
+
+---Replace entity with the variant described by `flags`, preserving quality and direction.
 ---@param old LuaEntity
+---@param flags LMVariantFlags
+---@param player_index uint?
 ---@return LuaEntity?
-loader_modernized.swap_split = function(old, player_index)
-  local proto = old.prototype
-  if old.name == "entity-ghost" then
-    proto = old.ghost_prototype --[[@as LuaEntityPrototype]]
-  end
+loader_modernized.swap_variant = function(old, flags, player_index)
+  local proto = old.name == "entity-ghost"
+    and old.ghost_prototype --[[@as LuaEntityPrototype]]
+    or old.prototype
 
-  -- Grab the non-split entity from the split name and make it the new name.
-  -- If it is not a split entity, make a new from the prototype name
-  local base_name = string.match(proto.name, "^(.*)-split")
-  local new_name = base_name or proto.name .. "-split"
-  if not storage.splits[new_name] then
-    return
-  end
+  local base_name  = loader_modernized.variant_base(proto.name)
+  local suffix     = (flags.split and C.SPLIT_SUFFIX or "")
+                  .. (flags.wfs   and C.WFS_SUFFIX   or "")
+                  .. (flags.fill  and C.FILL_SUFFIX  or "")
+  local new_name   = base_name .. suffix
 
-  -- Retain quality when switching between split and non-split configurations
-  local quality = old.quality
+  if not storage.variants[new_name] then return end
+  if new_name == proto.name then return end  -- already the right variant
+
   local player = player_index and game.get_player(player_index) or nil
-
-  local new = {
-    name = new_name,
-    fast_replace = true,
+  local params = {
+    name                    = new_name,
+    fast_replace            = true,
     create_build_effect_smoke = false,
-    position = old.position,
-    direction = old.direction,
-    force = old.force,
-    type = old.loader_type,
-    quality = quality,
-    spill = false,
+    position                = old.position,
+    direction               = old.direction,
+    force                   = old.force,
+    type                    = old.loader_type,
+    quality                 = old.quality,
+    spill                   = false,
   }
   if old.name == "entity-ghost" then
-    new.name = "entity-ghost"
-    new.inner_name = new_name
+    params.name       = "entity-ghost"
+    params.inner_name = new_name
   end
 
-  local surface = old.surface
-  local new_entity = surface.create_entity(new)
-  if not new_entity then
-    return
-  end
+  local new_entity = old.surface.create_entity(params)
+  if not new_entity then return end
   new_entity.last_user = player
   return new_entity
-end
+end -- loader_modernized.swap_variant()
 
----on_init handler
-loader_modernized.on_init = function()
-  storage = {
-    players = {},
-    fast_replace_split = {}
-  }
+---Initialize (or re-initialize) global storage to a clean known state.
+---Idempotent — safe to call from on_init or a migration handler.
+function loader_modernized.init_storage()
+  storage.players              = {}
+  storage.fast_replace_variant = {}
+  storage.slow_loaders         = {}
   for i, player in pairs(game.players) do
-    storage.players[i] = {
-      name = player.name
-    }
+    storage.players[i] = { name = player.name }
   end
+end -- loader_modernized.init_storage()
 
+loader_modernized.on_init = function()
+  loader_modernized.init_storage()
   loader_modernized.on_configuration_changed()
-end
+end -- loader_modernized.on_init()
+
+loader_modernized.on_load = function()
+  -- Filter entity-built events to loader types so the handler is not invoked
+  -- for every entity placed in the game (significant performance gain in large maps).
+  local entity_filters = {
+    {filter = "type", type = "loader-1x1"},
+    {filter = "ghost_type", type = "loader-1x1"},
+  }
+  script.set_event_filter(defines.events.on_built_entity,        entity_filters)
+  script.set_event_filter(defines.events.on_entity_cloned,       entity_filters)
+  script.set_event_filter(defines.events.on_robot_built_entity,  entity_filters)
+  script.set_event_filter(defines.events.script_raised_built,    entity_filters)
+  script.set_event_filter(defines.events.script_raised_revive,   entity_filters)
+
+  remote.add_interface("loaders-modernized", {
+    ---Disable automatic belt-snapping for all loaders placed by this mod.
+    ---Call from your mod's on_init and on_load handlers.
+    disable_snapping = function()
+      snapping_enabled = false
+    end,
+  })
+end -- loader_modernized.on_load()
 
 loader_modernized.on_configuration_changed = function()
-  local splits = {}
-  local loader_prototypes = prototypes.get_entity_filtered{
-    { filter = "type", type = "loader" },
-    { filter = "type", type = "loader-1x1", "or" }
-  }
-  for k, _ in pairs(loader_prototypes) do
-    local basename = string.match(k,"^(.*)-split")
-    if basename then
-      splits[basename] = true
-      splits[k] = true
+  local variants = {}
+  for k in pairs(prototypes.get_entity_filtered{
+    {filter = "type", type = "loader-1x1", "or"},
+  }) do
+    if string.find(k, C.LOADER_PATTERN) then  -- skip other mods' loaders
+      variants[k] = true
     end
   end
+  storage.variants = variants
 
-  storage.splits = splits
-end
+  local base_speed = prototypes.entity["mdrn-loader"] and prototypes.entity["mdrn-loader"].belt_speed
+  local slow = {}
+  for k in pairs(variants) do
+    local base_name = loader_modernized.variant_base(k)
+    if base_speed and prototypes.entity[k].belt_speed < base_speed then
+      slow[base_name] = true
+    end
+  end
+  storage.slow_loaders = slow
+end -- loader_modernized.on_configuration_changed()
 
----Event handlers
 loader_modernized.events = {
-  [defines.events.on_built_entity] = on_entity_built,
-  [defines.events.on_entity_cloned] = on_entity_built,
-  [defines.events.on_robot_built_entity] = on_entity_built,
-  [defines.events.script_raised_built] = on_entity_built,
-  [defines.events.script_raised_revive] = on_entity_built,
-  [defines.events.on_player_joined_game] = on_player_joined,
-  [defines.events.on_pre_build] = on_pre_build,
-  [defines.events.on_pre_entity_settings_pasted] = on_settings_pasted,
+  [defines.events.on_built_entity]                  = on_entity_built,
+  [defines.events.on_entity_cloned]                 = on_entity_built,
+  [defines.events.on_robot_built_entity]            = on_entity_built,
+  [defines.events.script_raised_built]              = on_entity_built,
+  [defines.events.script_raised_revive]             = on_entity_built,
+  [defines.events.on_player_joined_game]            = on_player_joined,
+  [defines.events.on_pre_build]                     = on_pre_build,
+  [defines.events.on_pre_entity_settings_pasted]    = on_settings_pasted,
+  [defines.events.on_player_rotated_entity]          = on_entity_rotated,
+  [defines.events.on_surface_deleted]               = on_surface_deleted,
 }
 
 return loader_modernized

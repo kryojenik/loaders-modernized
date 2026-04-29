@@ -15,11 +15,20 @@ data:extend({
     default_value = false,
   },
   {
-    type = "bool-setting",
-    name = "mdrn-enable-chute",
+    type = "string-setting",
+    name = "mdrn-chute-mode",
     order = "sb",
     setting_type = "startup",
-    default_value = true,
+    default_value = "basic",
+    allowed_values = { "none", "basic", "filtered" },
+  },
+  {
+    type = "string-setting",
+    name = "mdrn-chute-direction",
+    order = "sba",
+    setting_type = "runtime-global",
+    default_value = "input",
+    allowed_values = { "input", "input-output" },
   },
   {
     type = "bool-setting",
@@ -37,19 +46,19 @@ data:extend({
     allowed_values = { "separate", "belt" }
   },
   {
-    type = "bool-setting",
-    name = "mdrn-respect-insert-limits",
-    order = "sf",
-    setting_type = "startup",
-    default_value = true,
-  },
-  {
     type = "string-setting",
     name = "mdrn-embiggen-assemblers",
     order = "sg",
     setting_type = "startup",
     default_value = "zero",
     allowed_values = { "zero", "eight", "sixteen" },
+  },
+  {
+    type = "bool-setting",
+    name = "mdrn-default-respect-insert-limits",
+    order = "sfb",
+    setting_type = "runtime-global",
+    default_value = true,
   },
 })
 
@@ -69,19 +78,18 @@ if mods["aai-loaders"] then
 end
 
 if mods["aai-industry"] then
-  local aai_industry = {
+  data:extend({
+    {
       type = "bool-setting",
       name = "mdrn-use-aai-recipes",
       order = "sy",
       setting_type = "startup",
       default_value = true,
-  }
-
-  data:extend({aai_industry})
+    }
+  })
 end
 
--- If space-age is enabled we can do belt_stacking
--- TODO: Can stacking be done on 2.0 without the DLC being purchased?
+-- Belt stacking settings (stacking is possible with Space Age, Stack Inserters, or pycoalprocessing)
 data:extend({
   {
     type = "string-setting",
@@ -100,11 +108,31 @@ data:extend({
   },
   {
     type = "bool-setting",
+    name = "mdrn-default-wait-for-full-stack",
+    order = "sfc",
+    setting_type = "runtime-global",
+    default_value = false,
+  },
+})
+
+  -- Legacy settings that have been replaced by global values, but we need to read them on migration to convert to the new format.
+data:extend({
+  {
+    type = "bool-setting",
     name = "mdrn-wait-for-full-stack",
-    order = "seb",
+    order = "sfb",
     setting_type = "startup",
-    default_value = true
-  }
+    default_value = false,
+    hidden = true,
+  },
+  {
+    type = "bool-setting",
+    name = "mdrn-respect-insert-limits",
+    order = "sf",
+    setting_type = "startup",
+    default_value = true,
+    hidden = true,
+  },
 })
 
 local stacking = data.raw["string-setting"]["mdrn-enable-stacking"]
@@ -116,6 +144,9 @@ if not feature_flags.space_travel then
   local cheap_stack = data.raw["bool-setting"]["mdrn-cheap-stacking"]
   cheap_stack.forced_value = false
   cheap_stack.hidden = true
+  local default_wfs = data.raw["bool-setting"]["mdrn-default-wait-for-full-stack"]
+  default_wfs.hidden = true
+
   -- Mods known to provide a stack inserter
 elseif not (mods["space-age"]
   or mods["stack-inserters"]

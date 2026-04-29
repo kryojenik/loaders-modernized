@@ -1,0 +1,34 @@
+{
+  "entity": [
+    ["fast-mdrn-loader",         "mdrn-fast-loader"],
+    ["fast-mdrn-loader-split",   "mdrn-fast-loader-split"],
+    ["express-mdrn-loader",      "mdrn-express-loader"],
+    ["express-mdrn-loader-split","mdrn-express-loader-split"],
+    ["turbo-mdrn-loader",        "mdrn-turbo-loader"],
+    ["turbo-mdrn-loader-split",  "mdrn-turbo-loader-split"],
+    ["stack-mdrn-loader",        "mdrn-stack-loader"],
+    ["stack-mdrn-loader-split",  "mdrn-stack-loader-split"],
+    ["chute-mdrn-loader",        "mdrn-chute-loader"]
+  ],
+  "item": [
+    ["fast-mdrn-loader",   "mdrn-fast-loader"],
+    ["express-mdrn-loader","mdrn-express-loader"],
+    ["turbo-mdrn-loader",  "mdrn-turbo-loader"],
+    ["stack-mdrn-loader",  "mdrn-stack-loader"],
+    ["chute-mdrn-loader",  "mdrn-chute-loader"]
+  ],
+  "recipe": [
+    ["fast-mdrn-loader",   "mdrn-fast-loader"],
+    ["express-mdrn-loader","mdrn-express-loader"],
+    ["turbo-mdrn-loader",  "mdrn-turbo-loader"],
+    ["stack-mdrn-loader",  "mdrn-stack-loader"],
+    ["chute-mdrn-loader",  "mdrn-chute-loader"]
+  ],
+  "technology": [
+    ["fast-mdrn-loader",   "mdrn-fast-loader"],
+    ["express-mdrn-loader","mdrn-express-loader"],
+    ["turbo-mdrn-loader",  "mdrn-turbo-loader"],
+    ["stack-mdrn-loader",  "mdrn-stack-loader"]
+  ]
+  
+}
