@@ -1,7 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.1
-Date: ????
-  Changes:
+Date: 2026-04-28
+  Bugfixes:
+    - Add warning message if loaders don't migrate because a mod using this API needs to be updated.
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.0
 Date: 2026-04-28

@@ -103,6 +103,17 @@ local version_migrations = {
       game.print{"strings.mdrn-chute-direction-change"}
     end
   end,
+  ["2.0.1"] = function(migrations)
+    local removed_loader = false
+    for old, new in pairs(migrations.entity) do
+      if string.find(old,"mdrn%-loader") and new == "" then
+        removed_loader = true
+      end
+    end
+    if removed_loader then
+      game.print{"strings.mdrn-compatibility-removed-2"}
+    end
+  end,
 }
 
 local migrations = {}
