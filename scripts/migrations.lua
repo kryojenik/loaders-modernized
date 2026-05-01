@@ -40,8 +40,17 @@ local version_migrations = {
   ["1.0.4"] = function()
     game.print{"strings.mdrn-power-change"}
   end,
+  ["1.9.9"] = function ()
+    --  Need to track for some issues introduced in 2.0.0 migrations.
+    --  This flag won't be set if the last save had LM 2.0.0 or 2.0.1
+    --  Well need to apply some fixes in 2.0.2 in that case.
+    storage.migrating_from_pre2x = true
+  end,
   ["2.0.0"] = function()
+    -- WFS only applied to stack tier loaders pre-2.0.0.
+    -- Regular tier loaders should not get auto set to WFS.
     local had_wfs = settings.startup[C.SETTINGS.WAIT_FOR_FULL_STACK].value
+                and settings.startup[C.SETTINGS.ENABLE_STACKING].value == C.STACKING.STACK_TIER
     local had_fill = not settings.startup[C.SETTINGS.RESPECT_INSERT_LIMITS].value
     settings.global[C.SETTINGS.DEFAULT_WAIT_FOR_FULL_STACK] = { value = had_wfs }
     settings.global[C.SETTINGS.DEFAULT_RESPECT_INSERT_LIMITS] = { value = not had_fill }
@@ -78,7 +87,7 @@ local version_migrations = {
         local entity_name = loader.name == "entity-ghost" and loader.ghost_name or loader.name
         local base        = loader_modernized.variant_base(entity_name)
         local variant_flags = {
-          split = string.find(entity_name, C.SPLIT_PATTERN) and true or false,
+          split = string.find(entity_name, "%-split") and true or false,
           wfs   = had_wfs and storage.variants[base .. C.WFS_SUFFIX] ~= nil,
           fill  = had_fill,
         }
@@ -112,6 +121,34 @@ local version_migrations = {
     end
     if removed_loader then
       game.print{"strings.mdrn-compatibility-removed-2"}
+    end
+  end,
+  ["2.0.2"] = function(migrations)
+    if not storage.migrating_from_pre2x then
+      -- We were too aggressive making stack loaders wfs in 2.0.0.  Warn players about the change and how to fix it if they want to.
+      local loader_names = {}
+      for l, _ in pairs(storage.variants) do
+        if string.find(l,"%-wfs") then
+          loader_names[#loader_names + 1] = l
+        end
+      end
+
+      for _, surface in pairs(game.surfaces) do
+        for _, loader in pairs(surface.find_entities_filtered{name = loader_names}) do
+          if string.find(loader.name, "%-wfs") then
+            game.print { 'strings.mdrn-wfs-warning' }
+            return
+          end
+        end
+
+        for _, ghost in pairs(surface.find_entities_filtered{type = "entity-ghost", ghost_name = loader_names}) do
+          if string.find(ghost.ghost_name, "%-wfs") then
+            game.print { 'strings.mdrn-wfs-warning' }
+            return
+          end
+        end
+      end
+      storage.migrating_from_pre2x = nil
     end
   end,
 }
