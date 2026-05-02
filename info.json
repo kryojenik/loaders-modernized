@@ -18,10 +18,8 @@
     "package": {
         "git_publish_branch": "main",
         "ignore": [
-            "TODO.md",
             "types.lua",
-            "screenshots/*",
-            "CLAUDE.md"
+            "screenshots/*"
         ],
         "sync_portal_details": true,
         "no_git_push": true

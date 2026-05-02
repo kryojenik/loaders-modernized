@@ -14,20 +14,34 @@ do use power.  So keep those power poles handy!
 - Loaders snap to belts and away from non-belts.
 - Stack items on to the belts based on belt stacking technology level.
 - Split Lanes!!!
+- Wait for Full Stack configurable per loader.
+- Respect insert limits for machines configurable per loader.
 - AAI Loader graphics can be used as long as AAI Loader mod is installed.
 - Stacked loaders can be used without Space Age!  This requires the use of the [Stack Inserters](https://mods.factorio.com/mod/stack-inserters) mod.
-- ~~Able to migrate Miniloaders.~~ Miniloader migration functionality moved to its own mod - [Miniloader migration](https://mods.factorio.com/mod/miniloader-migration).
+- Factorio 1.x maps with a [Miniloaders](https://mods.factorio.com/mod/miniloader) can be migrated using a companion mod. - [Miniloader migration](https://mods.factorio.com/mod/miniloader-migration).
+
+## Chutes
+
+This mod does add cheep chutes to the game.  The default behavior limits them to input (belt -> inventory) and completely fill machines only.
+There are settings that can be toggled to allow output, enable filtering and cause them to respect insert limits of machines.
 
 ## Alternate belt sets supported
 
-Alternate belt mods are supported directly by that mod, or by an addon mod.  Addon mods for the following belt mods are currently available and maintained by me.
+Overhaul and belt mods can be supported directly by that mod, or by an addon mod.  Addon mods for the following are currently available and maintained by me.
 
-- [Ultimate Belts Space Age](https://mods.factorio.com/mod/loaders-modernized-ubsa)
 - [5Dim's New Transport](https://mods.factorio.com/mod/loaders-modernized-5dim)
-- [Iper Belt](https://mods.factorio.com/mod/loaders-modernized-iper)
-- [Extended Vanilla: Modular Logistics & Robotics](https://mods.factorio.com/mod/loaders-modernized-ev)
 - [Bob's Logistics](https://mods.factorio.com/mod/loaders-modernized-bobs)
+- [Extended Vanilla: Modular Logistics & Robotics](https://mods.factorio.com/mod/loaders-modernized-ev)
+- [Iper Belt](https://mods.factorio.com/mod/loaders-modernized-iper)
+- [Krastorio 2](https://mods.factorio.com/mod/loaders-modernized-k2)
+- [Pyanodons](https://mods.factorio.com/mod/loaders-modernized-py)
+- [Space Exploration](https://mods.factorio.com/mod/loaders-modernized-se)
+- [Ultimate Belts Space Age](https://mods.factorio.com/mod/loaders-modernized-ubsa)
 - [Wooden Logistics](https://mods.factorio.com/mod/loaders-modernized-wood)
+
+## Translations
+
+You are welcome to help with localization, please use [this Crowdin project](https://crowdin.com/project/factorio-mods-localization). You can find more [details](https://github.com/dima74/factorio-mods-localization#how-to-translate-using-crowdin).
 
 ## Acknowledgements
 
