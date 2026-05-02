@@ -261,6 +261,37 @@ loader_modernized.on_load = function()
       snapping_enabled = false
     end,
   })
+
+  commands.add_command("mdrn-remove-wfs", {"command-help.mdrn-remove-wfs"}, function(_)
+    local wfs_names = {}
+    for name in pairs(storage.variants) do
+      if string.find(name, "%-wfs") then
+        wfs_names[#wfs_names + 1] = name
+      end
+    end
+    if #wfs_names == 0 then return end
+
+    for _, surface in pairs(game.surfaces) do
+      local loaders = surface.find_entities_filtered{name = wfs_names}
+      local ghosts  = surface.find_entities_filtered{type = "entity-ghost", ghost_name = wfs_names}
+      for _, loader in pairs(loaders) do
+        local proto = loader.prototype
+        loader_modernized.swap_variant(loader, {
+          split = proto.per_lane_filters            and true or false,
+          wfs   = false,
+          fill  = not proto.loader_respect_insert_limits,
+        })
+      end
+      for _, ghost in pairs(ghosts) do
+        local proto = ghost.ghost_prototype
+        loader_modernized.swap_variant(ghost, {
+          split = proto.per_lane_filters            and true or false,
+          wfs   = false,
+          fill  = not proto.loader_respect_insert_limits,
+        })
+      end
+    end
+  end) -- mdrn-remove-wfs
 end -- loader_modernized.on_load()
 
 loader_modernized.on_configuration_changed = function()

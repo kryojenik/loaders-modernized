@@ -1,7 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.2
 Date: ????
-  Changes:
+  Bugfixes:
+    - Fix migration incorrectly making all loaders wait for full stack if stacking is enabled for any loader other than a specific stacking loader.
+  Features:
+    - Add command to remove Wait for Full Stack from all loaders in game.  You can still toggle this flag on a per-loader basis, but this will allow you to quickly remove it from all loaders.
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.1
 Date: 2026-04-28
