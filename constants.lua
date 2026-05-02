@@ -24,23 +24,20 @@ constants.LOADER_PATTERN = "^mdrn%-"
 ---Suffix appended to entity names for the split-lane variant (per_lane_filters).
 constants.SPLIT_SUFFIX = "-split"
 
----Lua pattern that matches only the split-lane suffix at end of name.
-constants.SPLIT_PATTERN = "%-split$"
-
----Lua pattern that captures the base name from a split entity name (e.g. "mdrn-fast-loader-split" → "mdrn-fast-loader").
-constants.SPLIT_CAPTURE = "^(.*)%-split"
+---Lua pattern that matches the split-lane suffix anywhere in a name.
+constants.SPLIT_PATTERN = "%-split"
 
 ---Suffix for the wait-for-full-stack variant (wait_for_full_stack = true).
 constants.WFS_SUFFIX = "-wfs"
 
----Lua pattern that matches the wfs suffix at end of name.
-constants.WFS_PATTERN = "%-wfs$"
+---Lua pattern that matches the wfs suffix anywhere in a name.
+constants.WFS_PATTERN = "%-wfs"
 
 ---Suffix for the fill variant (respect_insert_limits = false — fills machine slots unconditionally).
 constants.FILL_SUFFIX = "-fill"
 
----Lua pattern that matches the fill suffix at end of name.
-constants.FILL_PATTERN = "%-fill$"
+---Lua pattern that matches the fill suffix anywhere in a name.
+constants.FILL_PATTERN = "%-fill"
 
 ---All suffix permutations in canonical order (split → wfs → fill).
 ---Includes "" so callers can update the base entity and all variants in one loop.

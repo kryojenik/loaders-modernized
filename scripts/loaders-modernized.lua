@@ -265,7 +265,7 @@ loader_modernized.on_load = function()
   commands.add_command("mdrn-remove-wfs", {"command-help.mdrn-remove-wfs"}, function(_)
     local wfs_names = {}
     for name in pairs(storage.variants) do
-      if string.find(name, "%-wfs") then
+      if string.find(name, C.WFS_PATTERN) then
         wfs_names[#wfs_names + 1] = name
       end
     end
