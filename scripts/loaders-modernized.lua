@@ -18,6 +18,17 @@ local function pos_key(pos)
   return pos.x .. "," .. pos.y
 end -- pos_key()
 
+---Read current variant flags from a loader prototype.
+---@param proto LuaEntityPrototype
+---@return LMVariantFlags
+local function flags_from_proto(proto)
+  return {
+    split = proto.per_lane_filters           and true or false,
+    wfs   = proto.loader_wait_for_full_stack and true or false,
+    fill  = not proto.loader_respect_insert_limits,
+  }
+end -- flags_from_proto()
+
 -- ─── Public helpers ───────────────────────────────────────────────────────────
 
 ---Strip all known variant suffixes from `name` to recover the base entity name.
@@ -30,6 +41,16 @@ function loader_modernized.variant_base(name)
   name = string.gsub(name, C.SPLIT_PATTERN, "")
   return name
 end -- loader_modernized.variant_base()
+
+---Read current variant flags from an entity (or entity-ghost) prototype.
+---@param entity LuaEntity
+---@return LMVariantFlags
+function loader_modernized.flags_from_entity(entity)
+  local proto = entity.name == "entity-ghost"
+    and entity.ghost_prototype --[[@as LuaEntityPrototype]]
+    or entity.prototype
+  return flags_from_proto(proto)
+end -- loader_modernized.flags_from_entity()
 
 -- ─── Event handlers ───────────────────────────────────────────────────────────
 
@@ -94,21 +115,8 @@ end -- on_player_joined()
 local function on_settings_pasted(e)
   if not string.find(e.destination.name, C.LOADER_PATTERN) then return end
 
-  local src_proto = e.source.prototype
-  local dst_proto = e.destination.prototype
-
-  ---@type LMVariantFlags
-  local src_flags = {
-    split = src_proto.per_lane_filters             and true or false,
-    wfs   = src_proto.loader_wait_for_full_stack   and true or false,
-    fill  = not src_proto.loader_respect_insert_limits,
-  }
-  ---@type LMVariantFlags
-  local dst_flags = {
-    split = dst_proto.per_lane_filters             and true or false,
-    wfs   = dst_proto.loader_wait_for_full_stack   and true or false,
-    fill  = not dst_proto.loader_respect_insert_limits,
-  }
+  local src_flags = loader_modernized.flags_from_entity(e.source)
+  local dst_flags = loader_modernized.flags_from_entity(e.destination)
 
   if src_flags.split ~= dst_flags.split
   or src_flags.wfs   ~= dst_flags.wfs
@@ -143,16 +151,7 @@ local function on_pre_build(e)
   }[1]
   if not entity then return end
 
-  local proto = entity.prototype.type == "loader-1x1"
-    and entity.prototype
-    or entity.ghost_prototype
-
-  ---@type LMVariantFlags
-  local flags = {
-    split = proto.per_lane_filters             and true or false,
-    wfs   = proto.loader_wait_for_full_stack   and true or false,
-    fill  = not proto.loader_respect_insert_limits,
-  }
+  local flags = loader_modernized.flags_from_entity(entity)
   -- Only persist if the entity being replaced has at least one variant flag set;
   -- a base-entity replacement needs no swap after placement.
   if flags.split or flags.wfs or flags.fill then
@@ -275,20 +274,14 @@ loader_modernized.on_load = function()
       local loaders = surface.find_entities_filtered{name = wfs_names}
       local ghosts  = surface.find_entities_filtered{type = "entity-ghost", ghost_name = wfs_names}
       for _, loader in pairs(loaders) do
-        local proto = loader.prototype
-        loader_modernized.swap_variant(loader, {
-          split = proto.per_lane_filters            and true or false,
-          wfs   = false,
-          fill  = not proto.loader_respect_insert_limits,
-        })
+        local flags = loader_modernized.flags_from_entity(loader)
+        flags.wfs = false
+        loader_modernized.swap_variant(loader, flags)
       end
       for _, ghost in pairs(ghosts) do
-        local proto = ghost.ghost_prototype
-        loader_modernized.swap_variant(ghost, {
-          split = proto.per_lane_filters            and true or false,
-          wfs   = false,
-          fill  = not proto.loader_respect_insert_limits,
-        })
+        local flags = loader_modernized.flags_from_entity(ghost)
+        flags.wfs = false
+        loader_modernized.swap_variant(ghost, flags)
       end
     end
   end) -- mdrn-remove-wfs

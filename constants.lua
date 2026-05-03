@@ -14,9 +14,6 @@ constants.LOADER_PREFIX = "mdrn-"
 ---  e.g. "fast-"   → "mdrn-fast-loader"
 constants.LOADER_BASE = "loader"
 
----Convenience alias for the base tier entity name (PREFIX .. "" .. BASE).
-constants.LOADER_NAME = "mdrn-loader"
-
 ---Lua find/match pattern that matches any entity name starting with "mdrn-".
 ---Anchored so it only matches our entities and not other mods that contain "mdrn-" elsewhere.
 constants.LOADER_PATTERN = "^mdrn%-"

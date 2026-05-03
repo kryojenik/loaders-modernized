@@ -2,22 +2,6 @@ local loader   = require("scripts.loaders-modernized")
 local flib_gui = require("__flib__.gui")
 local C        = require("__loaders-modernized__.constants")
 
--- ─── Private helpers ──────────────────────────────────────────────────────────
-
----Read current variant flags from an entity (or entity-ghost) prototype.
----@param entity LuaEntity
----@return LMVariantFlags
-local function entity_flags(entity)
-  local proto = entity.name == "entity-ghost"
-    and entity.ghost_prototype --[[@as LuaEntityPrototype]]
-    or entity.prototype
-  return {
-    split = proto.per_lane_filters             and true or false,
-    wfs   = proto.loader_wait_for_full_stack   and true or false,
-    fill  = not proto.loader_respect_insert_limits,
-  }
-end -- entity_flags()
-
 -- ─── Checkbox handlers ────────────────────────────────────────────────────────
 
 ---Shared logic for any variant checkbox change.
@@ -31,7 +15,7 @@ local function on_checkbox_changed(e, flag_key)
     pd.open_loader = nil
     return
   end
-  local flags = entity_flags(entity)
+  local flags = loader.flags_from_entity(entity)
   flags[flag_key] = e.element.state
   local new = loader.swap_variant(entity, flags, e.player_index)
   game.get_player(e.player_index).opened = new
@@ -77,7 +61,7 @@ local function on_gui_opened(e)
   local has_wfs  = storage.variants[base .. C.WFS_SUFFIX]  ~= nil
   local has_fill = storage.variants[base .. C.FILL_SUFFIX] ~= nil
 
-  local flags = entity_flags(entity)
+  local flags = loader.flags_from_entity(entity)
 
   -- Build the checkbox list dynamically.
   local children = {
