@@ -4,6 +4,8 @@ Date: ????
   Changes:
     - Changed entity names by removing (Split), (Stack wait), and (Fill) from the name.
     - Added details to the description panel that indicate which flags are active for the selected loader.
+  Features:
+    - Added chute mode "Basic (Limited)" This is the same as basic, but it will respect machine insert limits.
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.2
 Date: 2026-05-01

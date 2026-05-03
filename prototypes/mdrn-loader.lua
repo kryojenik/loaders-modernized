@@ -60,6 +60,8 @@ function MdrnLoaders.add_loaders(loaders)
       if cfg.chute_mode == C.CHUTE.BASIC then
         template.filter    = false
         template.fill_base = true
+      elseif cfg.chute_mode == C.CHUTE.BASIC_LIMITED then
+        template.filter = false
       elseif cfg.chute_mode == C.CHUTE.FILTERED then
         if template.filter ~= false then
           template.filter = true

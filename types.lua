@@ -10,7 +10,7 @@
 ---@alias LMStackingMode "none"|"turbo-and-above"|"all"|"stack-tier"
 
 ---Allowed values for the mdrn-chute-mode setting.
----@alias LMChuteMode "none"|"basic"|"filtered"
+---@alias LMChuteMode "none"|"basic"|"basic-limited"|"filtered"
 
 ---Allowed values for the mdrn-unlock-technology setting.
 ---@alias LMUnlockMode "separate"|"belt"

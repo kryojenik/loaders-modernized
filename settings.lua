@@ -20,7 +20,7 @@ data:extend({
     order = "sb",
     setting_type = "startup",
     default_value = "basic",
-    allowed_values = { "none", "basic", "filtered" },
+    allowed_values = { "none", "basic", "basic-limited", "filtered" },
   },
   {
     type = "string-setting",

@@ -93,9 +93,10 @@ constants.EMBIGGEN = {
 }
 
 constants.CHUTE = {
-  NONE     = "none",
-  BASIC    = "basic",
-  FILTERED = "filtered",
+  NONE          = "none",
+  BASIC         = "basic",
+  BASIC_LIMITED = "basic-limited",
+  FILTERED      = "filtered",
 }
 
 -- ─── Graphic paths (own mod) ──────────────────────────────────────────────────
