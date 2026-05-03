@@ -10,17 +10,36 @@ if cfg.has_prismatic_belts then
   prismatic_api = require("__prismatic-belts__.prototypes.api")
 end
 
+---@param core_desc LocalisedString
+---@param flags LMVariantFlags
+---@param can_stack boolean
+---@return LocalisedString
+local function build_description(core_desc, flags, can_stack)
+  local function bool_key(b)
+    return b and { "entity-description.true" } or { "entity-description.false" }
+  end
+
+  local desc = { "", core_desc, { "entity-description.split", bool_key(flags.split) } }
+  desc[#desc + 1] = { "entity-description.fill", bool_key(flags.fill) }
+  if can_stack then
+    desc[#desc + 1] = { "entity-description.wfs", bool_key(flags.wfs) }
+  end
+  return desc
+end -- build_description()
+
 ---Create a variant of a base loader entity with specific property flags set.
 ---Variant entities share the base entity's item, recipe, and technology.
 ---Canonical suffix order: -split, -wfs, -fill.
 ---@param base data.Loader1x1Prototype  The un-suffixed base entity.
 ---@param flags LMVariantFlags
+---@param core_desc LocalisedString
+---@param can_stack boolean
 ---@return data.Loader1x1Prototype
-local function create_variant_entity(base, flags)
+local function create_variant_entity(base, flags, core_desc, can_stack)
   local variant = table.deepcopy(base)
   local suffix = (flags.split and C.SPLIT_SUFFIX or "")
-               .. (flags.wfs  and C.WFS_SUFFIX   or "")
-               .. (flags.fill and C.FILL_SUFFIX  or "")
+              .. (flags.wfs   and C.WFS_SUFFIX   or "")
+              .. (flags.fill  and C.FILL_SUFFIX  or "")
 
   variant.name = base.name .. suffix
   variant.factoriopedia_alternative  = base.name
@@ -30,7 +49,6 @@ local function create_variant_entity(base, flags)
   if flags.split then
     variant.filter_count   = 2
     variant.per_lane_filters = true
-    variant.localised_name = { "", base.localised_name, " ", { "strings.mdrn-split-suffix" } }
     table.insert(variant.icons, {
       icon = C.GRAPHICS.SPLIT_ICON,
       icon_size = 64,
@@ -40,8 +58,6 @@ local function create_variant_entity(base, flags)
   end
   if flags.wfs then
     variant.wait_for_full_stack = true
-    variant.localised_name = { "", variant.localised_name or base.localised_name,
-                               " ", { "strings.mdrn-wfs-suffix" } }
     table.insert(variant.icons, {
       icon = C.GRAPHICS.WFS_ICON,
       icon_size = 64,
@@ -51,8 +67,6 @@ local function create_variant_entity(base, flags)
   end
   if flags.fill then
     variant.respect_insert_limits = false
-    variant.localised_name = { "", variant.localised_name or base.localised_name,
-                               " ", { "strings.mdrn-fill-suffix" } }
     table.insert(variant.icons, {
       icon = C.GRAPHICS.FILL_ICON,
       icon_size = 64,
@@ -60,6 +74,9 @@ local function create_variant_entity(base, flags)
       shift = { 11, 9 },
     })
   end
+
+  ---@diagnostic disable-next-line:assign-type-mismatch
+  variant.localised_description = build_description(core_desc, flags, can_stack)
 
   return variant
 end -- create_variant_entity()
@@ -82,7 +99,7 @@ local function update_or_create_entity(template)
       flags = {"placeable-neutral", "player-creation"},
       filter_count = 5,
       localised_name = template.localised_name or { "entity-name." .. template.name },
-      localised_description = template.localised_description or { "", { "entity-description.common" }},
+      localised_description = template.localised_description or { "", { "entity-description.common", "" }},
       open_sound = { filename = "__base__/sound/open-close/inserter-open.ogg" },
       close_sound = { filename = "__base__/sound/open-close/inserter-close.ogg" },
       fast_replaceable_group = "transport-belt",
@@ -177,9 +194,9 @@ local function update_or_create_entity(template)
     if cfg.has_prismatic_belts and prismatic_api then
       entity.belt_animation_set = prismatic_api.get_transport_belt_animation_set(
         {
-         mask_tint = template.tint,
-         tint_mask_as_overlay = true,
-         variant  = math.clamp((60 * 8 * entity.speed) / 15, 1, 3)
+          mask_tint = template.tint,
+          tint_mask_as_overlay = true,
+          variant  = math.clamp((60 * 8 * entity.speed) / 15, 1, 3)
         }
       )
     else
@@ -191,11 +208,6 @@ local function update_or_create_entity(template)
   if feature_flags.space_travel then
     entity.max_belt_stack_size =  template.max_belt_stack_size or entity.max_belt_stack_size or (utils.stack(template) and max_belt_stack_size) or 1
     if entity.max_belt_stack_size > 1 then
-      entity.localised_description = {
-        "",
-        template.localised_description or { "entity-description.common" },
-        { "entity-description.stack" }
-      }
       entity.adjustable_belt_stack_size = true
     end
 
@@ -231,22 +243,33 @@ local function update_or_create_entity(template)
     entity.respect_insert_limits = false
   end
 
-  data:extend{entity}
-
   local can_stack = (entity.max_belt_stack_size or 1) > 1
   if template.filter ~= false then
+    local core_desc
+    if can_stack then
+      core_desc = template.localised_description or { "entity-description.common", { "entity-description.stack" } }
+    else
+      core_desc = template.localised_description or { "entity-description.common", "" }
+    end
+    ---@diagnostic disable-next-line:assign-type-mismatch
+    entity.localised_description = build_description(core_desc, { split = false, wfs = false, fill = false }, can_stack)
+
+    data:extend{entity}
+
     local variants = {
-      create_variant_entity(entity, { split = true,  wfs = false, fill = false }),
-      create_variant_entity(entity, { split = false, wfs = false, fill = true  }),
-      create_variant_entity(entity, { split = true,  wfs = false, fill = true  }),
+      create_variant_entity(entity, { split = true,  wfs = false, fill = false }, core_desc, can_stack),
+      create_variant_entity(entity, { split = false, wfs = false, fill = true  }, core_desc, can_stack),
+      create_variant_entity(entity, { split = true,  wfs = false, fill = true  }, core_desc, can_stack),
     }
     if can_stack then
-      variants[#variants + 1] = create_variant_entity(entity, { split = false, wfs = true,  fill = false })
-      variants[#variants + 1] = create_variant_entity(entity, { split = true,  wfs = true,  fill = false })
-      variants[#variants + 1] = create_variant_entity(entity, { split = false, wfs = true,  fill = true  })
-      variants[#variants + 1] = create_variant_entity(entity, { split = true,  wfs = true,  fill = true  })
+      variants[#variants + 1] = create_variant_entity(entity, { split = false, wfs = true,  fill = false }, core_desc, can_stack)
+      variants[#variants + 1] = create_variant_entity(entity, { split = true,  wfs = true,  fill = false }, core_desc, can_stack)
+      variants[#variants + 1] = create_variant_entity(entity, { split = false, wfs = true,  fill = true  }, core_desc, can_stack)
+      variants[#variants + 1] = create_variant_entity(entity, { split = true,  wfs = true,  fill = true  }, core_desc, can_stack)
     end
     data:extend(variants)
+  else
+    data:extend{entity}
   end
 
   if template.upgrade_from_tier then
