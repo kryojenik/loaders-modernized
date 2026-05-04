@@ -70,6 +70,7 @@ constants.SETTINGS = {
   DEFAULT_RESPECT_INSERT_LIMITS = "mdrn-default-respect-insert-limits",
   DEFAULT_WAIT_FOR_FULL_STACK   = "mdrn-default-wait-for-full-stack",
   CHUTE_DIRECTION               = "mdrn-chute-direction",
+  AAI_FAST_REPLACE              = "mdrn-aai-fast-replace",
 }
 
 -- ─── Setting value enums ──────────────────────────────────────────────────────

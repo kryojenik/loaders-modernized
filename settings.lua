@@ -74,6 +74,13 @@ if mods["aai-loaders"] then
       setting_type = "startup",
       default_value = true,
     },
+    {
+      type = "bool-setting",
+      name = "mdrn-aai-fast-replace",
+      order = "sxa",
+      setting_type = "startup",
+      default_value = false,
+    },
   })
 end
 

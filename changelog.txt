@@ -4,8 +4,12 @@ Date: ????
   Changes:
     - Changed entity names by removing (Split), (Stack wait), and (Fill) from the name.
     - Added details to the description panel that indicate which flags are active for the selected loader.
+    - Changed the fast-replaceable group to be separate from transport belts.  This prevents replacing loaders with belts when dragging belts over a loader.
   Features:
     - Added chute mode "Basic (Limited)" This is the same as basic, but it will respect machine insert limits.
+    - Added setting to modify AAI-Loaders so they can be fast-replaceable with the loaders from this mod if you have both enabled.
+    - Integrated with Crowdin to allow for community translations.  If you would like to help translate, please join the Crowdin project and submit translations there.
+      See the mod portal page for a link to the Crowdin project.
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.2
 Date: 2026-05-01
