@@ -18,6 +18,9 @@ constants.LOADER_BASE = "loader"
 ---Anchored so it only matches our entities and not other mods that contain "mdrn-" elsewhere.
 constants.LOADER_PATTERN = "^mdrn%-"
 
+---Lua find/match pattern that identifies chute-tier loader base names (mdrn-chute-*).
+constants.CHUTE_LOADER_PATTERN = "^mdrn%-chute%-"
+
 ---Suffix appended to entity names for the split-lane variant (per_lane_filters).
 constants.SPLIT_SUFFIX = "-split"
 

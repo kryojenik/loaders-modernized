@@ -54,18 +54,18 @@ local function on_gui_opened(e)
   local name = entity.name ~= "entity-ghost" and entity.name or entity.ghost_name
   if not string.match(name, C.LOADER_PATTERN) then return end
 
-  -- Only show the panel when the base entity has at least a split variant.
-  local base    = loader.variant_base(name)
-  if not storage.variants[base .. C.SPLIT_SUFFIX] then return end
-
-  local has_wfs  = storage.variants[base .. C.WFS_SUFFIX]  ~= nil
-  local has_fill = storage.variants[base .. C.FILL_SUFFIX] ~= nil
+  local base      = loader.variant_base(name)
+  local has_split = storage.variants[base .. C.SPLIT_SUFFIX] ~= nil
+  local has_wfs   = storage.variants[base .. C.WFS_SUFFIX]   ~= nil
+  local has_fill  = storage.variants[base .. C.FILL_SUFFIX]  ~= nil
+  if not has_split and not has_wfs and not has_fill then return end
 
   local flags = loader.flags_from_entity(entity)
 
   -- Build the checkbox list dynamically.
-  local children = {
-    {
+  local children = {}
+  if has_split then
+    children[#children + 1] = {
       type    = "checkbox",
       caption = { "strings.mdrn-use-split-lanes" },
       state   = flags.split,
@@ -73,8 +73,8 @@ local function on_gui_opened(e)
       handler = {
         [defines.events.on_gui_checked_state_changed] = on_split_lane_state_changed,
       },
-    },
-  }
+    }
+  end
   if has_wfs then
     children[#children + 1] = {
       type    = "checkbox",

@@ -93,7 +93,7 @@ local version_migrations = {
         }
 
         if loader.loader_type == "output"
-        and storage.slow_loaders[base] then
+        and string.find(base, C.CHUTE_LOADER_PATTERN) then
           existing_slow_loaders = true
         end
 
@@ -150,6 +150,9 @@ local version_migrations = {
       end
       storage.migrating_from_pre2x = nil
     end
+  end,
+  ["2.0.3"] = function()
+    storage.slow_loaders = nil
   end,
 }
 

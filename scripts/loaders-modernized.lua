@@ -65,7 +65,8 @@ local function on_entity_built(e)
 
   if snapping_enabled then snapping.snap(entity) end
 
-  if storage.slow_loaders[loader_modernized.variant_base(name)]
+  local base_name = loader_modernized.variant_base(name)
+  if string.find(base_name, C.CHUTE_LOADER_PATTERN)
   and settings.startup[C.SETTINGS.CHUTE_MODE].value ~= C.CHUTE.FILTERED
   and settings.global[C.SETTINGS.CHUTE_DIRECTION].value == "input" then
     entity.loader_type = "input"
@@ -77,7 +78,7 @@ local function on_entity_built(e)
   if flags then
     loader_modernized.swap_variant(entity, flags)
     surface_data[key] = nil
-  elseif e.player_index ~= nil and loader_modernized.variant_base(name) == name then
+  elseif e.player_index ~= nil and base_name == name then
     local player = game.get_player(e.player_index)
     if not player then return end
     local from_item = false
@@ -168,7 +169,7 @@ local function on_entity_rotated(e)
 
   local name = entity.type == "entity-ghost" and entity.ghost_name or entity.name
   if string.find(name, C.LOADER_PATTERN)
-  and storage.slow_loaders[loader_modernized.variant_base(name)]
+  and string.find(loader_modernized.variant_base(name), C.CHUTE_LOADER_PATTERN)
   and settings.startup[C.SETTINGS.CHUTE_MODE].value ~= C.CHUTE.FILTERED
   and settings.global[C.SETTINGS.CHUTE_DIRECTION].value == "input" then
     entity.loader_type = "input"
@@ -229,7 +230,6 @@ end -- loader_modernized.swap_variant()
 function loader_modernized.init_storage()
   storage.players              = {}
   storage.fast_replace_variant = {}
-  storage.slow_loaders         = {}
   for i, player in pairs(game.players) do
     storage.players[i] = { name = player.name }
   end
@@ -297,16 +297,6 @@ loader_modernized.on_configuration_changed = function()
     end
   end
   storage.variants = variants
-
-  local base_speed = prototypes.entity["mdrn-loader"] and prototypes.entity["mdrn-loader"].belt_speed
-  local slow = {}
-  for k in pairs(variants) do
-    local base_name = loader_modernized.variant_base(k)
-    if base_speed and prototypes.entity[k].belt_speed < base_speed then
-      slow[base_name] = true
-    end
-  end
-  storage.slow_loaders = slow
 end -- loader_modernized.on_configuration_changed()
 
 loader_modernized.events = {

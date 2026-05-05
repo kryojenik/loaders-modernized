@@ -44,7 +44,6 @@
 ---@field players table<integer, LMPlayerData>                         Indexed by player_index.
 ---@field fast_replace_variant table<int, table<string, LMVariantFlags>>  surface_index → pos_key → flags.
 ---@field variants table<string, true>                                 All known mdrn-loader variant entity names.
----@field slow_loaders table<string, true>                             Base names of loaders slower than mdrn-loader.
 
 -- ─── Settings cache type (prototype stage only) ───────────────────────────────
 

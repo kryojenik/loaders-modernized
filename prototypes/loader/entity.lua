@@ -269,7 +269,18 @@ local function update_or_create_entity(template)
       variants[#variants + 1] = create_variant_entity(entity, { split = true,  wfs = true,  fill = true  }, core_desc, can_stack)
     end
     data:extend(variants)
+  elseif not template.below_base then
+    -- Unfiltered but normal-speed: split makes no sense without filtering;
+    -- wfs is unreachable (utils.stack returns false for filter=false).
+    local core_desc = template.localised_description or { "entity-description.common", "" }
+    ---@diagnostic disable-next-line:assign-type-mismatch
+    entity.localised_description = build_description(core_desc, { split = false, wfs = false, fill = false }, false)
+    data:extend{
+      entity,
+      create_variant_entity(entity, { split = false, wfs = false, fill = true }, core_desc, false),
+    }
   else
+    -- filter = false AND below_base = true (standard chute): base entity only.
     data:extend{entity}
   end
 
