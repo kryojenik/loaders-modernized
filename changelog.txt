@@ -2,6 +2,12 @@
 Version: 2.0.4
 Date: ????
   Changes:
+    - Change entity creation to accommodate loaders slower than the base tier that aren't our chute.  Looking at you Bob's Basic.
+    - Added warning message if using older, individual integration mods.  They've been combined into a single mod.  The game will fail to load
+      if both the combined mod and an individual is installed.
+      The individual mods will still work, but they will not receive any updates.  Please swap the out for the combined mod.
+      Loaders Modernized: Integrations
+
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.3
 Date: 2026-05-03

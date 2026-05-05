@@ -55,6 +55,19 @@ constants.VARIANT_SUFFIXES = {
 ---Belt tier prefixes in ascending order (used by data-updates and template files).
 constants.TIERS = { "", "fast-", "express-", "turbo-" }
 
+constants.DEPRECATED_ADDONS = {
+  "loaders-modernized-5dim",
+  "loaders-modernized-bobs",
+  "loaders-modernized-ev",
+  "loaders-modernized-iper",
+  "loaders-modernized-k2",
+  "loaders-modernized-py",
+  "loaders-modernized-se",
+  "loaders-modernized-ubsa",
+  "loaders-modernized-wood",
+}
+
+
 -- ─── Setting names ────────────────────────────────────────────────────────────
 
 constants.SETTINGS = {

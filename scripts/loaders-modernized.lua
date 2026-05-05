@@ -108,8 +108,11 @@ end -- on_entity_built()
 
 ---@param e EventData.on_player_joined_game
 local function on_player_joined(e)
-  storage.players[e.player_index] = storage.players[e.player_index]
-    or { name = game.get_player(e.player_index).name }
+  local player = game.get_player(e.player_index)
+  if not player then return end
+
+  storage.players[player.index] = storage.players[player.index]
+    or { name = player.name }
 end -- on_player_joined()
 
 ---@param e EventData.on_pre_entity_settings_pasted
@@ -288,6 +291,13 @@ loader_modernized.on_load = function()
 end -- loader_modernized.on_load()
 
 loader_modernized.on_configuration_changed = function()
+  -- Check for deprecated addons and warn the player if any are active.
+  for _, d in ipairs(C.DEPRECATED_ADDONS) do
+    if script.active_mods[d] then
+      game.print({"strings.mdrn-deprecated-addon-warning", d})
+    end
+  end
+
   local variants = {}
   for k in pairs(prototypes.get_entity_filtered{
     {filter = "type", type = "loader-1x1", "or"},
@@ -308,7 +318,7 @@ loader_modernized.events = {
   [defines.events.on_player_joined_game]            = on_player_joined,
   [defines.events.on_pre_build]                     = on_pre_build,
   [defines.events.on_pre_entity_settings_pasted]    = on_settings_pasted,
-  [defines.events.on_player_rotated_entity]          = on_entity_rotated,
+  [defines.events.on_player_rotated_entity]         = on_entity_rotated,
   [defines.events.on_surface_deleted]               = on_surface_deleted,
 }
 

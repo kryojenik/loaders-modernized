@@ -22,22 +22,23 @@ do use power.  So keep those power poles handy!
 
 ## Chutes
 
-This mod does add cheep chutes to the game.  The default behavior limits them to input (belt -> inventory) and completely fill machines only.
-There are settings that can be toggled to allow output, enable filtering and cause them to respect insert limits of machines.
+This mod does add cheep chutes to the game.  The default behavior limits them to input (belt -> inventory) only, and they completely (over)fill machines.
+There are settings that can be toggled to allow output, enable filtering, and cause them to respect insert limits of machines.
 
 ## Alternate belt sets supported
 
-Overhaul and belt mods can be supported directly by that mod, or by an addon mod.  Addon mods for the following are currently available and maintained by me.
+An API is available so that overhaul and belt mods can directly add loaders.
+[Loaders Modernized: Integrations](https://mods.factorio.com/mod/loaders-modernized-integrations) provides support for the following mods:
 
-- [5Dim's New Transport](https://mods.factorio.com/mod/loaders-modernized-5dim)
-- [Bob's Logistics](https://mods.factorio.com/mod/loaders-modernized-bobs)
-- [Extended Vanilla: Modular Logistics & Robotics](https://mods.factorio.com/mod/loaders-modernized-ev)
-- [Iper Belt](https://mods.factorio.com/mod/loaders-modernized-iper)
-- [Krastorio 2](https://mods.factorio.com/mod/loaders-modernized-k2)
-- [Pyanodons](https://mods.factorio.com/mod/loaders-modernized-py)
-- [Space Exploration](https://mods.factorio.com/mod/loaders-modernized-se)
-- [Ultimate Belts Space Age](https://mods.factorio.com/mod/loaders-modernized-ubsa)
-- [Wooden Logistics](https://mods.factorio.com/mod/loaders-modernized-wood)
+- Krastorio 2
+- Space Exploration
+- Bob's Logistics
+- Pyanodons
+- 5Dim's New Transport
+- Ultimate Belts Space Age
+- Extended Vanilla: Modular Logistics & Robotics
+- Iper Belt
+- Wooden Logistics
 
 ## Translations
 
