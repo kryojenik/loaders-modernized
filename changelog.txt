@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.5
-Date: ????
+Date: 2026-05-15
   Bugfixes:
     - Fix remote call to disable snapping. Correctly stores state in storage to avoid desync.
   Changes:
