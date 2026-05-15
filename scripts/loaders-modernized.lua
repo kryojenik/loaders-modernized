@@ -3,12 +3,6 @@ local snapping = require("scripts.snapping")
 
 local loader_modernized = {}
 
--- ─── Snapping API ────────────────────────────────────────────────────────────
-
--- Another mod can disable snapping by calling remote.call("loaders-modernized", "disable_snapping")
--- from its on_load and on_init handlers.
-local snapping_enabled = true
-
 -- ─── Private helpers ──────────────────────────────────────────────────────────
 
 ---Encode an entity position as a string key for the fast_replace_variant table.
@@ -63,7 +57,7 @@ local function on_entity_built(e)
   local name = entity.type == "entity-ghost" and entity.ghost_name or entity.name
   if not string.find(name, C.LOADER_PATTERN) then return end
 
-  if snapping_enabled then snapping.snap(entity) end
+  if storage.snapping_enabled then snapping.snap(entity) end
 
   local base_name = loader_modernized.variant_base(name)
   if string.find(base_name, C.CHUTE_LOADER_PATTERN)
@@ -255,40 +249,43 @@ loader_modernized.on_load = function()
   script.set_event_filter(defines.events.on_robot_built_entity,  entity_filters)
   script.set_event_filter(defines.events.script_raised_built,    entity_filters)
   script.set_event_filter(defines.events.script_raised_revive,   entity_filters)
-
-  remote.add_interface("loaders-modernized", {
-    ---Disable automatic belt-snapping for all loaders placed by this mod.
-    ---Call from your mod's on_init and on_load handlers.
-    disable_snapping = function()
-      snapping_enabled = false
-    end,
-  })
-
-  commands.add_command("mdrn-remove-wfs", {"command-help.mdrn-remove-wfs"}, function(_)
-    local wfs_names = {}
-    for name in pairs(storage.variants) do
-      if string.find(name, C.WFS_PATTERN) then
-        wfs_names[#wfs_names + 1] = name
-      end
-    end
-    if #wfs_names == 0 then return end
-
-    for _, surface in pairs(game.surfaces) do
-      local loaders = surface.find_entities_filtered{name = wfs_names}
-      local ghosts  = surface.find_entities_filtered{type = "entity-ghost", ghost_name = wfs_names}
-      for _, loader in pairs(loaders) do
-        local flags = loader_modernized.flags_from_entity(loader)
-        flags.wfs = false
-        loader_modernized.swap_variant(loader, flags)
-      end
-      for _, ghost in pairs(ghosts) do
-        local flags = loader_modernized.flags_from_entity(ghost)
-        flags.wfs = false
-        loader_modernized.swap_variant(ghost, flags)
-      end
-    end
-  end) -- mdrn-remove-wfs
 end -- loader_modernized.on_load()
+
+remote.add_interface("loaders-modernized", {
+  ---Disable automatic belt-snapping for all loaders placed by this mod.
+  ---Call from your mod's on_init and on_load handlers.
+  disable_snapping = function(from)
+    storage.snapping_enabled = false
+  end,
+  enable_snapping = function(from)
+    storage.snapping_enabled = true
+  end
+})
+
+commands.add_command("mdrn-remove-wfs", {"command-help.mdrn-remove-wfs"}, function(_)
+  local wfs_names = {}
+  for name in pairs(storage.variants) do
+    if string.find(name, C.WFS_PATTERN) then
+      wfs_names[#wfs_names + 1] = name
+    end
+  end
+  if #wfs_names == 0 then return end
+
+  for _, surface in pairs(game.surfaces) do
+    local loaders = surface.find_entities_filtered{name = wfs_names}
+    local ghosts  = surface.find_entities_filtered{type = "entity-ghost", ghost_name = wfs_names}
+    for _, loader in pairs(loaders) do
+      local flags = loader_modernized.flags_from_entity(loader)
+      flags.wfs = false
+      loader_modernized.swap_variant(loader, flags)
+    end
+    for _, ghost in pairs(ghosts) do
+      local flags = loader_modernized.flags_from_entity(ghost)
+      flags.wfs = false
+      loader_modernized.swap_variant(ghost, flags)
+    end
+  end
+end) -- mdrn-remove-wfs
 
 loader_modernized.on_configuration_changed = function()
   -- Check for deprecated addons and warn the player if any are active.
@@ -307,6 +304,7 @@ loader_modernized.on_configuration_changed = function()
     end
   end
   storage.variants = variants
+  storage.snapping_enabled = true
 end -- loader_modernized.on_configuration_changed()
 
 loader_modernized.events = {

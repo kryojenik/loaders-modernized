@@ -1,7 +1,11 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.5
 Date: ????
+  Bugfixes:
+    - Fix remote call to disable snapping. Correctly stores state in storage to avoid desync.
   Changes:
+    - Added remote.call to enable snapping if it had previously been disabled.
+
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.4
 Date: 2026-05-05
