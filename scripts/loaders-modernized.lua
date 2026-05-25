@@ -53,7 +53,10 @@ local function on_entity_built(e)
   local entity = e.entity or e.destination
   if not entity.valid then return end
 
-  -- Event filters narrow to loader types; still guard against other mods' loaders
+  -- We're only interested in our own loaders, so filter and exit early.
+  local type = entity.type == "entity-ghost" and entity.ghost_type or entity.type
+  if type ~= "loader-1x1" then return end
+
   local name = entity.type == "entity-ghost" and entity.ghost_name or entity.name
   if not string.find(name, C.LOADER_PATTERN) then return end
 
@@ -224,7 +227,7 @@ end -- loader_modernized.swap_variant()
 
 ---Initialize (or re-initialize) global storage to a clean known state.
 ---Idempotent — safe to call from on_init or a migration handler.
-function loader_modernized.init_storage()
+loader_modernized.init_storage = function()
   storage.players              = {}
   storage.fast_replace_variant = {}
   for i, player in pairs(game.players) do
@@ -237,23 +240,29 @@ loader_modernized.on_init = function()
   loader_modernized.on_configuration_changed()
 end -- loader_modernized.on_init()
 
-loader_modernized.on_load = function()
-  -- Filter entity-built events to loader types so the handler is not invoked
-  -- for every entity placed in the game (significant performance gain in large maps).
-  local entity_filters = {
-    {filter = "type", type = "loader-1x1"},
-    {filter = "ghost_type", type = "loader-1x1"},
-  }
-  script.set_event_filter(defines.events.on_built_entity,        entity_filters)
-  script.set_event_filter(defines.events.on_entity_cloned,       entity_filters)
-  script.set_event_filter(defines.events.on_robot_built_entity,  entity_filters)
-  script.set_event_filter(defines.events.script_raised_built,    entity_filters)
-  script.set_event_filter(defines.events.script_raised_revive,   entity_filters)
-end -- loader_modernized.on_load()
+loader_modernized.on_configuration_changed = function()
+  -- Check for deprecated addons and warn the player if any are active.
+  for _, d in ipairs(C.DEPRECATED_ADDONS) do
+    if script.active_mods[d] then
+      game.print({"strings.mdrn-deprecated-addon-warning", d})
+    end
+  end
+
+  local variants = {}
+  for k in pairs(prototypes.get_entity_filtered{
+    {filter = "type", type = "loader-1x1", "or"},
+  }) do
+    if string.find(k, C.LOADER_PATTERN) then  -- skip other mods' loaders
+      variants[k] = true
+    end
+  end
+  storage.variants = variants
+  storage.snapping_enabled = true
+end -- loader_modernized.on_configuration_changed()
 
 remote.add_interface("loaders-modernized", {
   ---Disable automatic belt-snapping for all loaders placed by this mod.
-  ---Call from your mod's on_init and on_load handlers.
+  ---Call from your mod's on_init and on_configuration_changed handlers.
   disable_snapping = function(from)
     storage.snapping_enabled = false
   end,
@@ -286,26 +295,6 @@ commands.add_command("mdrn-remove-wfs", {"command-help.mdrn-remove-wfs"}, functi
     end
   end
 end) -- mdrn-remove-wfs
-
-loader_modernized.on_configuration_changed = function()
-  -- Check for deprecated addons and warn the player if any are active.
-  for _, d in ipairs(C.DEPRECATED_ADDONS) do
-    if script.active_mods[d] then
-      game.print({"strings.mdrn-deprecated-addon-warning", d})
-    end
-  end
-
-  local variants = {}
-  for k in pairs(prototypes.get_entity_filtered{
-    {filter = "type", type = "loader-1x1", "or"},
-  }) do
-    if string.find(k, C.LOADER_PATTERN) then  -- skip other mods' loaders
-      variants[k] = true
-    end
-  end
-  storage.variants = variants
-  storage.snapping_enabled = true
-end -- loader_modernized.on_configuration_changed()
 
 loader_modernized.events = {
   [defines.events.on_built_entity]                  = on_entity_built,

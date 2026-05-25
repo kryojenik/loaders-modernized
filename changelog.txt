@@ -2,6 +2,9 @@
 Version: 2.0.6
 Date: ????
   Changes:
+    - Updated translations from Crowdin
+    - Updated a comment erroneously telling mod authors to call a remote interface from on_load when it should be called from on_configuration_changed.
+    - Moved filtering logic to the event handler instead of an event filter.
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.5
 Date: 2026-05-15
