@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.7
-Date: ????
+Date: 2026-05-27
   Changes:
     - The experiment to make Loaders Modernized compatible with Loader Utils has failed (so far).  Loader Utils tries to do the same thing for other loader mods that Loaders Modernized does natively.
       - Ability for loaders to enable stacking.
