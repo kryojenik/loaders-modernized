@@ -1,9 +1,20 @@
 ---------------------------------------------------------------------------------------------------
-Version: 2.0.6
+Version: 2.0.7
 Date: ????
   Changes:
+    - The experiment to make Loaders Modernized compatible with Loader Utils has failed (so far).  Loader Utils tries to do the same thing for other loader mods that Loaders Modernized does natively.
+      - Ability for loaders to enable stacking.
+      - Ability for loaders to respect machine insert limits.
+      - Ability for loaders to wait for full belt stacks before outputting.
+      - Ability for loaders to be configured for split lanes.
+      When both mods are present, they conflict spectacularly and in some cases result in multiplayer desyncs or mod crashes.
+    - Detect Loader Utilities and display an error message on startup to remove it.
+      Attempts have been made to safely migrate Loaders Modernized loaders altered by Loader Utils after its removal to comparable settings.
+      Altered loaders from other mods (if you had any) will likely need manual intervention, or replacement.
+    - Added Loader Utils migration startup setting to allow migrating loaders and maintain similar settings on the loaders.
+      Since Loader Utils forced all loaders to be stacking capable, you may need to adjust your startup settings to match that behavior.
+      If you use a different stacking setting, then those loaders will revert to non-stacking versions but keep their other settings.
     - Updated translations from Crowdin
-    - Updated a comment erroneously telling mod authors to call a remote interface from on_load when it should be called from on_configuration_changed.
     - Moved filtering logic to the event handler instead of an event filter.
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.5

@@ -2,6 +2,10 @@ local flib_migration    = require("__flib__.migration")
 local loader_modernized = require("scripts.loaders-modernized")
 local C                 = require("__loaders-modernized__.constants")
 
+---Holds e.mod_changes for the duration of on_configuration_changed so version handlers can read it.
+---@type table<string, {old_version: string?, new_version: string?}>?
+local _current_mod_changes = nil
+
 local version_migrations = {
   ["0.6.4"] = function()
     local store = storage.loader_modernized or {}
@@ -154,12 +158,140 @@ local version_migrations = {
   ["2.0.3"] = function()
     storage.slow_loaders = nil
   end,
+  ["2.0.7"] = function()
+    local lu_was_present = _current_mod_changes
+      and _current_mod_changes["loader-utils"]
+      and _current_mod_changes["loader-utils"].old_version ~= nil
+
+    if not lu_was_present then return end
+
+    if not settings.startup[C.SETTINGS.LU_MIGRATION].value then
+      game.print{"strings.mdrn-lu-removed-warn"}
+      if settings.startup[C.SETTINGS.ENABLE_STACKING].value ~= C.STACKING.ALL then
+        game.print{"strings.mdrn-lu-stacking-warn"}
+      end
+      return
+    end
+
+    local lu_prefix_combos = {
+      "lf-", "fs-", "rl-",
+      "lf-fs-", "lf-rl-", "fs-rl-",
+      "lf-fs-rl-",
+    }
+
+    local lu_names = {}
+    for variant_name, _ in pairs(storage.variants) do
+      for _, prefix in ipairs(lu_prefix_combos) do
+        lu_names[#lu_names + 1] = prefix .. variant_name
+      end
+    end
+
+    ---@param name string
+    ---@return string inner
+    ---@return boolean lf
+    ---@return boolean fs
+    ---@return boolean rl
+    local function decode_lu(name)
+      local lf = name:sub(1, 3) == "lf-"
+      if lf then name = name:sub(4) end
+      local fs = name:sub(1, 3) == "fs-"
+      if fs then name = name:sub(4) end
+      local rl = name:sub(1, 3) == "rl-"
+      if rl then name = name:sub(4) end
+      return name, lf, fs, rl
+    end -- decode_lu()
+
+    ---Inner LM suffixes are ignored; only LU prefix flags determine the target.
+    ---Falls back progressively if the ideal variant is unavailable (e.g. wfs on a non-stacking tier).
+    ---@param inner string
+    ---@param lf boolean
+    ---@param fs boolean
+    ---@param rl boolean
+    ---@return string?
+    local function resolve_target(inner, lf, fs, rl)
+      local base = loader_modernized.variant_base(inner)
+      local fill = not rl
+      local candidates = {
+        base .. (lf and C.SPLIT_SUFFIX or "") .. (fs and C.WFS_SUFFIX or "") .. (fill and C.FILL_SUFFIX or ""),
+        base .. (lf and C.SPLIT_SUFFIX or "") .. (fill and C.FILL_SUFFIX or ""),
+        base .. (fill and C.FILL_SUFFIX or ""),
+        base,
+      }
+      for _, candidate in ipairs(candidates) do
+        if storage.variants[candidate] then return candidate end
+      end
+    end -- resolve_target()
+
+    local migrated = 0
+
+    ---@param entities LuaEntity[]
+    local function migrate_entities(entities)
+      for _, entity in ipairs(entities) do
+        local is_ghost    = entity.name == "entity-ghost"
+        local entity_name = is_ghost and entity.ghost_name or entity.name
+        local inner, lf, fs, rl = decode_lu(entity_name)
+        local target = resolve_target(inner, lf, fs, rl)
+        if not target then goto continue end
+
+        local params = {
+          position                  = entity.position,
+          direction                 = entity.direction,
+          force                     = entity.force,
+          type                      = entity.loader_type,
+          quality                   = entity.quality,
+          fast_replace              = true,
+          create_build_effect_smoke = false,
+          spill                     = false,
+        }
+        if is_ghost then
+          params.name       = "entity-ghost"
+          params.inner_name = target
+        else
+          params.name = target
+        end
+        local new = entity.surface.create_entity(params)
+        if new then
+          --entity.destroy()
+          migrated = migrated + 1
+        end
+        ::continue::
+      end
+    end -- migrate_entities()
+
+    for _, surface in pairs(game.surfaces) do
+      migrate_entities(surface.find_entities_filtered{name = lu_names})
+      migrate_entities(surface.find_entities_filtered{type = "entity-ghost", ghost_name = lu_names})
+    end
+
+    if migrated > 0 then
+      game.print{"strings.mdrn-lu-migration-complete", migrated}
+    end
+
+    if settings.startup[C.SETTINGS.ENABLE_STACKING].value ~= C.STACKING.ALL then
+      game.print{"strings.mdrn-lu-stacking-warn"}
+    end
+
+    storage.lu_migration_complete = true
+  end,
 }
 
 local migrations = {}
 
 migrations.on_configuration_changed = function(e)
+  loader_modernized.update_variants()
+  _current_mod_changes = e.mod_changes
   flib_migration.on_config_changed(e, version_migrations, nil, e.migrations)
+  _current_mod_changes = nil
 end -- migrations.on_configuration_changed()
+
+migrations.on_load = function()
+  if storage.lu_migration_complete
+  and settings.startup[C.SETTINGS.LU_MIGRATION].value then
+    script.on_event(defines.events.on_tick, function()
+      script.on_event(defines.events.on_tick, nil)
+      game.print{"strings.mdrn-lu-migration-reminder"}
+    end)
+  end
+end -- migrations.on_load()
 
 return migrations

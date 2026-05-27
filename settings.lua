@@ -122,6 +122,16 @@ data:extend({
   },
 })
 
+data:extend({
+  {
+    type          = "bool-setting",
+    name          = "mdrn-lu-migration",
+    order         = "sz",
+    setting_type  = "startup",
+    default_value = false,
+  },
+})
+
   -- Legacy settings that have been replaced by global values, but we need to read them on migration to convert to the new format.
 data:extend({
   {

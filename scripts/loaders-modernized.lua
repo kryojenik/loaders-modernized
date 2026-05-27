@@ -23,29 +23,6 @@ local function flags_from_proto(proto)
   }
 end -- flags_from_proto()
 
--- ─── Public helpers ───────────────────────────────────────────────────────────
-
----Strip all known variant suffixes from `name` to recover the base entity name.
----Strips in reverse canonical order: -fill → -wfs → -split.
----@param name string
----@return string
-function loader_modernized.variant_base(name)
-  name = string.gsub(name, C.FILL_PATTERN,  "")
-  name = string.gsub(name, C.WFS_PATTERN,   "")
-  name = string.gsub(name, C.SPLIT_PATTERN, "")
-  return name
-end -- loader_modernized.variant_base()
-
----Read current variant flags from an entity (or entity-ghost) prototype.
----@param entity LuaEntity
----@return LMVariantFlags
-function loader_modernized.flags_from_entity(entity)
-  local proto = entity.name == "entity-ghost"
-    and entity.ghost_prototype --[[@as LuaEntityPrototype]]
-    or entity.prototype
-  return flags_from_proto(proto)
-end -- loader_modernized.flags_from_entity()
-
 -- ─── Event handlers ───────────────────────────────────────────────────────────
 
 ---@param e BuiltEvent
@@ -181,7 +158,28 @@ local function on_surface_deleted(e)
   storage.fast_replace_variant[e.surface_index] = nil
 end -- on_surface_deleted()
 
--- ─── Public API ───────────────────────────────────────────────────────────────
+-- ─── Public helpers ───────────────────────────────────────────────────────────
+
+---Strip all known variant suffixes from `name` to recover the base entity name.
+---Strips in reverse canonical order: -fill → -wfs → -split.
+---@param name string
+---@return string
+function loader_modernized.variant_base(name)
+  name = string.gsub(name, C.FILL_PATTERN,  "")
+  name = string.gsub(name, C.WFS_PATTERN,   "")
+  name = string.gsub(name, C.SPLIT_PATTERN, "")
+  return name
+end -- loader_modernized.variant_base()
+
+---Read current variant flags from an entity (or entity-ghost) prototype.
+---@param entity LuaEntity
+---@return LMVariantFlags
+function loader_modernized.flags_from_entity(entity)
+  local proto = entity.name == "entity-ghost"
+    and entity.ghost_prototype --[[@as LuaEntityPrototype]]
+    or entity.prototype
+  return flags_from_proto(proto)
+end -- loader_modernized.flags_from_entity()
 
 ---Replace entity with the variant described by `flags`, preserving quality and direction.
 ---@param old LuaEntity
@@ -204,15 +202,15 @@ loader_modernized.swap_variant = function(old, flags, player_index)
 
   local player = player_index and game.get_player(player_index) or nil
   local params = {
-    name                    = new_name,
-    fast_replace            = true,
+    name                      = new_name,
+    position                  = old.position,
+    direction                 = old.direction,
+    force                     = old.force,
+    type                      = old.loader_type,
+    quality                   = old.quality,
+    fast_replace              = true,
     create_build_effect_smoke = false,
-    position                = old.position,
-    direction               = old.direction,
-    force                   = old.force,
-    type                    = old.loader_type,
-    quality                 = old.quality,
-    spill                   = false,
+    spill                     = false,
   }
   if old.name == "entity-ghost" then
     params.name       = "entity-ghost"
@@ -224,6 +222,20 @@ loader_modernized.swap_variant = function(old, flags, player_index)
   new_entity.last_user = player
   return new_entity
 end -- loader_modernized.swap_variant()
+
+loader_modernized.update_variants = function()
+  local variants = {}
+  for k in pairs(prototypes.get_entity_filtered{
+    {filter = "type", type = "loader-1x1", "or"},
+  }) do
+    if string.find(k, C.LOADER_PATTERN) then  -- skip other mods' loaders
+      variants[k] = true
+    end
+  end
+  storage.variants = variants
+end -- loader_modernized.update_variants()
+
+-- ─── Public API ───────────────────────────────────────────────────────────────
 
 ---Initialize (or re-initialize) global storage to a clean known state.
 ---Idempotent — safe to call from on_init or a migration handler.
@@ -248,17 +260,22 @@ loader_modernized.on_configuration_changed = function()
     end
   end
 
-  local variants = {}
-  for k in pairs(prototypes.get_entity_filtered{
-    {filter = "type", type = "loader-1x1", "or"},
-  }) do
-    if string.find(k, C.LOADER_PATTERN) then  -- skip other mods' loaders
-      variants[k] = true
-    end
-  end
-  storage.variants = variants
+  loader_modernized.update_variants()
   storage.snapping_enabled = true
 end -- loader_modernized.on_configuration_changed()
+
+loader_modernized.events = {
+  [defines.events.on_built_entity]                  = on_entity_built,
+  [defines.events.on_entity_cloned]                 = on_entity_built,
+  [defines.events.on_robot_built_entity]            = on_entity_built,
+  [defines.events.script_raised_built]              = on_entity_built,
+  [defines.events.script_raised_revive]             = on_entity_built,
+  [defines.events.on_player_joined_game]            = on_player_joined,
+  [defines.events.on_pre_build]                     = on_pre_build,
+  [defines.events.on_pre_entity_settings_pasted]    = on_settings_pasted,
+  [defines.events.on_player_rotated_entity]         = on_entity_rotated,
+  [defines.events.on_surface_deleted]               = on_surface_deleted,
+}
 
 remote.add_interface("loaders-modernized", {
   ---Disable automatic belt-snapping for all loaders placed by this mod.
@@ -295,18 +312,5 @@ commands.add_command("mdrn-remove-wfs", {"command-help.mdrn-remove-wfs"}, functi
     end
   end
 end) -- mdrn-remove-wfs
-
-loader_modernized.events = {
-  [defines.events.on_built_entity]                  = on_entity_built,
-  [defines.events.on_entity_cloned]                 = on_entity_built,
-  [defines.events.on_robot_built_entity]            = on_entity_built,
-  [defines.events.script_raised_built]              = on_entity_built,
-  [defines.events.script_raised_revive]             = on_entity_built,
-  [defines.events.on_player_joined_game]            = on_player_joined,
-  [defines.events.on_pre_build]                     = on_pre_build,
-  [defines.events.on_pre_entity_settings_pasted]    = on_settings_pasted,
-  [defines.events.on_player_rotated_entity]         = on_entity_rotated,
-  [defines.events.on_surface_deleted]               = on_surface_deleted,
-}
 
 return loader_modernized

@@ -71,22 +71,23 @@ constants.DEPRECATED_ADDONS = {
 -- ─── Setting names ────────────────────────────────────────────────────────────
 
 constants.SETTINGS = {
-  USE_ELECTRICITY       = "mdrn-use-electricity",
-  OPLP                  = "mdrn-oplp",
-  CHUTE_MODE            = "mdrn-chute-mode",
-  DOUBLE_RECIPE         = "mdrn-double-recipe",
-  UNLOCK_TECHNOLOGY     = "mdrn-unlock-technology",
-  EMBIGGEN_ASSEMBLERS   = "mdrn-embiggen-assemblers",
-  ENABLE_STACKING       = "mdrn-enable-stacking",
-  CHEAP_STACKING        = "mdrn-cheap-stacking",
-  USE_AAI_GRAPHICS      = "mdrn-use-aai-graphics",
-  USE_AAI_RECIPES       = "mdrn-use-aai-recipes",
+  USE_ELECTRICITY               = "mdrn-use-electricity",
+  OPLP                          = "mdrn-oplp",
+  CHUTE_MODE                    = "mdrn-chute-mode",
+  DOUBLE_RECIPE                 = "mdrn-double-recipe",
+  UNLOCK_TECHNOLOGY             = "mdrn-unlock-technology",
+  EMBIGGEN_ASSEMBLERS           = "mdrn-embiggen-assemblers",
+  ENABLE_STACKING               = "mdrn-enable-stacking",
+  CHEAP_STACKING                = "mdrn-cheap-stacking",
+  USE_AAI_GRAPHICS              = "mdrn-use-aai-graphics",
+  USE_AAI_RECIPES               = "mdrn-use-aai-recipes",
   RESPECT_INSERT_LIMITS         = "mdrn-respect-insert-limits",
   WAIT_FOR_FULL_STACK           = "mdrn-wait-for-full-stack",
   DEFAULT_RESPECT_INSERT_LIMITS = "mdrn-default-respect-insert-limits",
   DEFAULT_WAIT_FOR_FULL_STACK   = "mdrn-default-wait-for-full-stack",
   CHUTE_DIRECTION               = "mdrn-chute-direction",
   AAI_FAST_REPLACE              = "mdrn-aai-fast-replace",
+  LU_MIGRATION                  = "mdrn-lu-migration",
 }
 
 -- ─── Setting value enums ──────────────────────────────────────────────────────

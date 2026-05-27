@@ -14,6 +14,7 @@ cfg.unlock_technology   = ss[S.UNLOCK_TECHNOLOGY].value   --[[@as LMUnlockMode]]
 cfg.embiggen_assemblers = ss[S.EMBIGGEN_ASSEMBLERS].value --[[@as LMEmbiggenMode]]
 cfg.stacking            = ss[S.ENABLE_STACKING].value     --[[@as LMStackingMode]]
 cfg.cheap_stacking      = ss[S.CHEAP_STACKING].value      --[[@as boolean]]
+cfg.lu_migration        = ss[S.LU_MIGRATION].value        --[[@as boolean]]
 
 -- Optional settings only present when their source mod is loaded
 cfg.use_aai_graphics = (ss[S.USE_AAI_GRAPHICS] and ss[S.USE_AAI_GRAPHICS].value) --[[@as boolean]] or false
