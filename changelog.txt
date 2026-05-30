@@ -1,7 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.8
 Date: ????
-  Changes:
+  Bugfixes:
+    - Fix multiplayer bug preventing players joining a game if they Loader Utils migration setting was still enabled.
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.7
 Date: 2026-05-27

@@ -44,6 +44,7 @@
 ---@field players table<integer, LMPlayerData>                         Indexed by player_index.
 ---@field fast_replace_variant table<int, table<string, LMVariantFlags>>  surface_index → pos_key → flags.
 ---@field variants table<string, true>                                 All known mdrn-loader variant entity names.
+---@field lu_migration_complete? boolean                               Set when the loader-utils entity migration has run; nil'd after the first reminder fires.
 
 -- ─── Settings cache type (prototype stage only) ───────────────────────────────
 
@@ -64,6 +65,7 @@
 ---@field has_aai_loaders boolean
 ---@field has_aai_industry boolean
 ---@field has_stack_inserters boolean
+---@field lu_migration boolean
 
 -- ─── Loader template ──────────────────────────────────────────────────────────
 

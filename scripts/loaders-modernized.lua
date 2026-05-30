@@ -264,19 +264,6 @@ loader_modernized.on_configuration_changed = function()
   storage.snapping_enabled = true
 end -- loader_modernized.on_configuration_changed()
 
-loader_modernized.events = {
-  [defines.events.on_built_entity]                  = on_entity_built,
-  [defines.events.on_entity_cloned]                 = on_entity_built,
-  [defines.events.on_robot_built_entity]            = on_entity_built,
-  [defines.events.script_raised_built]              = on_entity_built,
-  [defines.events.script_raised_revive]             = on_entity_built,
-  [defines.events.on_player_joined_game]            = on_player_joined,
-  [defines.events.on_pre_build]                     = on_pre_build,
-  [defines.events.on_pre_entity_settings_pasted]    = on_settings_pasted,
-  [defines.events.on_player_rotated_entity]         = on_entity_rotated,
-  [defines.events.on_surface_deleted]               = on_surface_deleted,
-}
-
 remote.add_interface("loaders-modernized", {
   ---Disable automatic belt-snapping for all loaders placed by this mod.
   ---Call from your mod's on_init and on_configuration_changed handlers.
@@ -312,5 +299,18 @@ commands.add_command("mdrn-remove-wfs", {"command-help.mdrn-remove-wfs"}, functi
     end
   end
 end) -- mdrn-remove-wfs
+
+loader_modernized.events = {
+  [defines.events.on_built_entity]                  = on_entity_built,
+  [defines.events.on_entity_cloned]                 = on_entity_built,
+  [defines.events.on_robot_built_entity]            = on_entity_built,
+  [defines.events.script_raised_built]              = on_entity_built,
+  [defines.events.script_raised_revive]             = on_entity_built,
+  [defines.events.on_player_joined_game]            = on_player_joined,
+  [defines.events.on_pre_build]                     = on_pre_build,
+  [defines.events.on_pre_entity_settings_pasted]    = on_settings_pasted,
+  [defines.events.on_player_rotated_entity]         = on_entity_rotated,
+  [defines.events.on_surface_deleted]               = on_surface_deleted,
+}
 
 return loader_modernized

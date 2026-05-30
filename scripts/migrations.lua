@@ -5,6 +5,7 @@ local C                 = require("__loaders-modernized__.constants")
 ---Holds e.mod_changes for the duration of on_configuration_changed so version handlers can read it.
 ---@type table<string, {old_version: string?, new_version: string?}>?
 local _current_mod_changes = nil
+local _just_migrated = false
 
 local version_migrations = {
   ["0.6.4"] = function()
@@ -140,14 +141,14 @@ local version_migrations = {
       for _, surface in pairs(game.surfaces) do
         for _, loader in pairs(surface.find_entities_filtered{name = loader_names}) do
           if string.find(loader.name, "%-wfs") then
-            game.print { 'strings.mdrn-wfs-warning' }
+            game.print{"strings.mdrn-wfs-warning"}
             return
           end
         end
 
         for _, ghost in pairs(surface.find_entities_filtered{type = "entity-ghost", ghost_name = loader_names}) do
           if string.find(ghost.ghost_name, "%-wfs") then
-            game.print { 'strings.mdrn-wfs-warning' }
+            game.print{"strings.mdrn-wfs-warning"}
             return
           end
         end
@@ -251,7 +252,6 @@ local version_migrations = {
         end
         local new = entity.surface.create_entity(params)
         if new then
-          --entity.destroy()
           migrated = migrated + 1
         end
         ::continue::
@@ -263,15 +263,13 @@ local version_migrations = {
       migrate_entities(surface.find_entities_filtered{type = "entity-ghost", ghost_name = lu_names})
     end
 
-    if migrated > 0 then
-      game.print{"strings.mdrn-lu-migration-complete", migrated}
-    end
-
     if settings.startup[C.SETTINGS.ENABLE_STACKING].value ~= C.STACKING.ALL then
       game.print{"strings.mdrn-lu-stacking-warn"}
     end
 
+    game.print{"strings.mdrn-lu-migration-complete", migrated}
     storage.lu_migration_complete = true
+    _just_migrated = true
   end,
 }
 
@@ -279,19 +277,16 @@ local migrations = {}
 
 migrations.on_configuration_changed = function(e)
   loader_modernized.update_variants()
+  -- Set an upvalue so handlers see which mods were added or removed.
   _current_mod_changes = e.mod_changes
   flib_migration.on_config_changed(e, version_migrations, nil, e.migrations)
   _current_mod_changes = nil
-end -- migrations.on_configuration_changed()
 
-migrations.on_load = function()
-  if storage.lu_migration_complete
-  and settings.startup[C.SETTINGS.LU_MIGRATION].value then
-    script.on_event(defines.events.on_tick, function()
-      script.on_event(defines.events.on_tick, nil)
-      game.print{"strings.mdrn-lu-migration-reminder"}
-    end)
+  if not _just_migrated
+    and settings.startup[C.SETTINGS.LU_MIGRATION].value
+    and storage.lu_migration_complete then
+   game.print{"strings.mdrn-lu-migration-reminder"}
   end
-end -- migrations.on_load()
+end -- migrations.on_configuration_changed()
 
 return migrations

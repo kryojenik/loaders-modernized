@@ -44,7 +44,7 @@ end
 local aai_fr = settings.startup[C.SETTINGS.AAI_FAST_REPLACE]
 if cfg.has_aai_loaders and aai_fr and aai_fr.value then
   for _, entity in pairs(data.raw["loader-1x1"]) do
-    if entity.name:match("^aai%-") then
+    if string.match(entity.name, "^aai%-") then
       entity.fast_replaceable_group = "mdrn-loader"
     end
   end
