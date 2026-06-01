@@ -1,7 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.9
 Date: ????
-  Changes:
+  Bugfixes:
+    - Fix issue with technology research not getting updated if by later change in the prereq tree. #40
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.8
 Date: 2026-05-31

@@ -95,7 +95,14 @@ local function update_or_create_technology(template)
 
     tech.order = template.order or tech.order
     tech.prerequisites = template.prerequisite_techs or tech.prerequisites
-    tech.unit = template.unit or tech.unit
+    if template.unit then
+      tech.unit = template.unit
+    elseif template.prerequisite_techs then
+      local new_first_prereq = data.raw["technology"][template.prerequisite_techs[1]]
+      if new_first_prereq then
+        tech.unit = util.table.deepcopy(new_first_prereq.unit)
+      end
+    end
   end
 
   data:extend{tech}
