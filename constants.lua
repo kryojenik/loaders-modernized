@@ -4,6 +4,8 @@
 ---Safe to require in both prototype (data) stage and runtime (control) stage.
 local constants = {}
 
+-- ─── Mod name ─────────────────────────────────────────────────────────────
+constants.MOD_NAME= "loaders-modernized"
 -- ─── Entity names ─────────────────────────────────────────────────────────────
 
 ---Always-first mod prefix for all loader entity/item/recipe names.

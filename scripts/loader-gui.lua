@@ -47,8 +47,8 @@ local function on_gui_opened(e)
   local player = game.get_player(e.player_index)
   if not player then return end
 
-  if player.gui.relative.split_lane then
-    player.gui.relative.split_lane.destroy()
+  if player.gui.relative.LM_variant_flags then
+    player.gui.relative.LM_variant_flags.destroy()
   end
 
   local name = entity.name ~= "entity-ghost" and entity.name or entity.ghost_name
@@ -104,7 +104,7 @@ local function on_gui_opened(e)
     entity = entity,
     gui    = flib_gui.add(player.gui.relative, {
       type      = "frame",
-      name      = "split_lane",
+      name      = "LM_variant_flags",
       direction = "vertical",
       anchor    = {
         gui      = defines.relative_gui_type.loader_gui,

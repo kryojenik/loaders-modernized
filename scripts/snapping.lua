@@ -1,6 +1,6 @@
 local flib_direction = require("__flib__.direction")
 local flib_position = require("__flib__.position")
-local flib_table = require("__flib__.table")
+local flib_array = require("__flib__.array")
 
 local snapping = {}
 
@@ -24,7 +24,7 @@ snapping.belt_connectable_types = {
 ---Copy is required so that appending "corpse" does not mutate the exported
 ---belt_connectable_types array, which callers use as event filter lists.
 ---@type string[]
-local belts_and_corpses = flib_table.array_copy(snapping.belt_connectable_types)
+local belts_and_corpses = flib_array.shallow_copy(snapping.belt_connectable_types)
 belts_and_corpses[#belts_and_corpses + 1] = "corpse"
 
 -- ─── Private helpers ──────────────────────────────────────────────────────────
@@ -40,8 +40,8 @@ local function loader_facing(entity)
   end
   local back_dir = flib_direction.opposite(front_dir)
   return
-    flib_position.add(entity.position, flib_direction.to_vector(front_dir)),
-    flib_position.add(entity.position, flib_direction.to_vector(back_dir))
+    flib_position.add(entity.position, flib_position.from_direction(front_dir, 1)),
+    flib_position.add(entity.position, flib_position.from_direction(back_dir, 1))
 end -- loader_facing()
 
 ---Search one tile position for a belt-connectable entity (real or ghost).

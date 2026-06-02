@@ -1,10 +1,6 @@
-local flib_migration    = require("__flib__.migration")
 local loader_modernized = require("scripts.loaders-modernized")
 local C                 = require("__loaders-modernized__.constants")
 
----Holds e.mod_changes for the duration of on_configuration_changed so version handlers can read it.
----@type table<string, {old_version: string?, new_version: string?}>?
-local _current_mod_changes = nil
 local _just_migrated = false
 
 local version_migrations = {
@@ -117,9 +113,9 @@ local version_migrations = {
       game.print{"strings.mdrn-chute-direction-change"}
     end
   end,
-  ["2.0.1"] = function(migrations)
+  ["2.0.1"] = function(e)
     local removed_loader = false
-    for old, new in pairs(migrations.entity) do
+    for old, new in pairs(e.migrations.entity) do
       if string.find(old,"mdrn%-loader")
         and not string.find(old, "^factory%-linked")
         and not string.find(old, "projectile$")
@@ -131,7 +127,7 @@ local version_migrations = {
       game.print{"strings.mdrn-compatibility-removed-2"}
     end
   end,
-  ["2.0.2"] = function(migrations)
+  ["2.0.2"] = function()
     if not storage.migrating_from_pre2x then
       -- We were too aggressive making stack loaders wfs in 2.0.0.  Warn players about the change and how to fix it if they want to.
       local loader_names = {}
@@ -162,10 +158,10 @@ local version_migrations = {
   ["2.0.3"] = function()
     storage.slow_loaders = nil
   end,
-  ["2.0.7"] = function()
-    local lu_was_present = _current_mod_changes
-      and _current_mod_changes["loader-utils"]
-      and _current_mod_changes["loader-utils"].old_version ~= nil
+  ["2.0.7"] = function(e)
+    local lu_was_present = e.mod_changes
+      and e.mod_changes["loader-utils"]
+      and e.mod_changes["loader-utils"].old_version ~= nil
 
     if not lu_was_present then return end
 
@@ -280,15 +276,22 @@ local migrations = {}
 
 migrations.on_configuration_changed = function(e)
   loader_modernized.update_variants()
-  -- Set an upvalue so handlers see which mods were added or removed.
-  _current_mod_changes = e.mod_changes
-  flib_migration.on_config_changed(e, version_migrations, nil, e.migrations)
-  _current_mod_changes = nil
+  local changes = e.mod_changes[C.MOD_NAME]
+  local old_version = changes and changes.old_version
+  if old_version then
+    local migrate = false
+    for version, func in pairs(version_migrations) do
+      if migrate or helpers.compare_versions(version, old_version) > 0 then
+        migrate = true
+        func(e)
+      end
+    end
+  end
 
   if not _just_migrated
     and settings.startup[C.SETTINGS.LU_MIGRATION].value
     and storage.lu_migration_complete then
-   game.print{"strings.mdrn-lu-migration-reminder"}
+    game.print{"strings.mdrn-lu-migration-reminder"}
   end
 end -- migrations.on_configuration_changed()
 
