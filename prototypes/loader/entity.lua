@@ -2,7 +2,7 @@ local utils = require("__loaders-modernized__.scripts.utils")
 local C     = require("__loaders-modernized__.constants")
 local cfg   = require("__loaders-modernized__.prototypes.settings-cache")
 local hit_effects         = require("__base__.prototypes.entity.hit-effects")
-local max_belt_stack_size = data.raw["utility-constants"].default.max_belt_stack_size
+local max_belt_stack_size = feature_flags.space_travel and 255 or 1
 local math  = require("__flib__.math")
 
 local prismatic_api = nil

@@ -94,7 +94,7 @@ and data.raw["inserter"]["stack-inserter"] then
     tint = util.color("f5f5f5d1"),
     underground_name = "turbo-underground-belt",
     prerequisite_techs = { "stack-inserter", fast_loader_tech },
-    max_belt_stack_size = data.raw["utility-constants"].default.max_belt_stack_size,
+    max_belt_stack_size = 255,
     recipe_data = {
       ingredients = {
         { type = "item", name = "processing-unit", amount = 1 },
