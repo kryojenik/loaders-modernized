@@ -7,11 +7,11 @@
     "contact": "https://github.com/kryojenik/loaders-modernized",
     "homepage": "https://github.com/kryojenik/loaders-modernized",
     "source": "https://github.com/kryojenik/loaders-modernized",
-    "factorio_version": "2.0",
+    "factorio_version": "2.1",
     "dependencies": [
-        "base >= 2.0.65",
-        "flib >= 0.16.2",
-        "? space-age >= 2.0.65",
+        "base >= 2.1.0",
+        "flib >= 0.17.0",
+        "? space-age >= 2.1.0",
         "(?) stack-inserters",
         "(?) SchallBeltConfiguration"
     ],
