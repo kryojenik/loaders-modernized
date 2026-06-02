@@ -79,9 +79,11 @@ local function get_cursor_upgrade_planner(player)
 
   while stack.is_blueprint_book and stack.active_index do
     local inv = stack.get_inventory(defines.inventory.item_main)
-    if inv then
-      stack = inv[stack.active_index]
+    if not inv or stack.active_index > #inv then
+      return nil
     end
+
+    stack = inv[stack.active_index]
   end
 
   return stack.is_upgrade_item and stack or nil
@@ -94,8 +96,8 @@ end -- get_cursor_upgrade_planner()
 ---@param fn fun(i: integer, from: UpgradeMapperSource, to: UpgradeMapperDestination)
 local function for_base_loader_pairs(planner, fn)
   for i = 1, planner.mapper_count do
-    local from = planner.get_mapper(i, "from")
-    local to   = planner.get_mapper(i, "to")
+    local from = planner.get_mapper(i, "from") --[[@as UpgradeMapperSource]]
+    local to   = planner.get_mapper(i, "to") --[[@as UpgradeMapperDestination]]
     if from and from.name and to and to.name
     and from.type == "entity" and to.type == "entity"
     and is_base_mdrn_loader(from.name)

@@ -1,7 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.10
 Date: ????
-  Changes:
+  Bugfixes:
+    - Fix issue with impossible blueprints.  Factorio will lie an tell the API that the active blueprint in a blueprint book is something that doesn't exist.  Apparently this is not a bug.
+      https://forums.factorio.com/viewtopic.php?p=693175#p693175
+    - Fix Stacking not appropriately scaling with some mods that increase this value.  Loaders Modernized should now scale to the max allowed by the game engine.
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.9
 Date: 2026-06-01
