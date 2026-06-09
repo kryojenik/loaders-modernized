@@ -120,7 +120,10 @@ local version_migrations = {
   ["2.0.1"] = function(migrations)
     local removed_loader = false
     for old, new in pairs(migrations.entity) do
-      if string.find(old,"mdrn%-loader") and new == "" then
+      if string.find(old,"mdrn%-loader")
+        and not string.find(old, "^factory%-linked")
+        and not string.find(old, "projectile$")
+        and new == "" then
         removed_loader = true
       end
     end
