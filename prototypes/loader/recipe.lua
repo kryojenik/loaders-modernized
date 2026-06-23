@@ -21,12 +21,12 @@ local function update_or_create_recipe(template)
       enabled = false,
       energy_required = 1,
       results = {{type = "item", name = template.name, amount = 1}},
-      category = data.raw["recipe"][template.underground_name].category
+      categories = data.raw["recipe"][template.underground_name].categories
     }
   end
 
   recipe.energy_required = rd.energy_required or recipe.energy_required
-  recipe.category = rd.category or recipe.category
+  recipe.categories = rd.categories or recipe.categories
   recipe.results = rd.results or recipe.results
 
   if not (rd.enabled == nil) then

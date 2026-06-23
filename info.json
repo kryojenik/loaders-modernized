@@ -1,6 +1,6 @@
 {
     "name": "loaders-modernized",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "title": "Loaders Modernized",
     "description": "Compact 1x1 loader requiring electricity to run.  There are options to enable or modify capabilities like stacking, disable power consumption, or recipe cost.",
     "author": "kryojenik",
@@ -9,14 +9,14 @@
     "source": "https://github.com/kryojenik/loaders-modernized",
     "factorio_version": "2.1",
     "dependencies": [
-        "base >= 2.1.0",
+        "base >= 2.1.7",
         "flib >= 0.17.0",
         "? space-age >= 2.1.0",
         "(?) stack-inserters",
         "(?) SchallBeltConfiguration"
     ],
     "package": {
-        "git_publish_branch": "main",
+        "git_publish_branch": "Factorio-2.1",
         "ignore": [
             "types.lua",
             "screenshots/*",

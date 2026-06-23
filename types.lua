@@ -108,5 +108,5 @@
 ---@field stack_ingredients? data.IngredientPrototype[]   Alternate ingredient list when belt stacking is active.
 ---@field results? Product[]
 ---@field energy_required? double
----@field category? string
+---@field categories? data.RecipeCategoryID[]
 ---@field enabled? boolean
