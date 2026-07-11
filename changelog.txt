@@ -1,7 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.12
 Date: ????
+  Bugfixes:
+    - Fix migrating Loaders Modernized from pre-2.0.0 to 2.0.0+ and some surfaces have been removed.  This can happen if you have a mod that creates surfaces and removes them - like Warptorio.
   Changes:
+    - Standard (yellow) loader tech now has Steel Processing as a prerequisite since it requires steel in the recipe.
 ---------------------------------------------------------------------------------------------------
 Version: 2.0.11
 Date: 2026-06-09

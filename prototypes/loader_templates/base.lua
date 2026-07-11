@@ -7,7 +7,7 @@ local loaders = {
     next_upgrade = "mdrn-fast-loader",
     order = "01",
     tint = util.color("ffd955d1"),
-    prerequisite_techs = { "logistics" },
+    prerequisite_techs = { "logistics", "steel-processing" },
     recipe_data = {
       ingredients = {
         { type = "item", name = "underground-belt", amount = 1 },
