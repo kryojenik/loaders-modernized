@@ -65,13 +65,20 @@ local version_migrations = {
       local frs = storage.fast_replace_split
       local frv = {}
       for surface_key, surface_data in pairs(frs) do
-        local surface_index = game.get_surface(surface_key).index
+        local surface = game.get_surface(surface_key)
+        if not surface then
+          goto continue
+        end
+
         local new_surface_data = {}
         for loader_key, _ in pairs(surface_data) do
           new_surface_data[loader_key] = { split = true, wfs = had_wfs, fill = had_fill }
         end
-        frv[surface_index] = new_surface_data
+        frv[surface.index] = new_surface_data
+
+        ::continue::
       end
+
       storage.fast_replace_variant = frv
       storage.fast_replace_split   = nil
     end
