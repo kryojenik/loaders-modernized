@@ -20,6 +20,30 @@ do use power.  So keep those power poles handy!
 - Stacked loaders can be used without Space Age!  This requires the use of the [Stack Inserters](https://mods.factorio.com/mod/stack-inserters) mod.
 - Factorio 1.x maps with a [Miniloaders](https://mods.factorio.com/mod/miniloader) can be migrated using a companion mod. - [Miniloader migration](https://mods.factorio.com/mod/miniloader-migration).
 
+## Upgrade Planner
+
+The upgrade planner has some idiosyncrasies. Unlike the deconstruction planner, there is not a way to collapse multiple entities into one.  The different capabilities of the loader (overfill slots, wait for full stack, and split lanes) cannot be turned on / off for a loader while the game is running.  Separate entities need to be swapped in that have the desired combination of settings defined while Factorio is loading.  This results in the upgrade planner being a mess.  At each tier there are n^2 loader (where n is the number of switchable properties) to choose from.  The base loader and then loaders with icons indicating which features are enabled.
+
+![Lots of loaders](https://i.imgur.com/EZN8fom.png)  
+![Split Lanes](https://i.imgur.com/ZuP6iWJ.png) Split lanes  
+![Over fill](https://i.imgur.com/zPvUe6t.png) Overfill  
+![Belt Stacking](https://i.imgur.com/hPZOoyA.png) Wait for full stack  
+
+There are two ways to handle upgrade planners for Loaders Modernized.
+
+- Manually choose each of the loader variants and their upgrade path.
+- Use the upgrade planner tool that pops up when holding a planner with Loaders Modernized within.
+***Note:*** The planner must be in the players inventory, or the game blueprint library.  It will not work for planners that are in the players blueprint library.
+
+### To use the upgrade planner tool
+
+1. Create an upgrade planner that has the upgrade path defined for the base loader (no icons listed above) in any given tier.  
+![Initial Planner](https://i.imgur.com/TvAfEI3.png)
+2. Pick up the planner onto your cursor and notice the upgrade planner tool on the left of your screen.  
+![Planner Tool](https://i.imgur.com/nOvGgKm.png)
+3. Click on the green (left) button to all loader upgrade variants that match the base upgrade definition.  Click the red button to remove the upgrade variant mappings and leave the base mapping.  
+![Populated Planner](https://i.imgur.com/B2bpMlj.png)
+
 ## Chutes
 
 This mod does add cheep chutes to the game.  The default behavior limits them to input (belt -> inventory) only, and they completely (over)fill machines.
