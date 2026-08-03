@@ -5,10 +5,10 @@ local hit_effects         = require("__base__.prototypes.entity.hit-effects")
 local max_belt_stack_size = feature_flags.space_travel and 255 or 1
 local math  = require("__flib__.math")
 
-local prismatic_api = nil
-if cfg.has_prismatic_belts then
-  prismatic_api = require("__prismatic-belts__.prototypes.api")
-end
+--local prismatic_api = nil
+--if cfg.has_prismatic_belts then
+--  prismatic_api = require("__prismatic-belts__.prototypes.api")
+--end
 
 ---@param core_desc LocalisedString
 ---@param flags LMVariantFlags
@@ -191,17 +191,17 @@ local function update_or_create_entity(template)
     entity.selection_box = ug_entity.selection_box
     entity.resistances = ug_entity.resistances
     entity.dying_explosion = ug_entity.dying_explosion or "underground-belt-explosion"
-    if cfg.has_prismatic_belts and prismatic_api then
-      entity.belt_animation_set = prismatic_api.get_transport_belt_animation_set(
-        {
-          mask_tint = template.tint,
-          tint_mask_as_overlay = true,
-          variant  = math.clamp((60 * 8 * entity.speed) / 15, 1, 3)
-        }
-      )
-    else
+    --if cfg.has_prismatic_belts and prismatic_api then
+    --  entity.belt_animation_set = prismatic_api.get_transport_belt_animation_set(
+    --    {
+    --      mask_tint = template.tint,
+    --      tint_mask_as_overlay = true,
+    --      variant  = math.clamp((60 * 8 * entity.speed) / 15, 1, 3)
+    --    }
+    --  )
+    --else
       entity.belt_animation_set = ug_entity.belt_animation_set
-    end
+    --end
   end
 
   -- Stacking
