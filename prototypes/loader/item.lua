@@ -13,7 +13,7 @@ data:extend{
 ---Create the Item prototypes
 ---@param template LMLoaderTemplate Template for loader tier
 local function update_or_create_item(template)
-  ---@type data.ItemPrototype
+  ---@type ItemPrototype
   local item = data.raw["item"][template.name]
   if not item then
     item = {

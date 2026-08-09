@@ -6,8 +6,8 @@ local cfg   = require("__loaders-modernized__.prototypes.settings-cache")
 ---first see if that technology exists and unlocks the recipe.  If not, the full technology table will
 ---be walked for the first matching technology that unlocks the recipe.
 ---@param recipe string
----@param hint (string|data.TechnologyPrototype)? --A "known" technology that may already exist.
----@return data.TechnologyPrototype? --Technology that already has this recipe in an unlock effect.
+---@param hint (string|TechnologyPrototype)? --A "known" technology that may already exist.
+---@return TechnologyPrototype? --Technology that already has this recipe in an unlock effect.
 local function find_existing_unlock(recipe, hint)
   local function compare(t, r)
     if t and t.effects then

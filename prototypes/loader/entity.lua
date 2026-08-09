@@ -30,11 +30,11 @@ end -- build_description()
 ---Create a variant of a base loader entity with specific property flags set.
 ---Variant entities share the base entity's item, recipe, and technology.
 ---Canonical suffix order: -split, -wfs, -fill.
----@param base data.Loader1x1Prototype  The un-suffixed base entity.
+---@param base Loader1x1Prototype  The un-suffixed base entity.
 ---@param flags LMVariantFlags
 ---@param core_desc LocalisedString
 ---@param can_stack boolean
----@return data.Loader1x1Prototype
+---@return Loader1x1Prototype
 local function create_variant_entity(base, flags, core_desc, can_stack)
   local variant = table.deepcopy(base)
   local suffix = (flags.split and C.SPLIT_SUFFIX or "")
@@ -84,7 +84,7 @@ end -- create_variant_entity()
 ---Create the loader entities
 ---@param template LMLoaderTemplate
 local function update_or_create_entity(template)
-  ---@type data.Loader1x1Prototype
+  ---@type Loader1x1Prototype
   local entity = data.raw["loader-1x1"][template.name]
   if entity and entity.filter_count < 1 then
     template.filter = false

@@ -76,8 +76,8 @@
 ---@field filter? boolean                  false = no item filter (e.g. chute); nil/true = filterable.
 ---@field stacking? boolean                false = never stack regardless of global setting; nil/true = follow setting.
 ---@field name? string                     Overrides the derived entity/item/recipe name.
----@field localised_name? data.LocalisedString
----@field localised_description? data.LocalisedString
+---@field localised_name? LocalisedString
+---@field localised_description? LocalisedString
 ---@field underground_name? string         Name of the matching underground-belt prototype.
 ---@field tint? Color                      Tint applied to the icon mask and entity structure.
 ---@field next_upgrade? string             Name of the next-tier loader entity.
@@ -93,7 +93,7 @@
 ---@field recipe_data? LMRecipeData        Recipe definition for this tier.
 ---@field prerequisite_techs? string[]     Technologies that must precede this tier's tech.
 ---@field unlocked_by? string              Name of the technology that unlocks this loader.
----@field unit? data.TechnologyUnit        Override research unit for the created technology.
+---@field unit? TechnologyUnit        Override research unit for the created technology.
 ---@field tech_tint? boolean               false = do not apply tint to the technology icon; nil/true = apply tint.
 ---@field above_express? boolean           Internal. Auto-derived by add_loaders(): true if effective speed > express belt.
 ---@field below_base? boolean              Internal. Auto-derived by add_loaders(): true if effective speed < mdrn-loader speed.
@@ -104,9 +104,9 @@
 ---Recipe definition embedded in an LMLoaderTemplate.
 ---@class LMRecipeData
 ---@field surface_conditions? SurfaceCondition[]
----@field ingredients? data.IngredientPrototype[]
----@field stack_ingredients? data.IngredientPrototype[]   Alternate ingredient list when belt stacking is active.
+---@field ingredients? IngredientPrototype[]
+---@field stack_ingredients? IngredientPrototype[]   Alternate ingredient list when belt stacking is active.
 ---@field results? Product[]
 ---@field energy_required? double
----@field categories? data.RecipeCategoryID[]
+---@field categories? RecipeCategoryID[]
 ---@field enabled? boolean

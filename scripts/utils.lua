@@ -10,7 +10,7 @@ local utils = {}
 ---@param mask_path string     Path to the mask sprite to be tinted.
 ---@param tint Color
 ---@param icon_size integer?   Optional icon_size field added to both layers.
----@return data.IconData[]
+---@return IconData[]
 local function icon_layers(base_path, mask_path, tint, icon_size)
   local base  = { icon = base_path }
   local mask  = { icon = mask_path, tint = tint }
@@ -26,7 +26,7 @@ end -- icon_layers()
 ---Item icons (two layers: base + tinted mask).
 ---@param tint Color
 ---@param dark boolean?
----@return data.IconData[]
+---@return IconData[]
 function utils.create_icons(tint, dark)
   if cfg.use_aai_graphics then
     local G = C.AAI_GRAPHICS
@@ -48,7 +48,7 @@ end -- utils.create_icons()
 ---Technology icons (two layers: base + tinted mask).
 ---@param tint Color
 ---@param dark boolean?
----@return data.IconData[]
+---@return IconData[]
 function utils.create_tech_icons(tint, dark)
   if cfg.use_aai_graphics then
     local G = C.AAI_GRAPHICS
@@ -72,7 +72,7 @@ end -- utils.create_tech_icons()
 ---Loader structure sprite sheets.
 ---@param tint Color
 ---@param dark boolean?
----@return data.LoaderStructure
+---@return LoaderStructure
 function utils.create_entity_structure(tint, dark)
   if cfg.use_aai_graphics then
     local G           = C.AAI_GRAPHICS
@@ -185,7 +185,7 @@ function utils.create_entity_structure(tint, dark)
 end -- utils.create_entity_structure()
 
 ---Add an unlock-recipe effect to a technology (no-op if the effect already exists).
----@param tech data.TechnologyPrototype|string
+---@param tech TechnologyPrototype|string
 ---@param recipe string
 utils.add_recipe_to_effects = function(tech, recipe)
   if type(tech) == "string" then

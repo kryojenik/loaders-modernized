@@ -10,7 +10,7 @@ local function update_or_create_recipe(template)
     return {}
   end
 
-  ---@type data.RecipePrototype
+  ---@type RecipePrototype
   local recipe = data.raw["recipe"][template.name]
   local new = false
   if not recipe then
