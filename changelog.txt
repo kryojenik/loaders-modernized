@@ -1,7 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.3
 Date: ????
+  Bugfixes:
+    - Fix hard coded heath of the loader and match to the health of the tiers underground.
   Changes:
+    - Changes for Prismatic Belts.  No longer need to use Prismatic Belts API.  It auto detects the belt animation set and sets it up updates accordingly. (#43)
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.2
 Date: 2026-07-11
