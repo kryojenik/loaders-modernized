@@ -2,6 +2,7 @@ local utils = require("__loaders-modernized__.scripts.utils")
 local C     = require("__loaders-modernized__.constants")
 local cfg   = require("__loaders-modernized__.prototypes.settings-cache")
 local hit_effects         = require("__base__.prototypes.entity.hit-effects")
+---@diagnostic disable-next-line: undefined-field
 local max_belt_stack_size = feature_flags.space_travel and 255 or 1
 local math  = require("__flib__.math")
 
@@ -190,6 +191,7 @@ local function update_or_create_entity(template)
   end
 
   -- Stacking
+---@diagnostic disable-next-line: undefined-field
   if feature_flags.space_travel then
     entity.max_belt_stack_size =  template.max_belt_stack_size or entity.max_belt_stack_size or (utils.stack(template) and max_belt_stack_size) or 1
     if entity.max_belt_stack_size > 1 then
