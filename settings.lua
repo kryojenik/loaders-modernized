@@ -153,6 +153,7 @@ data:extend({
 })
 
 local stacking = data.raw["string-setting"]["mdrn-enable-stacking"]
+---@diagnostic disable-next-line: undefined-field
 if not feature_flags.space_travel then
   stacking.allowed_values = { "none" }
   stacking.default_value = "none"
