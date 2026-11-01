@@ -1,6 +1,6 @@
 local loader   = require("scripts.loaders-modernized")
 local flib_gui = require("__flib__.gui")
-local C        = require("__loaders-modernized__.constants")
+local C        = require("constants")
 
 -- ─── Checkbox handlers ────────────────────────────────────────────────────────
 

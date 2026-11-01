@@ -37,7 +37,7 @@
 ---State captured when the player opens a loader's GUI.
 ---@class LMOpenLoaderData
 ---@field entity LuaEntity       The loader entity whose GUI is open.
----@field gui LuaGuiElement      The split-lane checkbox frame.
+---@field gui table<string,LuaGuiElement>      The split-lane checkbox frame.
 
 ---Shape of the mod's global `storage` table.
 ---@class LMStorage
@@ -88,7 +88,6 @@
 ---@field energy_drain? string             Override idle drain (default: "2kW").
 ---@field energy_per_item? string          Override energy consumed per item moved.
 ---@field order? string                    Sort order string for item/tech ordering.
----@field group? string                    Item group override.
 ---@field subgroup? string                 Item subgroup override.
 ---@field recipe_data? LMRecipeData        Recipe definition for this tier.
 ---@field prerequisite_techs? string[]     Technologies that must precede this tier's tech.
@@ -104,8 +103,8 @@
 ---Recipe definition embedded in an LMLoaderTemplate.
 ---@class LMRecipeData
 ---@field surface_conditions? SurfaceCondition[]
----@field ingredients? IngredientPrototype[]
----@field stack_ingredients? IngredientPrototype[]   Alternate ingredient list when belt stacking is active.
+---@field ingredients? data.IngredientPrototype[]
+---@field stack_ingredients? data.IngredientPrototype[]   Alternate ingredient list when belt stacking is active.
 ---@field results? Product[]
 ---@field energy_required? double
 ---@field categories? RecipeCategoryID[]

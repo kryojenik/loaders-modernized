@@ -1,5 +1,5 @@
-local C   = require("__loaders-modernized__.constants")
-local cfg = require("__loaders-modernized__.prototypes.settings-cache")
+local C   = require("constants")
+local cfg = require("prototypes.settings-cache")
 
 -- Make sure the stack loader tier runs at the fastest belt speed
 local stack_name = C.LOADER_PREFIX .. "stack-" .. C.LOADER_BASE

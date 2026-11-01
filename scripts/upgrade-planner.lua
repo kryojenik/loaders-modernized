@@ -1,4 +1,4 @@
-local C        = require("__loaders-modernized__.constants")
+local C        = require("constants")
 local flib_gui = require("__flib__.gui")
 local loader   = require("scripts.loaders-modernized")
 

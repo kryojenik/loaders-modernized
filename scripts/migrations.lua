@@ -1,5 +1,5 @@
 local loader_modernized = require("scripts.loaders-modernized")
-local C                 = require("__loaders-modernized__.constants")
+local C                 = require("constants")
 
 local _just_migrated = false
 

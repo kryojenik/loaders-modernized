@@ -10,7 +10,7 @@ local function update_or_create_recipe(template)
     return {}
   end
 
-  ---@type RecipePrototype
+  ---@type data.RecipePrototype
   local recipe = data.raw["recipe"][template.name]
   local new = false
   if not recipe then
@@ -38,6 +38,7 @@ local function update_or_create_recipe(template)
   end
 
 
+  ---@diagnostic disable:undefined-field
   local ingredients = rd.ingredients
   if ingredients then
     if cfg.cheap_stacking ~= true
@@ -67,6 +68,7 @@ local function update_or_create_recipe(template)
         end
       end
     end
+  ---@diagnostic enable:undefined-field
 
     recipe.ingredients = ingredients
   end

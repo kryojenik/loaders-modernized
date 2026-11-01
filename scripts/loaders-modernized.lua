@@ -1,4 +1,4 @@
-local C = require("__loaders-modernized__.constants")
+local C = require("constants")
 local snapping = require("scripts.snapping")
 
 local loader_modernized = {}

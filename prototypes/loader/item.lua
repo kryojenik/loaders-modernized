@@ -1,4 +1,4 @@
-local utils = require("__loaders-modernized__.scripts.utils")
+local utils = require("scripts.utils")
 
 ---Make a loader subgroup
 data:extend{
@@ -13,7 +13,7 @@ data:extend{
 ---Create the Item prototypes
 ---@param template LMLoaderTemplate Template for loader tier
 local function update_or_create_item(template)
-  ---@type ItemPrototype
+  ---@type data.ItemPrototype
   local item = data.raw["item"][template.name]
   if not item then
     item = {

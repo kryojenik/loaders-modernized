@@ -1,7 +1,7 @@
 -- Schall Belt Configuration makes belt speed changes in data_updates
 if mods["SchallBeltConfiguration"] then
-  local C    = require("__loaders-modernized__.constants")
-  local cfg  = require("__loaders-modernized__.prototypes.settings-cache")
+  local C    = require("constants")
+  local cfg  = require("prototypes.settings-cache")
   local tiers = { "", "fast-", "express-" }
   if cfg.has_space_age then
     tiers[#tiers + 1] = "turbo-"
