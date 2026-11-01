@@ -24,7 +24,6 @@ local function update_or_create_item(template)
       place_result = template.name,
 
       icons = utils.create_icons(template.tint, template.dark_frame),
-      group = "logistics",
       subgroup = "belt-loader",
       order = string.format("e[mdrn-loader]-%s[%s]", template.order, template.name),
     }
@@ -45,7 +44,6 @@ local function update_or_create_item(template)
   item.order = template.order
     and string.format("e[mdrn-loader]-%s[%s]", template.order, template.name)
     or item.order
-  item.group = template.group or item.group
   item.subgroup = template.subgroup or item.subgroup
   if template.tint then
     item.icons = utils.create_icons(template.tint, template.dark_frame)
