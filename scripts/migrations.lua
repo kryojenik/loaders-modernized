@@ -25,9 +25,9 @@ local version_migrations = {
     storage.loader_modernized = nil
     loader_modernized.init_storage()
   end,
-  ["1.0.0"] = function(migrations)
+  ["1.0.0"] = function(e)
     local removed_loader = false
-    for old, new in pairs(migrations.entity) do
+    for old, new in pairs(e.migrations.entity) do
       ---Don't use C.LOADER_PATTERN here.  Entity names followed this pattern before 2.0.0
       if string.find(old,"mdrn%-loader") and new == "" then
         removed_loader = true
@@ -273,7 +273,7 @@ local version_migrations = {
       game.print{"strings.mdrn-lu-stacking-warn"}
     end
 
-    game.print{"strings.mdrn-lu-migration-complete", migrated}
+    game.print({"strings.mdrn-lu-migration-complete", tostring(migrated)})
     storage.lu_migration_complete = true
     _just_migrated = true
   end,

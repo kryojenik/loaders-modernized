@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.4
 Date: ????
+  Bugfixes:
+    - Fix migrations from Loaders Modernized pre-1.0.0 into Factorio 2.1 games.
   Changes:
     - Updated translations from Crowdin.
 ---------------------------------------------------------------------------------------------------

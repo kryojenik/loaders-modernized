@@ -9,9 +9,9 @@
     "source": "https://github.com/kryojenik/loaders-modernized",
     "factorio_version": "2.1",
     "dependencies": [
-        "base >= 2.1.7",
+        "base >= 2.1.23",
         "flib >= 0.17.0",
-        "? space-age >= 2.1.0",
+        "? space-age >= 2.1.23",
         "(?) stack-inserters",
         "(?) SchallBeltConfiguration"
     ],
