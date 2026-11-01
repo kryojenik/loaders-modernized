@@ -16,7 +16,7 @@
         "(?) SchallBeltConfiguration"
     ],
     "package": {
-        "git_publish_branch": "Factorio-2.1",
+        "git_publish_branch": "main",
         "ignore": [
             "types.lua",
             "screenshots/*",
