@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 2.1.4
-Date: ????
+Date: 2026-10-31
   Bugfixes:
     - Fix migrations from Loaders Modernized pre-1.0.0 into Factorio 2.1 games.
   Changes:
